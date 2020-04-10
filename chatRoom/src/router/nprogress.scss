@@ -1,0 +1,12 @@
+#nprogress{
+  //条防止被盖住
+  .bar {
+    z-index: 3000;
+    //background: red !important;
+  }
+  //这个我自己加的，不知道有什么用
+  /*.spinner {
+    z-index: 15031;
+    background: red !important;
+  }*/
+}

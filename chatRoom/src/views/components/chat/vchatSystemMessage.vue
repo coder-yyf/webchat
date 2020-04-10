@@ -1,0 +1,295 @@
+<template>
+  <div class="vchat-system-Message" v-fontColor="user.chatColor">
+    <ul v-if="InfoList.length">
+      <template v-for="v in InfoList">
+        <!--验证类，别人请求加好友或者加群-->
+        <li v-if="v.type === 'validate'" :key="v['_id']">
+          <span class="vchat-line1 info">{{v.state === 'friend' ? '验证消息：' + v.nickname + '申请加您为好友' : '验证消息：' + v.nickname + '申请加入' + v.groupName}}</span>
+          <span class="time">{{v.time}}</span>
+          <!--弹出框-->
+          <el-popover
+            placement="left"
+            width="400"
+            v-model="v.visible">
+            <!--验证的消息-->
+            <div class="Validate-mes">
+              <!--申请人信息-->
+              <div class="header">
+                <a class="vchat-photo">
+                  <img :src="IMGURL + v.avatar" alt="">
+                </a>
+                <p>
+                  <span>{{v.nickname}}</span>
+                  <span class="signature">{{v.signature}}</span>
+                </p>
+              </div>
+              <!--附加消息-->
+              <div class="info">
+                附加消息：<span>{{v.mes}}</span>
+              </div>
+              <!--决定按钮-->
+              <div class="footer" v-if="v.status === '0' ">
+                <button class="vchat-button-mini info" @click="refuse(v)">拒绝</button>
+                <button class="vchat-button-mini" @click="agree(v)">同意</button>
+              </div>
+              <div class="footer" v-else>
+                <span class="status">{{v.status === '1' ? '已同意' : '已拒绝'}}</span>
+              </div>
+            </div>
+            <!--status是判断还有没有操作，0 未操作 1 同意 2 拒绝-->
+            <!--reference是点击弹出消息的按钮-->
+            <!--用！v.visible不知道为什么没用-->
+            <!--我知道了，因为本来就不用加什么true，看官网-->
+            <span slot="reference" class="look" v-if="v.status === '0' ">查看</span>
+            <span slot="reference" v-else>{{v.status === '1' ? '已同意' : '已拒绝'}}</span>
+          </el-popover>
+          <el-popover
+            placement="top"
+            width="160"
+            v-model="v.delVisible">
+            <p>确定删除吗？</p>
+            <div style="text-align: right; margin: 0">
+              <!--这里用！又可以-->
+              <el-button size="mini" type="text" @click="v.delVisible = false">取消</el-button>
+              <el-button type="primary" size="mini" @click="del(v)">确定</el-button>
+            </div>
+            <span slot="reference" class="del">删除</span>
+          </el-popover>
+        </li>
+        <!--这个应该是别人同意你之后产生的信息-->
+        <li v-if="v.type === 'info'" :key="v['_id']">
+          <p>
+            <span class="vchat-line1 info">{{v.mes}}</span>
+            <span class="time">{{v.time}}</span>
+          </p>
+          <el-popover
+            placement="top"
+            width="160"
+            v-model="v.delVisible">
+            <p>确定删除吗？</p>
+            <div style="text-align: right; margin: 0">
+              <el-button size="mini" type="text" @click="v.delVisible = false">取消</el-button>
+              <el-button type="primary" size="mini" @click="del(v)">确定</el-button>
+            </div>
+            <span slot="reference" class="del">删除</span>
+          </el-popover>
+        </li>
+      </template>
+    </ul>
+    <span v-else>暂无系统消息！</span>
+  </div>
+</template>
+
+<script>
+  import {mapState} from 'vuex';
+  import api from '@/api';
+
+  export default {
+    props: ['currSation'],
+    name: 'vchatSystemMessage',
+    data() {
+      return {
+        IMGURL: process.env.IMG_URL,
+        //这个没用
+        // visible: false,
+        InfoList: [],
+        offset: 1,
+        limit: 10
+      }
+    },
+    sockets: {
+      getSystemMessages(r) { // 获取系统消息
+        if (r.length) {
+          this.$emit('NewMes', r[r.length - 1]);
+        }
+        //添加了两个属性
+        r.forEach(v => {
+          v.visible = false;
+          v.delVisible = false;
+        });
+        this.InfoList = r;
+      },
+      takeValidate(r) {
+        // 更新最新消息
+        this.$emit('NewMes', r);
+        r.visible = false;
+        //这里应该也要添加吧
+        r.delVisible = false
+        // 添加进这条消息到infolist
+        this.InfoList.unshift(r);
+        //就是这个弄得统一后都变成同一个，因为cookie对应了一个session，更新了本地的state里的user
+        //这个应该是为了更新会话列表那些才弄得
+        if (r.type === 'info') {
+          this.$store.dispatch('getUserInfo');
+        }
+      },
+      ValidateSuccess() {
+        //刷新用户信息，使得会话列表添加
+        this.$store.dispatch('getUserInfo');
+      }
+    },
+    watch: {
+      currSation: { // 当前会话
+        handler(v) {
+          if (v.id) {
+            this.$socket.emit('setReadStatus', {roomid: v.id, name: this.user.name});
+            this.$store.commit('setUnRead', {roomid: v.id, clear: true});
+            // 获取前10的系统消息，这个不同于org类型
+            this.$socket.emit('getSystemMessages', {roomid: v.id, offset: this.offset, limit: this.limit});
+          } else {
+            this.InfoList = [];
+          }
+        },
+        deep: true,
+        immediate: true
+      }
+    },
+    computed: {
+      ...mapState(['user', 'Vchat'])
+    },
+    methods: {
+      del(v) {
+        api.removeMessage({'_id': v['_id']}).then(r => {
+          if (r.code === 0) {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            });
+            //更新本地的InfoList
+            this.InfoList = this.InfoList.filter(m => m._id !== v._id);
+          } else {
+            this.$message({
+              message: '删除失败',
+              type: 'warning'
+            })
+          }
+        })
+      },
+      agree(v) {
+        //添加好友主头像和昵称
+        v.userYphoto = this.user.photo;
+        v.userYname = this.user.nickname;
+        this.$socket.emit('agreeValidate', v);
+        //更新本地的
+        //把之前拒绝的也弄同意了
+        this.InfoList.forEach(m => { // 更新同一申请人的所有相同请求
+          if (m.userM === v.userM && m.type === "validate" && (v.state === 'friend' || v.state === 'group')) {
+            m.status = '1';
+            //这个感觉没必要
+            // m.visible = false;
+          }
+        });
+        v.visible = false
+      },
+      refuse(v) {
+        v.userYphoto = this.user.photo;
+        v.userYname = this.user.nickname;
+        this.$socket.emit('refuseValidate', v);
+        // v.visible = !v.visible;
+        v.visible = false
+        v.status = '2'; // 拒绝
+      }
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+  .vchat-system-Message {
+    width: 100%;
+    height: 100%;
+    padding: 15px 30px 10px 15px;
+    box-sizing: border-box;
+    overflow-y: auto;
+
+    li {
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      padding: 5px 10px;
+      line-height: 30px;
+      margin-bottom: 5px;
+      box-sizing: border-box;
+      background-color: rgba(0, 0, 0, 0.3);
+
+      span.time {
+        font-size: 12px;
+        color: #aaaaaa;
+        margin-left: 10px;
+      }
+
+      span.info {
+        max-width: 300px;
+      }
+
+      span.look {
+        color: #27cac7;
+        font-size: 12px;
+        cursor: pointer;
+        opacity: 0.8;
+        min-width: 24px;
+        margin-left: 15px;
+      }
+
+      span.del {
+        color: #ff3514;
+        opacity: 0.8;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      span.look:hover, span.del:hover {
+        opacity: 1;
+      }
+
+      span.status {
+        font-size: 14px;
+        color: #8d8d8d;
+      }
+
+      .Validate-mes {
+        .header {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          margin-bottom: 10px;
+
+          a {
+            margin-right: 10px;
+          }
+
+          p {
+            display: flex;
+            flex-flow: column;
+            justify-content: space-around;
+            height: 40px;
+
+            .signature {
+              font-size: 12px;
+              color: #aaaaaa;
+            }
+          }
+        }
+
+        .info {
+          margin-bottom: 10px;
+          font-size: 13px;
+
+          span {
+            font-size: 12px;
+            color: #aaaaaa;
+          }
+        }
+
+        .footer {
+          display: flex;
+          justify-content: flex-end;
+
+          button {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
+</style>

@@ -1,0 +1,82 @@
+//所有的字体图标，不适合拆开来放到各个组件中
+@import "./iconfont.scss";
+//这个完全没用到，不知道干嘛的
+@import "./transition";
+//限制字数，弄省略号，禁止选中，按钮样式啥的
+@import "./vChat-class";
+//这个是弄天气的动画的，不过动画都没用上，估计是想要让那些小图标动起来，不过不应该是叫做weatherAni吗
+@import "./animation";
+//可以用normalize。css代替
+body, ul, li, p, h1, h2, h3, h4, h5, h6, a {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+//不这样设置，body大小和html不一样的
+body, html {
+    width: 100%;
+    height: 100%;
+}
+
+//body{
+//  background-image: url(./assets/img/1.jpg);
+//  background-repeat: no-repeat;
+//  background-size: cover;
+//  background-position-y: -140px;
+//}
+#app {
+    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+    //字体抗锯齿
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    //color:red;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: #fff;
+    //小于1200它就开始截断页面了，可以试试拖动浏览器页面试试
+    min-width: 1200px;
+    //overflow: hidden;
+}
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar
+{
+    width: 4px;
+    height: 4px;
+    /*width: 12px;
+    height: 12px;*/
+    background-color: #F5F5F5;
+    //background-color: red;
+    border-radius: 10px;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(207, 245, 242, 0.3);
+    border-radius: 10px;
+    background-color: #eeeeee;
+    //background-color: red;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(207, 245, 242, 0.3);
+    background-color: #767676;
+    //background-color: red;
+}
+
+/*鼠标悬浮在滑块上时滑块的样式*/
+::-webkit-scrollbar-thumb:hover {
+
+    background-color: rgb(70, 70, 70);
+    //background-color: blue;
+    -webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,.1);
+
+}

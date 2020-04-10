@@ -1,0 +1,88 @@
+//没有#｛｝不行，难道是因为这个变量只是单纯的字符串，所以才这样，为了不当成样式解析？
+//原来是属性这里才这样
+#theme-#{$theme} {
+    // vchat-main-header
+    .vchat-main-header { // 头部
+        background-color: $vchat-header-backgroudColor;
+        .vchat-logo{
+            color: $vchat-logo-color;
+        }
+        //会话列表那里，还有头像下拉那里
+        .handleList li {
+            //这样表示是后代，不一定是直接的，i是图标字体
+            i {
+                color: $vchat-header-handleList-i-color;
+            }
+        }
+        //直接li下的span和li下的a不都一样是黑色吗，为什么a的是紫色的，好奇怪，难道是组件那里设置的？
+        .handleList li a{
+            color: $vchat-header-handleList-a-color;
+        }
+        //这两个合并起来不香吗，但是有权重问题，文字还是黑色
+        .handleList li:hover{
+            background-color: $vchat-header-handleList-hover-bgcolor;
+        }
+        .handleList li:hover i, .handleList li:hover a{
+            color: $vchat-header-handleList-hover-color;
+        }
+        .logout{
+            color: $vchat-header-logout;
+        }
+        .logout:hover{
+            color: $vchat-header-logout-hover;
+        }
+        //这个好像没用到啊
+        .online{
+            color: $vchat-header-online;
+        }
+    }
+
+    // vchat-little-header.vue
+    .vchat-little-header{
+        background-color: $vchat-little-header-bgcolor;
+        .logout{
+            color: $vchat-header-logout;
+        }
+        .logout:hover{
+            color: $vchat-header-logout-hover;
+        }
+    }
+    // personalMain.vue
+    .vchat-main {
+        .vchat-content{
+            //background-color: $vchat-content-bgcolor;
+            .vchat-content-nav{
+                background-color: $vchat-content-nav-bgcolor;
+                box-shadow: $vchat-content-nav-box-shadow;
+                ul {
+                    li {
+                        a {
+                            color: $vchat-content-nav-color;
+                        }
+                    }
+                    li.active {
+                        a {
+                            color: $vchat-content-nav-active-color;
+                        }
+                    }
+                }
+            }
+            .vchat-content-left-footer{
+                ul{
+                    a {
+                        color: $vchat-content-nav-color;
+                    }
+                    li.active {
+                        a {
+                            color: $vchat-content-nav-active-color;
+                        }
+                    }
+                }
+            }
+        }
+        //又是没有用到的
+        .vchat-content-view{
+            background-color: $vchat-content-view-bgcolor;
+        }
+    }
+}
