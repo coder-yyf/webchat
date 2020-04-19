@@ -5,6 +5,7 @@ let  multer=require('multer');
 //设置multer的目标路径和文件名
 let storage = multer.diskStorage({
     //设置上传后文件路径， // 路径写成函数需要自己创建文件夹，字符串会自动创建。
+    //cb是callback的意思
     destination: function (req, file, cb) {
         let date = utils.formatTime(new Date()).split(' ')[0];
         let path = './public/uploads';
@@ -28,7 +29,7 @@ let storage = multer.diskStorage({
 let uploadFile = multer({
     storage: storage
 });
-
+//直接导出个uploadFile不行吗
 const upload = {
     uploadFile
 };

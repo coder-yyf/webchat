@@ -5,7 +5,7 @@
         <div class="vchat-logo">WebChat</div>
         <!--右边用户相关一栏-->
         <div class="vchat-mine">
-          <!--消息，话说为什么叫noUser-->
+          <!--消息，话说为什么叫noUser,因为这个使得不能选中-->
           <nav class="vchat-noUser">
             <!--class="animated" :class="{bounceIn: hover}" @mouseover="mouseover" ref="showChat"-->
             <div>
@@ -183,16 +183,20 @@
         // console.log(window.localStorage.w,window.localStorage.h,window.localStorage.x,window.localStorage.y)
       },
       loginOut() {
+        //销毁所有converlist的roomid
         this.leaveRoom();
+        //发到后台去销毁session
         api.loginOut().then(r => {
           if (r.code === 0) {
             this.$message.success('退出成功');
+            //将state中的user弄为{}
             this.$store.commit('setUser', 'out');
             this.$router.replace('/');
           }
         });
       },
       leaveRoom() {
+        // 将所有的相关的roomid都销毁
         this.conversationsList.forEach(v => {
           let val = {
             name: this.user.name,

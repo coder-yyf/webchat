@@ -45,9 +45,9 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public'), options)); // 静态资源中间件
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
 }));
 //这个就是cors解决，就是给响应response弄的header添加这些东西，
 // 返回response就不会被浏览器拦截
@@ -79,20 +79,20 @@ app.use('^/touch*', proxy({ // 配置代理转发
 // 上面2个东西没什么用啊，关了前端代理一点用都没有
 //都不会过来，还代理个鬼，人接直接访问去了
 app.use('/v*', (req, res, next) => {
-    //登陆了
-    if (req.session.login) {
-        next();
+  //登陆了
+  if (req.session.login) {
+    next();
+  } else {
+    //发起登陆或注册，但是还没登陆
+    if (req.originalUrl === '/v/user/login' || req.originalUrl === '/v/user/signUp') {
+      next();
+      //    既没登录又不是请求登陆或注册，丢一个空的东西给他
     } else {
-        //发起登陆或注册，但是还没登陆
-        if (req.originalUrl === '/v/user/login' || req.originalUrl === '/v/user/signUp') {
-            next();
-        //    既没登录又不是请求登陆或注册，丢一个空的东西给他
-        } else {
-            res.json({
-                status: 0
-            });
-        }
+      res.json({
+        status: 0
+      });
     }
+  }
 });
 
 //应该是以这些开头的跑到这里来找
@@ -106,7 +106,7 @@ app.use('/v/mes', messages);
 app.use('/v/todo', todo);
 //终结了请求，不会往下面的中间件的
 app.get('/', (req, res) => {
-    res.sendfile(__dirname + '/index.html');
+  res.sendfile(__dirname + '/index.html');
 });
 
 // io.in(pramas.roomid).emit('getHistoryMessages', res.data); // 包括发送者
@@ -115,238 +115,250 @@ app.get('/', (req, res) => {
 const OnlineUser = {};
 const apiList = require('./controller/apiList');
 const onconnection = (socket) => {
-    //一连接服务器就出发
-    console.log('启动了Socket.io');
+  //一连接服务器就出发
+  console.log('启动了Socket.io');
+  socket.emit('connect');
+  //怎么那么多地方发这个给它相应啊
+  //conversationlist中都会发过来
+  socket.on('join', (val) => {
+    // if (OnlineUser[val.name]) {
+    //     console.log('yijiaru', val.name);
+    //     return;
+    // }
+    socket.join(val.roomid, () => {
+      //这里有点古怪，删除一个会话后
+      console.log(val.roomid + '加入了', val.name);
+      //每连接一个应该会产生一个socket，然后有对应的id，这里就添加了上线用户
+      OnlineUser[val.name] = socket.id;
+      console.log(OnlineUser)
+      //这些数据结构是怎么安排的呢
+      //给对应的房间号发送聊天者上线了
+      //这个发了我只在控制台看到啊，大兄弟
+      //前端那里似乎没有什么监听的函数啊，例如弄个弹出小消息，修改头像颜色什么的
+      //对哦，加入不是这里弄得，这里只是弄加入和离开房间而已
+      //加入是一开始的connection那里
+      // io.in(val.roomid).emit('joined', OnlineUser); // 包括发送者
+      socket.in(val.roomid).emit('joined', OnlineUser);
+      // console.log('join', val.roomid, OnlineUser);
+    });
+  });
+  //这里是主动下线，例如退出那里
+  socket.on('leave', (val) => {
+    //删除属性
+    delete OnlineUser[val.name];
+    //也是只有这里提示，不过下线前端没必要提示吧
+    console.log('leave', val.name);
+    socket.leave(val.roomid, () => {
+      //发给前端，不包括发送者，这是什么意思，为什么前面的是io，这里确实socket
+      socket.to(val.roomid).emit('leaved', OnlineUser);
+      // console.log('leave', val.roomid, OnlineUser);
+    });
+  });
+  socket.on('mes', (val) => { // 聊天消息
+    apiList.saveMessage(val);
+    //这个什么意思
+    console.log('OnlineUser', val.roomid);
+    socket.to(val.roomid).emit('mes', val);
+  });
+  socket.on('getHistoryMessages', (pramas) => { // 获取历史消息
+    apiList.getHistoryMessages(pramas, 1, (res) => { // 1 正序
+      if (res.code === 0) {
+        socket.emit('getHistoryMessages', res.data); // 发送给发送者（当前客户端）
+      } else {
+        console.log('查询历史记录失败');
+      }
+    });
+  });
 
-    //怎么那么多地方发这个给它相应啊
-    //conversationlist中都会发过来
-    socket.on('join', (val) => {
-        // if (OnlineUser[val.name]) {
-        //     console.log('yijiaru', val.name);
-        //     return;
-        // }
-        socket.join(val.roomid, () => {
-            //这里有点古怪，删除一个会话后
-            console.log('加入了', val.name);
-            //每连接一个应该会产生一个socket，然后有对应的id，这里就添加了上线用户
-            OnlineUser[val.name] = socket.id;
-            //这些数据结构是怎么安排的呢
-            //给对应的房间号发送聊天者上线了
-            //这个发了我只在控制台看到啊，大兄弟
-            //前端那里似乎没有什么监听的函数啊，例如弄个弹出小消息，修改头像颜色什么的
-            //对哦，加入不是这里弄得，这里只是弄加入和离开房间而已
-            //加入是一开始的connection那里
-            // io.in(val.roomid).emit('joined', OnlineUser); // 包括发送者
-            socket.in(val.roomid).emit('joined', OnlineUser);
-            // console.log('join', val.roomid, OnlineUser);
-        });
+  socket.on('getSystemMessages', (pramas) => { // 获取历史消息
+    apiList.getHistoryMessages(pramas, -1, (res) => { // -1 倒序
+      if (res.code === 0) {
+        socket.emit('getSystemMessages', res.data); // 发送给发送者（当前客户端）
+      } else {
+        console.log('查询vchat历史记录失败');
+      }
     });
-    socket.on('leave', (val) => {
-        //删除属性
-        delete OnlineUser[val.name];
-        //也是只有这里提示，不过下线前端没必要提示吧
-        console.log('leave', val.name);
-        socket.leave(val.roomid, () => {
-            //发给前端，不包括发送者，这是什么意思，为什么前面的是io，这里确实socket
-            socket.to(val.roomid).emit('leaved', OnlineUser);
-            // console.log('leave', val.roomid, OnlineUser);
-        });
-    });
-    socket.on('mes', (val) => { // 聊天消息
-        apiList.saveMessage(val);
-        //这个什么意思
-        console.log('OnlineUser', val.roomid);
-        socket.to(val.roomid).emit('mes', val);
-    });
-    socket.on('getHistoryMessages', (pramas) => { // 获取历史消息
-        apiList.getHistoryMessages(pramas, 1, (res) => { // 1 正序
-            if (res.code === 0) {
-                socket.emit('getHistoryMessages', res.data); // 发送给发送者（当前客户端）
-            } else {
-                console.log('查询历史记录失败');
-            }
-        });
-    });
+  });
 
-    socket.on('getSystemMessages', (pramas) => { // 获取历史消息
-        apiList.getHistoryMessages(pramas, -1, (res) => { // -1 倒序
-            if (res.code === 0) {
-                socket.emit('getSystemMessages', res.data); // 发送给发送者（当前客户端）
-            } else {
-                console.log('查询vchat历史记录失败');
-            }
-        });
-    });
-
-    socket.on('agreeValidate', (val) => { // 同意好友或加群申请
-        if (val.state === 'group') { // 群聊验证
-            //插入到groupusers集合中
-            apiList.InsertGroupUsers(val, r => {
-                if (r.code === -1) {
-                    console.log('加入群聊失败');
-                } else if (r.code === -2) {
-                    console.log('更新群成员数量失败');
-                } else if (r.code === -3) {
-                    console.log('群成员已存在');
-                } else if (r.code === 0) {
-                    let pr = {
-                        status: '1',
-                        userM: val['userM']
-                    };
-                    //将消息操作状态设置为已同意
-                    apiList.setMessageStatus(pr);
-                    // 通知申请人验证已同意
-                    let value = {
-                        name: '',
-                        mes: val.userYname + '同意你加入' + val.groupName + '!',
-                        time: utils.formatTime(new Date()),
-                        avatar: val.userYphoto,
-                        nickname: val.userYname,
-                        groupName: val.groupName,
-                        groupId: val.groupId,
-                        groupPhoto: val.groupPhoto,
-                        read: [],
-                        status: '1', // 同意
-                        state: 'group',
-                        //这个是给官方用的消息
-                        type: 'info',
-                        //会话房间号
-                        roomid: val.userM + '-' + val.roomid.split('-')[1]
-                    };
-                    apiList.saveMessage(value); // 保存通知消息
-                    let params = {
-                        name: val.groupName,
-                        photo: val.groupPhoto,
-                        id: val.groupId,
-                        type: 'group'
-                    };
-                    //用户登录名
-                    //给申请成功的用户的会话列表添加会话
-                    apiList.ServeraddConversitionList(val.name, params, () => {
-                        //发给除了自己之外
-                        socket.to(value.roomid).emit('takeValidate', value);
-                        // 通知群聊，对应的群会出现xxx加入了群聊
-                        let org = {
-                            type: 'org',
-                            nickname: val.nickname,
-                            time: utils.formatTime(new Date()),
-                            roomid: val.groupId
-                        };
-                        apiList.saveMessage(org); // 保存通知消息
-                        socket.to(org.roomid).emit('org', org);
-                    }); // 添加到申请人会话列表
-                }
-            });
-        } else if (val.state === 'friend') { // 写入好友表
-            apiList.addFriend(val, r => {
-                if (r.code === 0) {
-                    let pr = {
-                        status: '1',
-                        userM: val['userM']
-                    };
-                    apiList.setMessageStatus(pr);
-                    // 通知申请人验证已同意
-                    let value = {
-                        name: '',
-                        mes: val.userYname + '同意了你的好友请求！',
-                        time: utils.formatTime(new Date()),
-                        avatar: val.userYphoto,
-                        nickname: val.userYname,
-                        read: [],
-                        state: 'friend',
-                        type: 'info',
-                        status: '1', // 同意
-                        roomid: val.userM + '-' + val.roomid.split('-')[1]
-                    };
-                    apiList.saveMessage(value); // 保存通知消息
-                    let userMparams = { // 申请人信息
-                        name: val.nickname,
-                        photo: val.avatar,
-                        id: val.friendRoom,
-                        type: 'friend'
-                    };
-                    let userYparams = { // 好友信息
-                        name: val.userYname,
-                        photo: val.userYphoto,
-                        id: val.friendRoom,
-                        type: 'friend'
-                    };
-                    //给双方都添加对应的conversationlist
-                    apiList.ServeraddConversitionList(val.name, userYparams, () => {
-                        apiList.ServeraddConversitionList(val.userYloginName, userMparams, () => {
-                            socket.to(value.roomid).emit('takeValidate', value);
-                            socket.emit('ValidateSuccess', 'ok');
-                        }); // 添加到自己会话列表
-                    }); // 添加到申请人会话列表
-                }else {
-                    console.log('添加好友失败');
-                }
-            });
-        }
-    });
-
-    socket.on('refuseValidate', (val) => { // 拒绝申请
-        let pr = {
-            status: '2',
-            _id: val['_id']
-        };
-        apiList.upMessage(pr);
-        // console.log('refuseValidate', val);
-        if (val.state === 'group') {
-            let value = {
-                name: '',
-                mes: val.userYname + '拒绝了你加入 ' + val.groupName + ' 的申请!',
-                time: utils.formatTime(new Date()),
-                avatar: val.userYphoto,
-                nickname: val.userYname,
-                groupName: val.groupName,
-                read: [],
-                state: 'group',
-                type: 'info',
-                status: '-1', // 拒绝
-                roomid: val.userM + '-' + val.roomid.split('-')[1]
-            };
-            apiList.saveMessage(value); // 保存通知消息
+  socket.on('agreeValidate', (val) => { // 同意好友或加群申请
+    if (val.state === 'group') { // 群聊验证
+      //插入到groupusers集合中
+      apiList.InsertGroupUsers(val, r => {
+        if (r.code === -1) {
+          console.log('加入群聊失败');
+        } else if (r.code === -2) {
+          console.log('更新群成员数量失败');
+        } else if (r.code === -3) {
+          console.log('群成员已存在');
+        } else if (r.code === 0) {
+          let pr = {
+            status: '1',
+            userM: val['userM']
+          };
+          //将消息操作状态设置为已同意，为啥不是up更新啊，refuse那里明明是更新
+          //原来这个是更新多条，将之前的都弄为同意，而up只是弄一个
+          apiList.setMessageStatus(pr);
+          // 通知申请人验证已同意
+          let value = {
+            name: '',
+            //groupName是group那里弄过来的消息才有的
+            mes: val.userYname + '同意你加入' + val.groupName + '!',
+            time: utils.formatTime(new Date()),
+            avatar: val.userYphoto,
+            nickname: val.userYname,
+            groupName: val.groupName,
+            groupId: val.groupId,
+            groupPhoto: val.groupPhoto,
+            read: [],
+            status: '1', // 同意
+            state: 'group',
+            //这个是给官方用的消息
+            type: 'info',
+            //会话房间号，1是vchat的id
+            roomid: val.userM + '-' + val.roomid.split('-')[1]
+          };
+          apiList.saveMessage(value); // 保存通知消息
+          let params = {
+            name: val.groupName,
+            photo: val.groupPhoto,
+            id: val.groupId,
+            type: 'group'
+          };
+          //用户登录名
+          //给申请成功的用户的会话列表添加会话
+          apiList.ServeraddConversitionList(val.name, params, () => {
+            //发给除了自己之外
             socket.to(value.roomid).emit('takeValidate', value);
-        } else if (val.state === 'friend') {
-            let value = {
-                name: '',
-                mes: val.userYname + '拒绝了你的好友请求！',
-                time: utils.formatTime(new Date()),
-                avatar: val.userYphoto,
-                nickname: val.userYname,
-                read: [],
-                state: 'friend',
-                status: '-1', // 拒绝
-                type: 'info',
-                roomid: val.userM + '-' + val.roomid.split('-')[1]
+            // 通知群聊，对应的群会出现xxx加入了群聊
+            let org = {
+              type: 'org',
+              nickname: val.nickname,
+              time: utils.formatTime(new Date()),
+              roomid: val.groupId
             };
-            // console.log('saveMessage', value);
-            apiList.saveMessage(value); // 保存通知消息
-            socket.to(value.roomid).emit('takeValidate', value);
+            apiList.saveMessage(org); // 保存通知消息
+            socket.to(org.roomid).emit('org', org);
+          }); // 添加到申请人会话列表
         }
-        // 通知申请人验证已拒绝
-    });
+      });
+    } else if (val.state === 'friend') { // 写入好友表
+      apiList.addFriend(val, r => {
+        if (r.code === 0) {
+          let pr = {
+            status: '1',
+            userM: val['userM']
+          };
+          apiList.setMessageStatus(pr);
+          // 通知申请人验证已同意
+          let value = {
+            name: '',
+            mes: val.userYname + '同意了你的好友请求！',
+            time: utils.formatTime(new Date()),
+            avatar: val.userYphoto,
+            nickname: val.userYname,
+            read: [],
+            state: 'friend',
+            type: 'info',
+            status: '1', // 同意
+            roomid: val.userM + '-' + val.roomid.split('-')[1]
+          };
+          apiList.saveMessage(value); // 保存通知消息
+          let userMparams = { // 申请人信息
+            name: val.nickname,
+            photo: val.avatar,
+            id: val.friendRoom,
+            type: 'friend'
+          };
+          let userYparams = { // 好友信息
+            name: val.userYname,
+            photo: val.userYphoto,
+            id: val.friendRoom,
+            type: 'friend'
+          };
+          //给双方都添加对应的conversationlist
+          apiList.ServeraddConversitionList(val.name, userYparams, () => {
+            apiList.ServeraddConversitionList(val.userYloginName, userMparams, () => {
+              //给申请人发的
+              socket.to(value.roomid).emit('takeValidate', value);
+              //回到被申请人那里
+              socket.emit('ValidateSuccess', 'ok');
+            }); // 添加到自己会话列表
+          }); // 添加到申请人会话列表
+        } else {
+          console.log('添加好友失败');
+        }
+      });
+    }
+  });
 
-    socket.on('setReadStatus', (params) => { // 已读状态
-        apiList.setReadStatus(params);
-    });
-    socket.on('sendValidate', (val) => { // 发送验证消息
-        apiList.saveMessage(val);
-        socket.to(val.roomid).emit('takeValidate', val);
-    });
-    //这里可以弄一个下线的信息啊，不过也得登录啊，这可怎么搞
-    socket.on('disconnect', () => {
-        let k;
-        for (k in OnlineUser) {
-            //删掉下线的那个
-            if (OnlineUser[k] === socket.id) {
-                delete OnlineUser[k];
-            }
-        }
-        socket.broadcast.emit('leaved', OnlineUser); // 广播通知该客户端下线
-        console.log('user disconnected', OnlineUser);
-    });
+  socket.on('refuseValidate', (val) => { // 拒绝申请
+    //2是拒绝
+    let pr = {
+      status: '2',
+      _id: val['_id']
+    };
+    //更新信息
+    apiList.upMessage(pr);
+    // console.log('refuseValidate', val);
+    if (val.state === 'group') {
+      let value = {
+        name: '',
+        mes: val.userYname + '拒绝了你加入 ' + val.groupName + ' 的申请!',
+        time: utils.formatTime(new Date()),
+        avatar: val.userYphoto,
+        nickname: val.userYname,
+        groupName: val.groupName,
+        read: [],
+        state: 'group',
+        type: 'info',
+        status: '-1', // 拒绝
+        //1其实就是vchat的id
+        roomid: val.userM + '-' + val.roomid.split('-')[1]
+      };
+      apiList.saveMessage(value); // 保存通知消息
+      socket.to(value.roomid).emit('takeValidate', value);
+    } else if (val.state === 'friend') {
+      let value = {
+        name: '',
+        mes: val.userYname + '拒绝了你的好友请求！',
+        time: utils.formatTime(new Date()),
+        avatar: val.userYphoto,
+        nickname: val.userYname,
+        read: [],
+        state: 'friend',
+        status: '-1', // 拒绝
+        //信息类
+        type: 'info',
+        roomid: val.userM + '-' + val.roomid.split('-')[1]
+      };
+      // console.log('saveMessage', value);
+      apiList.saveMessage(value); // 保存通知消息
+      socket.to(value.roomid).emit('takeValidate', value);
+    }
+    // 通知申请人验证已拒绝
+  });
+
+  socket.on('setReadStatus', (params) => { // 已读状态
+    apiList.setReadStatus(params);
+  });
+  socket.on('sendValidate', (val) => { // 发送验证消息
+    apiList.saveMessage(val);
+    socket.to(val.roomid).emit('takeValidate', val);
+  });
+  //这里可以弄一个下线的信息啊，不过也得登录啊，这可怎么搞
+  //这里是被动掉线
+  socket.on('disconnect', () => {
+    let k;
+    for (k in OnlineUser) {
+      //删掉下线的那个
+      if (OnlineUser[k] === socket.id) {
+        delete OnlineUser[k];
+      }
+    }
+
+    socket.broadcast.emit('leaved', OnlineUser); // 广播通知该客户端下线
+    console.log('user disconnected', OnlineUser);
+  });
 };
 //这里就在监听上线了
 io.on('connection', onconnection);
@@ -355,27 +367,27 @@ io.on('connection', onconnection);
 // catch 404 and forward to error handler
 //万能匹配
 app.use(function (req, res, next) {
-    let err = new Error('Not Found');
-    err.status = 404;
-    //执行出来error的中间件
-    next(err);
+  let err = new Error('Not Found');
+  err.status = 404;
+  //执行出来error的中间件
+  next(err);
 });
 
 // error handler
 app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    //装逼写法
-    res.locals.message = err.message;
-    //开发才有，但是如果前后端是同一个服务器，或者要添加查询报错时，也是需要err的
-    //不过，确实给用户看这些err也没多大意义，不过查询报错要添加进来吧
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // set locals, only providing error in development
+  //装逼写法
+  res.locals.message = err.message;
+  //开发才有，但是如果前后端是同一个服务器，或者要添加查询报错时，也是需要err的
+  //不过，确实给用户看这些err也没多大意义，不过查询报错要添加进来吧
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-    // render the error page
-    res.status(err.status || 500);
-    //渲染error界面
-    res.render('error');
+  // render the error page
+  res.status(err.status || 500);
+  //渲染error界面
+  res.render('error');
 });
 
 server.listen(9988, () => {
-    console.log('服务器在9988启动')
+  console.log('服务器在9988启动')
 });

@@ -25,7 +25,7 @@
                 }
             }
         },
-        //？？
+        //？？，销毁组件时？
         beforeDestroy() { // 适应leave动画
             this.isShow = false;
         }

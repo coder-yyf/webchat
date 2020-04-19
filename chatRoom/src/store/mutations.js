@@ -34,6 +34,7 @@ export default {
         state.OnlineUser = data;
     },
     setUnRead(state, data) {
+        //清空当前对应roomid的未读数量
         if (data.clear) {
             //unRead里面不是单纯一个数字，而是对应会话编号弄相应的数量
             state.unRead.forEach(v => {
@@ -43,7 +44,7 @@ export default {
             });
             return;
         }
-        //是当前房间的
+        //要修改的会话的unread已经在unread中有了
         let unRead = state.unRead.filter(v => v.roomid === data.roomid);
         if (unRead.length) {
             state.unRead.forEach(v => {

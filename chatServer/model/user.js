@@ -46,7 +46,7 @@ const login = (params, callback) => { // 登录
 const upUserInfo = (userName, params, callback) => { //修改个人信息、主题等
     let pr = {};
     if (params.unlink) {
-        //pr获取所有非unlink属性
+        //pr获取所有非unlink属性，unlink都是要删除的
         for (let k in params) {
             if (k !== 'unlink') {
                 pr[k] = params[k];
@@ -204,6 +204,7 @@ const huntFriends = (params, callback) => { // 获取登录用户详细信息
                 baseList.users.find(
                     {
                         $or: arr,
+                        //排除它，noequal
                         name: {'$ne': 'Vchat'}
                     },
                     {

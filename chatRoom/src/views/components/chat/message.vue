@@ -31,8 +31,10 @@
       chatList() {
         this.$nextTick(_ => {
           setTimeout(_ => {
+            //这样弄个加载的效果
             this.$emit('chatLoading');
             //一直都是0，不知道怎么用
+            //这个应该是下拉到最新的那里，不过没产生效果
             this.$refs['msglist'].scrollTop = this.$refs['msglist'].scrollHeight + 200;
             // console.log(this.$refs['msglist'].scrollTop)
           }, 200);

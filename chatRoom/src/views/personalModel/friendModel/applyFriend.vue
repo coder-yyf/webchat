@@ -48,10 +48,15 @@
                     userYname: friend.userYname,
                     userYphoto: friend.userYphoto,
                     userYloginName: friend.userYloginName,
+                    //用于后面添加会话的
                     friendRoom : this.user.id + '-' + this.$route.params.id,
+                    //给对面的官方添加消息用的
                     roomid: this.$route.params.id + '-' + this.Vchat.id.split('-')[1],
+                    //是群相关的还是好友相关的
                     state: 'friend',
+                    //验证类消息
                     type: 'validate',
+                    //还没进行拒绝或同意
                     status: '0'
                 };
                 this.$socket.emit('sendValidate', val);

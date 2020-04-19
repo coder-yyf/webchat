@@ -2,7 +2,7 @@
   <div class="vchat-system-Message" v-fontColor="user.chatColor">
     <ul v-if="InfoList.length">
       <template v-for="v in InfoList">
-        <!--验证类，别人请求加好友或者加群-->
+        <!--验证类，别人请求加好友或者加群，你同意或拒绝的后其实也是同一条信息，不过status变了而已-->
         <li v-if="v.type === 'validate'" :key="v['_id']">
           <span class="vchat-line1 info">{{v.state === 'friend' ? '验证消息：' + v.nickname + '申请加您为好友' : '验证消息：' + v.nickname + '申请加入' + v.groupName}}</span>
           <span class="time">{{v.time}}</span>
@@ -56,7 +56,7 @@
             <span slot="reference" class="del">删除</span>
           </el-popover>
         </li>
-        <!--这个应该是别人同意你之后产生的信息-->
+        <!--这个应该是别人同意或拒绝你之后产生的信息-->
         <li v-if="v.type === 'info'" :key="v['_id']">
           <p>
             <span class="vchat-line1 info">{{v.mes}}</span>
@@ -100,9 +100,10 @@
     sockets: {
       getSystemMessages(r) { // 获取系统消息
         if (r.length) {
-          this.$emit('NewMes', r[r.length - 1]);
+          //少了get
+          this.$emit('getNewMes', r[r.length - 1]);
         }
-        //添加了两个属性
+        //添加了两个属性，点击时候显示弹框用的
         r.forEach(v => {
           v.visible = false;
           v.delVisible = false;
@@ -173,6 +174,7 @@
         //更新本地的
         //把之前拒绝的也弄同意了
         this.InfoList.forEach(m => { // 更新同一申请人的所有相同请求
+          //之所以这里也弄，而不是向服务器寻求更新，主要是为了缓解服务器压力
           if (m.userM === v.userM && m.type === "validate" && (v.state === 'friend' || v.state === 'group')) {
             m.status = '1';
             //这个感觉没必要

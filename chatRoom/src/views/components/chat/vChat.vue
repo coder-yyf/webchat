@@ -123,7 +123,7 @@
           //删除了一个会话
           if (!isNaN(this.removeSation.index)) {
             if (this.currSation.id === this.removeSation.item.id && this.contactsList.length !== 0) {
-              //为什么要是删除了的index？
+              //为什么要是删除了的index？因为删了后下面不久上来了
               this.currSation = this.contactsList[this.removeSation.index] || this.contactsList[this.removeSation.index - 1] || this.contactsList[this.removeSation.index + 1];
             }
           }
@@ -185,10 +185,11 @@
       remove(v, i) {
         // console.log('闪出')
         //去掉vchat官方
-        if (v.type === 'vchat') { // 只做显示列表移除，也就是下次重新进来它还会加入？
+        if (v.type === 'vchat') { // 只做显示列表移除，也就是下次重新进来它还会加入？不过每次getUserInfo都会加进来吧
           // 从contactlist中去掉
           this.contactsList = this.contactsList.filter(m => m.id !== v.id);
-          //这个不是和conversationlist哪里修改当前会话一样吗
+          //这个不是和conversationlist哪里修改当前会话一样吗，不过那里是conversationlist改变才弄的，这里没改conversationlist
+          //而且这里没有修改本地state的conversationlist，当这个list修改时，vchat官方又回来了
           if (this.currSation.id === v.id && this.contactsList.length !== 0) {
             //轮下去
             this.currSation = this.contactsList[i] || this.contactsList[i - 1] || this.contactsList[i + 1];

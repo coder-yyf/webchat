@@ -27,7 +27,7 @@ let messages = db.model("messages", {
   friendRoom: String, // 好友房间
   state: String, // group/ friend
   type: String, // validate，info，org
-  status: String // 0 未操作 1 同意 2 拒绝
+  status: String // 0 未操作 1 同意 2 拒绝 这个是给官方的消息那里弄的
 });
 
 const saveMessage = (params, callback = function () {

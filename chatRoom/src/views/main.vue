@@ -63,6 +63,7 @@
       vHeader
     },
     sockets: {
+      //连接socket后自动返回这个
       connect: function (val) {
         console.log(this.$socket.id);
         console.log('连接成功');
@@ -71,15 +72,17 @@
         console.log('连接失败');
       },
       joined(OnlineUser) {
-        console.log('11111111111111111111')
+        console.log('这里是jpoined')
         console.log('加入了', OnlineUser);
         this.$store.commit('setOnlineUser', OnlineUser)
       },
       leaved(OnlineUser) {
-        console.log('222222222222')
+        console.log('这里是leaved')
         this.$store.commit('setOnlineUser', OnlineUser)
       },
+      //注意这里并没有获得具体的100条消息，那个是在chat-item那里
       getHistoryMessages(mesdata) { // 获取未读消息数量
+        //所有read的数组中不包含用户名的消息，也就是未读消息
         let data = mesdata.filter(v => v.read.indexOf(this.user.name) === -1);
         if (data.length) {
           this.$store.commit('setUnRead', {roomid: data[0].roomid, count: data.length});

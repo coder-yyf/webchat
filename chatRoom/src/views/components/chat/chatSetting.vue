@@ -182,7 +182,7 @@
               //这样是为了设置自定义的壁纸既为当前用，又存为自定义
               wallpaper: r.data + ',' + r.data
             };
-            //存储自定义壁纸的，unlink是为了删除
+            //存储自定义壁纸的，unlink是为了删除用的，专门给upUser用的
             //因为自定义只有一个位置，所以把之前的删了
             if (this.user.wallpaper.split(',')[1]) {
               params.unlink = this.user.wallpaper.split(',')[1];

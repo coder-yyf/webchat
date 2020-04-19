@@ -130,6 +130,7 @@ const getGroupUsers = (params, callback) => { // 查找指定群聊成员
 // $equals 等于 ／ $gt 大于 ／ $gte 大于等于 ／ $lt 小余 ／ $lte 小余等于 ／ $ne 不等于 ／ $in 在数组中 ／ $nin 不在数组中 // $option的$i表示忽略大小写
 const huntGroups = (params, callback) => { // 搜索聊天群（名称/code）
     let ids = [];
+    //先搜出用户加入的群，然后去掉加入过的
     groupUser.findGroupByUserName(params.userName, (err, res) => {
         if(err) {
             console.log(err);

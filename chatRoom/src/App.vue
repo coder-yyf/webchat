@@ -34,7 +34,7 @@
                     //this就是document对象
                     // console.log(this)
                     this.t = setTimeout(_ => {
-                        document.title = 'Vchat';
+                        document.title = 'webchat';
                     }, 2000)
                 }
             });

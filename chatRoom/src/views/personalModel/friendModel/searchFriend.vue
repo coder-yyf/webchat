@@ -107,6 +107,7 @@
                 }
 
                 this.loadingSearch = true;
+                //为啥只显示这么少
                 let params = {
                     key: this.huntKey,
                     offset: 1,

@@ -32,6 +32,7 @@
                     所在地：{{friendInfo.province.name + (friendInfo.city.name === '市辖区' ? '' : ' - ' + friendInfo.city.name) + ' - ' + friendInfo.town.name}}
                 </p>
             </div>
+          <!--是用户本人-->
             <div class="detail-item" v-if="friendInfo.code === user.code" @click="toPhoto">
                 <span>照片墙</span>
                 <p>

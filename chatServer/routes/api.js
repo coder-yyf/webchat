@@ -40,7 +40,7 @@ router.post('/uploadFile', uploads.uploadFile.single('f'), (req, res) => { // �
     let date = utils.formatTime(new Date()).split(' ')[0];
     res.json({
         code: 0,
-        //这里的filename是根据multer生成的那个
+        //这里的filename是根据multer生成的那个，这么奇怪的吗，什么时候弄到req里面的
         data: '/uploads/' + date + '/' + req.file.filename
     });
 });

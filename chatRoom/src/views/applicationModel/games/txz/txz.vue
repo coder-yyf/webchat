@@ -12,6 +12,7 @@
 </template>
 
 <script>
+  //地图，其实就是一堆数组
     import { levels } from './js/mapdata100';
     export default{
         data() {
@@ -24,6 +25,7 @@
                 var can = document.getElementById("canvas");
                 var msg = document.getElementById("msg");
                 var cxt = can.getContext("2d");
+                //小方块的长宽
                 var w = 35,h = 35;
                 var curMap;//当前的地图
                 var curLevel;//当前等级的地图
@@ -36,6 +38,7 @@
                     "wall" : require("./images/wall.png"),
                     "box" : require("./images/box.png"),
                     "ball" : require("./images/ball.png"),
+                    //四张图片，标识小人朝向
                     "up" : require("./images/up.png"),
                     "down" : require("./images/down.png"),
                     "left" : require("./images/left.png"),
@@ -43,7 +46,7 @@
                 }
                 function imgPreload(srcs,callback){
                     var count = 0,imgNum = 0,images = {};
-
+                    //图片数量
                     for(let src in srcs){
                         imgNum++;
                     }
@@ -85,6 +88,7 @@
                         for (var j=0;j<16 ;j++ )
                         {
                             if (block) {
+                                //前两个是位置，后两个是大小
                                 cxt.drawImage(block,w*j,h*i,w,h);
                             }
                         }
@@ -98,8 +102,10 @@
                 var perPosition = new Point(5,5);//小人的初始标值
                 //绘制每个游戏关卡地图
                 function DrawMap(level){
+                    //纵
                     for (var i=0;i<level.length ;i++ )
                     {
+                        //横
                         for (var j=0;j<level[i].length ;j++ )
                         {
                             var pic = block;//初始图片

@@ -41,7 +41,8 @@ export default {
     getVchatInfo({commit, state}) { // 获取官方账号信息
         api.getVchatInfo().then(r => {
             if (r.code === 0) {
-                //对应用户的专门的Vchat，只不过添加了一个所谓的id，所有内容都是一样的
+                //对应用户的专门的Vchat，只不过添加了一个所谓的id，所有内容都是一样的，
+              // 不过这个id就专门在conversationlist开了一个独特的房间，以后关于这个用户的通知都放到这个房间显示
                 let id = state.user.id + '-' + r.data.id;
                 state.Vchat = Object.assign({}, r.data, {type: 'vchat'}, {id});
                 //加入到conversationlist中

@@ -1,5 +1,6 @@
 <template>
     <div class="vchat-news-item">
+      <!--两种类型，一种只有一张图，一种多图-->
         <div class="news-detail-1" v-if="!item.imgextra"  @click="clickNews">
             <a>
                 <img v-lazy="item.imgsrc" alt="">
@@ -39,9 +40,12 @@
         methods: {
             clickNews() {
                 if (this.item.skipURL){
+                    //detail那里用的链接，由于不是父子组件，而且不常用，就用sessionStorage了
                     sessionStorage.detailSrc = this.item.skipURL;
+                    console.log(this.item.skipURL)
                 } else {
                     sessionStorage.detailSrc = this.item.url;
+                  console.log(this.item.url)
                 }
                 this.$router.push({name: 'newsDetail'})
             }
