@@ -126,7 +126,7 @@
           phone: '',
           province: '',
           city: '',
-          town: ''
+          town: '',
         },
         showCrop: false, // 裁剪框开关
         cropUrl: '', // 裁剪图片地址
@@ -145,15 +145,17 @@
           ]
         },
         cities: [],
-        towns: []
+        towns: [],
+        isStart1:true,
+        isStart2:true
       }
     },
     computed: {
       provinces() {
-        //高德地图api，好像不是
+        //高德地图api，好像不是，86是中国
         let arr = this.MapData(pca['86']);
-        //默认值是北京?
-        this.personForm.province = arr[0];
+        //0是背景
+        // this.personForm.province = arr[8];
         //返回省
         return arr;
       }
@@ -162,17 +164,37 @@
       cropper
     },
     watch: {
-      'personForm.province': {
+      /*'personForm.province': {
         handler(v) {
+          console.log('w1')
           this.provinceChange(v);
         },
         deep: true
+      },*/
+      'personForm.province'(v) {
+        console.log('w11')
+        /*if(this.isStart1){
+          console.log('w12')
+          this.isStart1 = false
+          return
+        }*/
+        this.provinceChange(v);
       },
-      'personForm.city': {
+      /*'personForm.city': {
         handler(v) {
+          console.log('w2')
           this.cityChange(v);
         },
         deep: true
+      }*/
+      'personForm.city'(v) {
+        console.log('w21')
+        /*if(this.isStart2){
+          console.log('w22')
+          this.isStart2 = false
+          return
+        }*/
+        this.cityChange(v);
       }
     },
     methods: {
@@ -189,10 +211,19 @@
         //获取省对应的城市
         this.cities = this.MapData(pcaa[v.value]);
         //显示默认的第一个
+        if(this.isStart1){
+          this.isStart1 = false
+          return
+        }
         this.personForm.city = this.cities[0];
       },
+      //修改市下面的县
       cityChange(v) {
         this.towns = this.MapData(pcaa[v.value]);
+        if(this.isStart2){
+          this.isStart2 = false
+          return
+        }
         this.personForm.town = this.towns[0];
       },
       getAvatar(url) { // 裁剪后的图像路径
@@ -259,6 +290,7 @@
     },
     mounted() {
       this.getUserDetail();
+      console.log(this.personForm)
     }
   }
 </script>

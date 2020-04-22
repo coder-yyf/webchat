@@ -81,7 +81,7 @@ const signUp = (params, callback) => { // 注册
         } else {
             function createfun(code) { // 写入数据
                 let pass = md5(params.pass);
-                baseList.users.create({name: params.name, pass: pass, code: code, nickname: 'WebChat' + (Date.now()+'').slice(6)}).then(r => {
+                baseList.users.create({name: params.name, pass: pass, code: code, nickname: '波奇' + (Date.now(6)+'').slice(6)}).then(r => {
                 // baseList.users.create({name: params.name, pass: pass, code: code, nickname: 'vChat' + (Date.now()+'').slice(6)}).then(r => {
                     //创建成功
                     if (r['_id']) {

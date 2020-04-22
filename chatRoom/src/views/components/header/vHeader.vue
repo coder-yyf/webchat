@@ -15,8 +15,8 @@
               </el-badge>
               <ul class="handleList">
                 <!--显示会话列表与隐藏，为什么查看vchat消息那里，这样写会变为bug呢-->
-                <li @click="showChat = !showChat"><span>会话列表</span></li>
-                <li @click="reset"><span>会话窗口复位</span></li>
+                <li @click="showChat = !showChat"><span>聊天框</span></li>
+                <li @click="reset"><span>聊天框复位</span></li>
               </ul>
             </div>
           </nav>
@@ -78,7 +78,7 @@
     <!--这个是进入设置啥的那些的时候的顶部-->
     <div class="vchat-little-header" v-else>
       <div>
-        <router-link to="/main/personalMain">vchat</router-link>
+        <router-link to="/main/personalMain">WebChat</router-link>
         <!--这个根本不是logout好吧-->
         <!--之前的router里面的每一个路由不是有名字吗，就是通过这个进行跳转-->
         <span class="logout" @click="$router.push({name: 'personalMain'})">[返回]</span>

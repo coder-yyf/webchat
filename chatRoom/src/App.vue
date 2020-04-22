@@ -15,7 +15,7 @@
         mounted() {
             document.addEventListener('visibilitychange', function() {
                 if (document.visibilityState === 'hidden') {
-                    document.title = '咦，页面崩溃了';
+                    document.title = '主人，你要离开了吗';
                     clearInterval(this.t);
 //                    Notification.requestPermission(function (permission) {
 //                        if (permission == "granted") {
@@ -30,11 +30,11 @@
 //                    });
 
                 } else {
-                    document.title = '哇，又好了';
+                    document.title = '哇，主人你回来啦';
                     //this就是document对象
                     // console.log(this)
                     this.t = setTimeout(_ => {
-                        document.title = 'webchat';
+                        document.title = 'WebChat';
                     }, 2000)
                 }
             });
