@@ -156,10 +156,24 @@
         },
         deep: true,
         immediate: true
-      }
+      },
+      /*removeSationId:{
+        handler(id){
+          this.contactsList.forEach((v,i)=>{
+            if(v.id === id){
+              this.removeSation = {
+                item:v,
+                index:i
+              }
+            }
+          })
+        },
+        deep:true,
+        immediate:true
+      }*/
     },
     computed: {
-      ...mapState(['user', 'conversationsList', 'unRead']),
+      ...mapState(['user', 'conversationsList', 'unRead','removeSationId']),
       bgOpa() { // 兼容老用户
         return this.user.bgOpa || 0.2;
       }
@@ -184,6 +198,8 @@
       },
       remove(v, i) {
         // console.log('闪出')
+        //退出房间
+        this.$socket.emit('leave',{roomid:v.id})
         //去掉vchat官方
         if (v.type === 'vchat') { // 只做显示列表移除，也就是下次重新进来它还会加入？不过每次getUserInfo都会加进来吧
           // 从contactlist中去掉
@@ -218,6 +234,9 @@
       }
     },
     mounted() {
+      this.$bus.$on('a',()=>{
+        console.log('hhhh')
+      })
     }
   }
 </script>

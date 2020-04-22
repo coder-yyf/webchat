@@ -120,17 +120,24 @@ const onconnection = (socket) => {
   socket.emit('connect');
   //怎么那么多地方发这个给它相应啊
   //conversationlist中都会发过来
+  socket.on('login', (val) => {
+    OnlineUser[val.name] = socket.id;
+    socket.broadcast.emit('login', OnlineUser);
+  })
   socket.on('join', (val) => {
-    // if (OnlineUser[val.name]) {
-    //     console.log('yijiaru', val.name);
-    //     return;
-    // }
-    socket.join(val.roomid, () => {
-      //这里有点古怪，删除一个会话后
-      console.log(val.roomid + '加入了', val.name);
-      //每连接一个应该会产生一个socket，然后有对应的id，这里就添加了上线用户
+    // console.log(val)
+    if (!OnlineUser[val.name]) {
       OnlineUser[val.name] = socket.id;
-      console.log(OnlineUser)
+      // socket.broadcast.emit('joined', OnlineUser);
+    }
+    socket.join(val.roomid, () => {
+      console.log('加入房间')
+      //这里有点古怪，删除一个会话后
+      // console.log(val.roomid + '加入了', val.name);
+      //每连接一个应该会产生一个socket，然后有对应的id，这里就添加了上线用户
+      //这个放到connection那里不就好了，这里重复赋值了啊
+      // OnlineUser[val.name] = socket.id;
+      // console.log(OnlineUser)
       //这些数据结构是怎么安排的呢
       //给对应的房间号发送聊天者上线了
       //这个发了我只在控制台看到啊，大兄弟
@@ -138,26 +145,39 @@ const onconnection = (socket) => {
       //对哦，加入不是这里弄得，这里只是弄加入和离开房间而已
       //加入是一开始的connection那里
       // io.in(val.roomid).emit('joined', OnlineUser); // 包括发送者
-      socket.in(val.roomid).emit('joined', OnlineUser);
+      //这个发给自己
+      socket.emit('joined', OnlineUser);
+      // console.log(typeof val.roomid,val.roomid)
+      //这个根本不能发给自己
+      // socket.in(val.roomid).emit('joined', OnlineUser);
+      //这个他妈也不能发给自己
+      socket.broadcast.emit('joined', OnlineUser);
       // console.log('join', val.roomid, OnlineUser);
     });
   });
   //这里是主动下线，例如退出那里
   socket.on('leave', (val) => {
-    //删除属性
-    delete OnlineUser[val.name];
+    console.log('删除会话退出房间')
+    //删除属性，这里只是退出房间而已干嘛直接删了它的上线状态
+    // delete OnlineUser[val.name];
     //也是只有这里提示，不过下线前端没必要提示吧
-    console.log('leave', val.name);
+    // console.log('leave', val.name);
     socket.leave(val.roomid, () => {
       //发给前端，不包括发送者，这是什么意思，为什么前面的是io，这里确实socket
-      socket.to(val.roomid).emit('leaved', OnlineUser);
+      //很迷，去掉一个roomid不代表就下线了啊
+      // socket.to(val.roomid).emit('leaved', OnlineUser);
       // console.log('leave', val.roomid, OnlineUser);
     });
   });
+  socket.on('logout', (val) => {
+    delete OnlineUser[val.name];
+    // socket.to(val.roomid).emit('logout', OnlineUser);
+    socket.broadcast.emit('logout', OnlineUser);
+  })
   socket.on('mes', (val) => { // 聊天消息
     apiList.saveMessage(val);
     //这个什么意思
-    console.log('OnlineUser', val.roomid);
+    // console.log('OnlineUser', val.roomid);
     socket.to(val.roomid).emit('mes', val);
   });
   socket.on('getHistoryMessages', (pramas) => { // 获取历史消息
@@ -260,6 +280,7 @@ const onconnection = (socket) => {
             state: 'friend',
             type: 'info',
             status: '1', // 同意
+            //1是vchat的id
             roomid: val.userM + '-' + val.roomid.split('-')[1]
           };
           apiList.saveMessage(value); // 保存通知消息
@@ -273,6 +294,7 @@ const onconnection = (socket) => {
             name: val.userYname,
             photo: val.userYphoto,
             id: val.friendRoom,
+            //醉了，这里是list的类型，不是mes类型，别搞混了，不过这个似乎没什么用
             type: 'friend'
           };
           //给双方都添加对应的conversationlist
@@ -291,7 +313,7 @@ const onconnection = (socket) => {
     }
   });
 
-  socket.on('refuseValidate', (val) => { // 拒绝申请
+  socket.on('refuseValidate', (val) => {
     //2是拒绝
     let pr = {
       status: '2',
@@ -337,7 +359,21 @@ const onconnection = (socket) => {
     }
     // 通知申请人验证已拒绝
   });
-
+  socket.on('removeFriendValidate', (params) => {
+    // console.log(params.myRoomId,params.friendRoomId)
+    // socket.emit('removeValidate', params.roomid)
+    //这两个反过来其实是一样的，所以roomid是同一个
+    console.log(params)
+    // setTimeout(()=>{
+    socket.to(params.roomid).emit('removeFriendValidate', params.roomid)
+    // io.to(params.roomid).emit('removeValidate', params.roomid)
+    // },1000)
+    // socket.in(params.roomid).emit('removeValidate', params.roomid+'2222')
+    // socket.broadcast.emit('removeValidate', params.roomid+'3333')
+  })
+  socket.on('destroyGroupValidate',params=>{
+    socket.to(params.groupId).emit('destroyGroupValidate', params.groupId)
+  })
   socket.on('setReadStatus', (params) => { // 已读状态
     apiList.setReadStatus(params);
   });
@@ -347,17 +383,18 @@ const onconnection = (socket) => {
   });
   //这里可以弄一个下线的信息啊，不过也得登录啊，这可怎么搞
   //这里是被动掉线
-  socket.on('disconnect', () => {
+  socket.on('disconnect', (val) => {
+    console.log(val)
     let k;
     for (k in OnlineUser) {
       //删掉下线的那个
       if (OnlineUser[k] === socket.id) {
+        console.log('user disconnected', OnlineUser[k]);
         delete OnlineUser[k];
+        // socket.broadcast.emit('leaved', OnlineUser); // 广播通知该客户端下线，其实是更新在线人数
+        socket.broadcast.emit('logout', OnlineUser); // 广播通知该客户端下线
       }
     }
-
-    socket.broadcast.emit('leaved', OnlineUser); // 广播通知该客户端下线
-    console.log('user disconnected', OnlineUser);
   });
 };
 //这里就在监听上线了

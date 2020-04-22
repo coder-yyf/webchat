@@ -1,6 +1,7 @@
 <template>
   <ul ref="msglist" class="vchat-message">
     <li style="fontSize: 12px" v-if="chatList.length > 50">更多消息请在聊天记录中查看</li>
+    <!--用time做key，秒发时会有bug-->
     <li :class="[{org: v.type==='org'}]" v-for="(v, i) in chatList" :key="v.time">
       <!--template不渲染为任何标签，适合这种判断的-->
       <template v-if="v.type==='other'">

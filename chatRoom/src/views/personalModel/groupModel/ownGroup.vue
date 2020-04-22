@@ -19,7 +19,7 @@
                     <span>{{mySetGroups.length}}</span>
                 </h3>
                 <ul class="vchat-linkman-list">
-                    <li v-for="v in mySetGroups" :key="v._id" @click="goGroupDetail(v.groupId._id)" @contextmenu="contextmenuClick($event, v.groupId)">
+                    <li v-for="v in mySetGroups" :key="v._id" @click="goGroupDetail(v.groupId._id,0)" @contextmenu="contextmenuClick($event, v.groupId)">
                         <a href="javascript:;">
                             <img :src="IMG_URL + v.groupId.img" alt="">
                         </a>
@@ -43,7 +43,7 @@
                     <span>{{myJoinGroups.length}}</span>
                 </h3>
                 <ul class="vchat-linkman-list">
-                    <li v-for="v in myJoinGroups" :key="v._id" @click="goGroupDetail(v.groupId._id)" @contextmenu="contextmenuClick($event, v.groupId)">
+                    <li v-for="v in myJoinGroups" :key="v._id" @click="goGroupDetail(v.groupId._id,1)" @contextmenu="contextmenuClick($event, v.groupId)">
                         <a href="javascript:;">
                             <img :src="IMG_URL + v.groupId.img" alt="">
                         </a>
@@ -106,8 +106,8 @@
             handleCommand(command) {
                 this.$router.push(command);
             },
-            goGroupDetail(id) {
-                this.$router.push({name: 'groupDetail', params: {id: id}});
+            goGroupDetail(id,type) {
+                this.$router.push({name: 'groupDetail', params: {id: id,type:type}});
             },
             getMyGroup() {
                 this.loadingWait = true;

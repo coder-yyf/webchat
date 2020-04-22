@@ -127,7 +127,7 @@ const getUserInfo = (params, callback) => { // 获取登录用户或好友信息
     if (params.id) {
         baseList.users.find({_id: params.key}).then(r => {
             if (r.length) {
-                let response = {name: r[0].name, photo: r[0].photo, nickname: r[0].nickname, signature: r[0].signature, code: r[0].code,cover:r[0].cover,sex:r[0].sex, province: r[0].province, city: r[0].city, town: r[0].town};
+                let response = {name: r[0].name, photo: r[0].photo, nickname: r[0].nickname, signature: r[0].signature, code: r[0].code,cover:r[0].cover,sex:r[0].sex, province: r[0].province, city: r[0].city, town: r[0].town,id: r[0]._id};
                 callback({code: 0, data: response});
             } else {
                 callback({code: -1});
@@ -175,7 +175,7 @@ const addConversitionList = (userName, params, callback) => { // 添加会话
         }
     });
 };
-
+//这里userName用了session
 const removeConversitionList = (userName, params, callback) => { // 删除会话
     baseList.users.update({name: userName}, {$pull: {conversationsList: {id: params.id}}}).then(raw => {
         if (raw.nModified > 0) {

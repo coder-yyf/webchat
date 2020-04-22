@@ -25,6 +25,7 @@
   import utils from '@/utils/utils';
   import {mapState} from 'vuex';
   import vHeader from '@/views/components/header/vHeader';
+  import api from '@/api';
 
   export default {
     data() {
@@ -44,13 +45,21 @@
             id: 2,
             link: 'application'
           }
-        ]
+        ],
+        listLen:0
       };
     },
     watch: {
       conversationsList: {
-        handler() {
-          this.joinRoom();
+        handler(list) {
+          // setTimeout(()=>{
+            this.joinRoom()
+          // },3000)
+          /*if(this.conversationsList.length>this.listLen){
+            this.$socket.emit('join',{roomid:list[list.length-1].id,name:this.user.name})
+
+            this.listLen=this.conversationsList.length
+          }*/
         },
         deep: true,
         immediate: true
@@ -72,12 +81,21 @@
         console.log('连接失败');
       },
       joined(OnlineUser) {
-        console.log('这里是jpoined')
-        console.log('加入了', OnlineUser);
+        // console.log('这里是joined')
+        // console.log('加入了', OnlineUser);
         this.$store.commit('setOnlineUser', OnlineUser)
       },
-      leaved(OnlineUser) {
+      /*leaved(OnlineUser) {
         console.log('这里是leaved')
+        this.$store.commit('setOnlineUser', OnlineUser)
+      },*/
+      /*login(OnlineUser) {
+        console.log('这里是login')
+        // console.log('加入了', OnlineUser);
+        this.$store.commit('setOnlineUser', OnlineUser)
+      },*/
+      logout(OnlineUser) {
+        console.log('这里是logout')
         this.$store.commit('setOnlineUser', OnlineUser)
       },
       //注意这里并没有获得具体的100条消息，那个是在chat-item那里
@@ -99,6 +117,7 @@
       }
     },
     methods: {
+      //这里写法太不好了，一有变化全部join一遍
       joinRoom() {
         if (!this.user.name) {
           return;
@@ -117,6 +136,8 @@
       }
     },
     mounted() {
+      /*this.joinRoom()
+      this.listLen = this.conversationsList.length*/
     }
   }
 </script>

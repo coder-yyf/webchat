@@ -96,11 +96,37 @@ const InsertGroupUsers = (params, callback) => {
     apiModel.InsertGroupUsers(params, callback);
 };
 
+const quitGroup = (req,res)=>{
+    let params = req.body
+    apiModel.quitGroup(params,r=>{
+        if(r.code === 0){
+            res.json({code:0})
+        }
+        else{
+            res.json({code:-1})
+        }
+    })
+}
+
+const destroyGroup=(req,res)=>{
+    let params = req.body
+    apiModel.destroyGroup(params,r=>{
+        if(r.code===0){
+            res.json({code:0})
+        }
+        else{
+            res.json({code:-1})
+        }
+    })
+}
+
 module.exports = {
     createGroup,
     getMyGroup,
     getGroupUsers,
     huntGroups,
     getGroupInfo,
-    InsertGroupUsers
+    InsertGroupUsers,
+    quitGroup,
+    destroyGroup
 };

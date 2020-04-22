@@ -34,6 +34,7 @@ Vue.use(libs);
 //设置服务器地址
 Vue.use(VueSocketio, socketio(process.env.SOCKETIO));
 Vue.use(ElementUI);
+Vue.prototype.$bus = new Vue()
 Vue.config.productionTip = false;
 
 

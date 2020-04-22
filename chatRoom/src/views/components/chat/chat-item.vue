@@ -182,7 +182,7 @@
       },
       mes(r) {
         if (r.roomid === this.currSation.id) {
-          //添加进去是为了给别人读的，我们这边通过下面这里搞定了
+          //添加进刚刚收到的新消息
           this.chatList.push(Object.assign({}, r, {type: 'other'}));
           this.$socket.emit('setReadStatus', {roomid: r.roomid, name: this.user.name});
           this.$store.commit('setUnRead', {roomid: r.roomid, clear: true});

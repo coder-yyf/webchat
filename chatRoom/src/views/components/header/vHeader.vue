@@ -207,6 +207,8 @@
           //发送给服务器的socket出发leave事件
           this.$socket.emit('leave', val);
         });
+        this.$socket.emit('disconnect','我来到disconnect了')
+        this.$socket.emit('logout',{name:this.user.name})
       },
 //            mouseover() {
 //                this.hover = true;
