@@ -108,7 +108,7 @@
         this.$router.push({name: 'applyFriend', params: {id: this.$route.params.id}, query: {}});
       },
       remove() {
-        this.$confirm('确认删除该好友吗吗？', '确认信息')
+        this.$confirm('确认删除该好友吗？', '确认信息')
           .then(() => {
             /*let params = {
               friendRoomId: this.user.id + '-' + this.friendInfo.id,
@@ -153,7 +153,7 @@
               else{
                 console.log('看来还是没有0啊')
                 this.$message({
-                  type: 'success',
+                  type: 'warning',
                   message: '删除失败'
                 });
               }

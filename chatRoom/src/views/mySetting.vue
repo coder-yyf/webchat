@@ -28,12 +28,12 @@
                         name: '个人资料',
                         link: '/mySetting/means',
                         class: 'icon-gerenziliao3'
-                    },
+                    }/*,
                     {
                         name: '主题设置',
                         link: '/mySetting/theme',
                         class: 'icon-zhuti'
-                    }
+                    }*/
                 ]
             }
         },

@@ -21,11 +21,11 @@
         data() {
             return {
                 gamesList: [
-                    {
+                    /*{
                         title: '2048',
                         url: h2048,
                         name: 'h2048'
-                    },
+                    },*/
                     {
                         title: '推箱子',
                         url: txz,

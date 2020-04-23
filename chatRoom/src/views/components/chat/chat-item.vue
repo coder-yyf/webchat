@@ -135,15 +135,15 @@
             type: 'group,friend',
             id: 0
           },
-          {
+          /*{
             name: '公告',
             type: 'group',
             id: 1
-          },
+          },*/
           {
             name: '聊天记录',
             type: 'group,friend',
-            id: 2
+            id: 1
           }
         ],
         IMG_URL: process.env.IMG_URL,

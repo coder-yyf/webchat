@@ -94,6 +94,7 @@
       getWeek(k) {
         return `星期${['一', '二', '三', '四', '五', '六', '日'][k - 1]}`;
       },
+      //这里type表示1市英文，2是拼音
       getWeatherType(t, type = '1') {
         let reg1 = /多云|阴/;
         let reg2 = /雷/;

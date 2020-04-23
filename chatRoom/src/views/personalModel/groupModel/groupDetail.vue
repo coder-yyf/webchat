@@ -159,7 +159,7 @@
                   api.removeConversitionList({id: this.$route.params.id}).then(r => {
                     this.$message({
                       type: 'success',
-                      message: '删除成功'
+                      message: '退出成功'
                     });
                     if (r.code === 0) {
                       this.$socket.emit('leave',this.$route.params.id)
@@ -170,8 +170,8 @@
                   });
                 } else {
                   this.$message({
-                    type: 'success',
-                    message: '删除失败'
+                    type: 'warning',
+                    message: '退出失败'
                   });
                 }
               })
@@ -179,7 +179,7 @@
           )
       },
       destroy() {
-        this.$confirm('确认退出该群吗？', '确认信息')
+        this.$confirm('确认解散该群吗？', '确认信息')
           .then(() => {
             api.destroyGroup({groupId:this.$route.params.id}).then(r=>{
               if(r.code===0){
@@ -187,7 +187,7 @@
                 api.removeConversitionList({id: this.$route.params.id}).then(r => {
                   this.$message({
                     type: 'success',
-                    message: '删除成功'
+                    message: '解散成功'
                   });
                   if (r.code === 0) {
                     this.$socket.emit('leave',this.$route.params.id)
@@ -199,8 +199,8 @@
               }
               else{
                 this.$message({
-                  type: 'success',
-                  message: '删除失败'
+                  type: 'warning',
+                  message: '解散失败'
                 });
               }
             })

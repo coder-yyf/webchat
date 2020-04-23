@@ -32,7 +32,7 @@
       return {
         nav: [
           {
-            name: '主页',
+            name: '聊天主页',
             class: 'icon-daohangshouye',
             activeClass: 'icon-group_fill',
             id: 3,

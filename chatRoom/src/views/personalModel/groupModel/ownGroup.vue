@@ -14,7 +14,7 @@
                 <h3 @click="setShowList('set')">
                     <p>
                         <v-icon name="fanhui" :size="16" color="#b7b6b6" class="list-icon"></v-icon>
-                        <span>我创建的</span>
+                        <span>我创建的群</span>
                     </p>
                     <span>{{mySetGroups.length}}</span>
                 </h3>
@@ -38,7 +38,7 @@
                 <h3 @click="setShowList('join')">
                     <p>
                         <v-icon name="fanhui" :size="16" color="#b7b6b6" class="list-icon"></v-icon>
-                        <span>我加入的</span>
+                        <span>我加入的群</span>
                     </p>
                     <span>{{myJoinGroups.length}}</span>
                 </h3>

@@ -183,11 +183,11 @@ export default new Router({
         }
       ]
     },
-    {
+    /*{
       path: '/mine',
       name: 'mine',
       component: _import('mine')
-    },
+    },*/
     {
       path: '/todo',
       name: 'todo',
@@ -203,12 +203,12 @@ export default new Router({
           path: 'means',
           name: 'means',
           component: _import('settingModel/means')
-        },
+        }/*,
         {
           path: 'theme',
           name: 'theme',
           component: _import('settingModel/theme')
-        }
+        }*/
       ]
     },
     {

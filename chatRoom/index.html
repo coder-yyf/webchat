@@ -10,7 +10,7 @@
   <!--只有这样，url输入的时候才不会提示amap不存在-->
   <script charset="UTF-8" src='https://webapi.amap.com/maps?v=1.4.8&key=18b8e5a3e0b8ba153ecc364eaa09c873'></script>
 </head>
-<style>
+<!--<style>
   @-webkit-keyframes enter {
     0% {
       opacity: 0;
@@ -236,10 +236,128 @@
     -moz-animation-delay: 1.5s;
     animation-delay: 1.5s;
   }
+</style>-->
+<style>
+  @keyframes fide {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  /*没啥用*/
+  .loading-info{
+    color: #fff;
+    padding-top: 20px;
+    padding-left: 120px;
+  }
+  .loading-info span{
+    opacity: 0;
+    animation: fide 1.5s infinite;
+  }
+  .loading-info span:nth-of-type(2) {
+    -webkit-animation-delay: 0.3s;
+    -moz-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+  }
+  .loading-info span:nth-of-type(3) {
+    -webkit-animation-delay: 0.6s;
+    -moz-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+  }
+  .loading-info span:nth-of-type(4) {
+    -webkit-animation-delay: 0.9s;
+    -moz-animation-delay: 0.9s;
+    animation-delay: 0.9s;
+  }
+  .loading-info span:nth-of-type(5) {
+    -webkit-animation-delay: 1.2s;
+    -moz-animation-delay: 1.2s;
+    animation-delay: 1.2s;
+  }
+  .loading-info span:nth-of-type(6) {
+    -webkit-animation-delay: 1.5s;
+    -moz-animation-delay: 1.5s;
+    animation-delay: 1.5s;
+  }
+</style>
+<style>
+  .loading-box{
+    position: absolute;
+    width:100%;
+    height: 100%;
+    left:0;
+    top:0;
+    background: #27cac7;
+  }
+  .loading-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  .loading-container ul{
+    display: flex;
+    list-style: none;
+  }
+  .loading-container ul li{
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 50%;
+    animation: animate 1.6s ease-in-out infinite;
+  }
+  @keyframes animate {
+    0%,40%,100%{
+      transform: scale(0.2);
+    }
+    20%{
+      transform: scale(1);
+    }
+  }
+  .loading-container ul li:nth-child(1){
+    animation-delay: -1.4s;
+    background-color: #ffff00;
+    box-shadow: 0 0 50px #ffff00;
+  }
+  .loading-container ul li:nth-child(2){
+    animation-delay: -1.2s;
+    background-color: #76ff03;
+    box-shadow: 0 0 50px #76ff03;
+  }
+  .loading-container ul li:nth-child(3){
+    animation-delay: -1s;
+    background-color: #f06292;
+    box-shadow: 0 0 50px #f06292;
+  }
+  .loading-container ul li:nth-child(4){
+    animation-delay: -0.8s;
+    background-color: #0000ff;
+    box-shadow: 0 0 50px #0000ff;
+  }
+  .loading-container ul li:nth-child(5){
+    animation-delay: -0.6s;
+    background-color: #ba68c8;
+    box-shadow: 0 0 50px #ba68c8;
+  }
+  .loading-container ul li:nth-child(6){
+    animation-delay: -0.4s;
+    background-color: #f57c00;
+    box-shadow: 0 0 50px #f57c00;
+  }
+  .loading-container ul li:nth-child(7){
+    animation-delay: -0.2s;
+    background-color: #673ab7;
+    box-shadow: 0 0 50px #673ab7;
+  }
 </style>
 <body id="theme-vchat">
 <div id="app">
-  <div class="loading-container">
+  <!--<div class="loading-container">
     <div class="vchat-loading">
       <div class="loading-square" ></div>
       <div class="loading-square"></div>
@@ -257,6 +375,19 @@
       <div class="loading-square"></div>
       <div class="loading-square"></div>
       <div class="loading-square last"></div>
+    </div>
+  </div>-->
+  <div class="loading-box">
+    <div class="loading-container">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
       <div class="loading-info clear">
         <span>拼</span>
         <span>命</span>

@@ -115,23 +115,23 @@
 //                hover: false,
         draggable: true, // 允许拖拽
         handleList: [
-          {
+          /*{
             name: '个人空间',
             icon: 'icon-zhanghaoguanli1',
             link: '/mine',
             id:1
-          },
+          },*/
           {
             name: '日程管理',
             icon: 'icon-huihuajilu',
             link: '/todo',
-            id:2
+            id:1
           },
           {
-            name: '设置',
+            name: '个人设置',
             icon: 'icon-shezhi1',
             link: '/mySetting',
-            id:3
+            id:2
           }
         ],
         //是否显示对话列表

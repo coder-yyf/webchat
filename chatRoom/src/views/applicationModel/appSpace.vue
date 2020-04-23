@@ -38,30 +38,30 @@
             src: require('../../assets/img/film-icon.png'),
             link: 'videoGallery'
           },
-          {
+          /*{
             name: 'two',
             title: '听音乐',
             src: require('../../assets/img/music-icon.png'),
             link: ''
-          },
+          },*/
           {
-            name: 'thr',
+            name: 'two',
             title: '玩游戏',
             src: require('../../assets/img/game-icon.png'),
             link: 'games'
           },
           {
-            name: 'four',
-            title: '看头条',
+            name: 'three',
+            title: '看新闻',
             src: require('../../assets/img/news-icon.png'),
             link: 'news'
-          },
+          }/*,
           {
             name: 'fif',
             title: '侃段子',
             src: require('../../assets/img/duanzi-icon.png'),
             link: 'jokes'
-          }
+          }*/
         ]
       }
     },
@@ -174,16 +174,16 @@
         }
       }
 
-      .two {
+      /*.two {
         width: 350px;
         height: 250px;
 
         .bg {
           background-image: url("../../assets/img/music1.jpg");
         }
-      }
+      }*/
 
-      .thr {
+      .two {
         width: 350px;
         height: 250px;
 
@@ -192,7 +192,7 @@
         }
       }
 
-      .four {
+      .three {
         width: 550px;
         height: 300px;
 
@@ -201,14 +201,14 @@
         }
       }
 
-      .fif {
+      /*.fif {
         width: 450px;
         height: 300px;
 
         .bg {
           background-image: url("../../assets/img/duanzi.jpg");
         }
-      }
+      }*/
     }
   }
 </style>

@@ -1,7 +1,6 @@
 <template>
     <div class="vchat-setGroup">
         <v-apheader title="新建群聊" back="/main/personalMain/group/own"></v-apheader>
-
         <div class="vchat-setGroup-contianer">
             <el-form ref="groupForm" label-width="65px" class="groupForm" :rules="groupRules" :model="groupForm">
                 <el-form-item label="群头像">
