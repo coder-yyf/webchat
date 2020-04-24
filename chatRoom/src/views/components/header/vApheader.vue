@@ -30,7 +30,6 @@
         },
         methods: {
             goBack() {
-                // console.log(111111111111);
                 this.$store.dispatch('setTransitionName');
                 if (this.back === '-1') {
                     this.$router.go(-1);

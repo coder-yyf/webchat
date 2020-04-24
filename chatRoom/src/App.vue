@@ -1,85 +1,37 @@
 <template>
-    <div id="app">
-        <router-view/>
-    </div>
+  <div id="app">
+    <router-view/>
+  </div>
 </template>
 
 <script>
-    export default {
-        name: 'App',
-        created() {
-            //url进入的时候获取用户信息
-            //或者通过session保存用户这个对象？仿node官网就是这样的，这样就不用总是找用户信息，填充主页资料了
-            this.$store.dispatch('getUserInfo');
-        },
-        mounted() {
-            document.addEventListener('visibilitychange', function() {
-                if (document.visibilityState === 'hidden') {
-                    document.title = '主人，你要离开了吗';
-                    clearInterval(this.t);
-//                    Notification.requestPermission(function (permission) {
-//                        if (permission == "granted") {
-//                            var notification = new Notification("您有一条新的消息",{
-//                                dir: "auto",
-//                                lang: "zh-CN",
-//                                tag: "testNotice",
-//                                icon:'http://192.168.16.219:80/static-server/pic/10000000/image/2018/20181129//0a3edc489efd4111ba2002345e93e0ca.png',
-//                                body: '你好啊！我是蚂蚁，我在测试桌面推送'
-//                            });
-//                        }
-//                    });
-
-                } else {
-                    document.title = '哇，主人你回来啦';
-                    //this就是document对象
-                    // console.log(this)
-                    this.t = setTimeout(_ => {
-                        document.title = 'WebChat';
-                    }, 2000)
-                }
-            });
+  export default {
+    name: 'App',
+    created() {
+      //url进入的时候获取用户信息
+      this.$store.dispatch('getUserInfo');
+    },
+    mounted() {
+      // 离开页面和回到页面的效果
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'hidden') {
+          document.title = '主人，你要离开了吗';
+          clearInterval(this.t);
+        } else {
+          document.title = '哇，主人你回来啦';
+          //this就是document对象
+          // console.log(this)
+          this.t = setTimeout(_ => {
+            document.title = 'WebChat';
+          }, 2000)
         }
+      });
     }
+  }
 </script>
 
 <style lang="scss">
-    @import "../static/css/base";
-    @import "../static/theme/index";
-    /*为啥我两头都注释掉了，还是有对应的样式，真是奇怪*/
-    /*.Validate-mes {
-        .header {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            margin-bottom: 10px;
-            a {
-                margin-right: 10px;
-            }
-            p{
-                display: flex;
-                flex-flow: column;
-                justify-content: space-around;
-                height: 40px;
-                .signature{
-                    font-size: 12px;
-                    color: #aaaaaa;
-                }
-            }
-        }
-        .info {
-            margin-bottom: 10px;
-            font-size: 13px;
-            span{
-                font-size: 12px;
-                color: #aaaaaa;
-            }
-        }
-        .footer {
-            display: flex;
-            justify-content: flex-end;
-            button {
-                margin-left: 10px;
-            }
-        }
-    }*/
+  @import "../static/css/base";
+  //引入主题
+  @import "../static/theme/index";
 </style>

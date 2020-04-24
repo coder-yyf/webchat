@@ -35,18 +35,17 @@
             name: '聊天主页',
             class: 'icon-daohangshouye',
             activeClass: 'icon-group_fill',
-            id: 3,
+            id: 0,
             link: 'personalMain'
           },
           {
             name: '应用空间',
             class: 'icon-yingyong',
             activeClass: 'icon-people_fill',
-            id: 2,
+            id: 1,
             link: 'application'
           }
-        ],
-        listLen:0
+        ]
       };
     },
     watch: {
@@ -57,7 +56,6 @@
           // },3000)
           /*if(this.conversationsList.length>this.listLen){
             this.$socket.emit('join',{roomid:list[list.length-1].id,name:this.user.name})
-
             this.listLen=this.conversationsList.length
           }*/
         },

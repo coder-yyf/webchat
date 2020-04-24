@@ -48,12 +48,6 @@
                 </el-tooltip>
               </p>
             </div>
-            <!--<p class="delete" @click.stop="remove(v, i)">
-              <el-tooltip class="item" effect="dark" :content="v.type === 'vchat' ? '从会话列表移除' : '从列表移除后，需要再次添加才能收到消息！'"
-                          placement="top-start">
-                <v-icon class="el-icon-circle-close" :color="user.chatColor" cursor="pointer" :size="18"></v-icon>
-              </el-tooltip>
-            </p>-->
             <!--click实践没有生效-->
             <!--click.stop是阻止冒泡-->
           </li>
@@ -102,8 +96,6 @@
     watch: {
       conversationsList: {
         handler(list) {
-          //本来就是数组，为什么要添加这个？
-          //contactlist和conversationlist有什么区别？
           //contactlist添加了什么newstime和newMsg
           //这样弄就不是指向一样的地址了
           this.contactsList = JSON.parse(JSON.stringify(list));
@@ -142,7 +134,7 @@
         //不是也应该添加吗
         immediate:true
       },
-      //哪里初始化它的
+      //main中初始化
       unRead: {
         handler(list) {
           this.contactsList.forEach((v, i) => {
@@ -225,7 +217,7 @@
               };
             } else {
               this.$message({
-                type: 'success',
+                type: 'warning',
                 message: '移除失败'
               });
             }

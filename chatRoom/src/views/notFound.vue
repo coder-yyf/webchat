@@ -3,7 +3,6 @@
         <span @click="$router.go(-1)">返回上一页</span>
     </div>
 </template>
-
 <script>
     export default{
         data() {

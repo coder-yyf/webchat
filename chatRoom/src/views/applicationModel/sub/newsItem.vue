@@ -34,7 +34,6 @@
         props: ['item'],
         data() {
             return {
-
             }
         },
         methods: {

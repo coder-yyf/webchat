@@ -73,7 +73,7 @@
       </div>
     </div>
     <div class="Qr-dialog" :class="{active: showGroupQr}">
-      <v-icon class="el-icon-circle-close-outline QrClose" @clickIcon="showGroupQr = false" color="#f5f5f5" :size="28"
+      <v-icon class="el-icon-circle-close QrClose" @clickIcon="showGroupQr = false" color="#f5f5f5" :size="28"
               cursor="pointer"></v-icon>
     </div>
   </div>
@@ -135,22 +135,6 @@
       quit() {
         this.$confirm('确认退出该群吗？', '确认信息')
           .then(() => {
-              /*api.removeConversitionList({id: this.$route.params.id}).then(r => {
-                if (r.code === 0) {
-                  this.$message({
-                    type: 'success',
-                    message: '删除成功'
-                  });
-                  this.$store.commit('setConversationsList', Object.assign({}, {id: this.$route.params.id}, {d: true}));
-                  this.$router.replace('/main/personalMain/group/own')
-                } else {
-                  this.$message({
-                    type: 'success',
-                    message: '删除失败'
-                  });
-                }
-                this.visible = false;
-              });*/
               api.quitGroup({
                 groupId: this.$route.params.id,
                 userId: this.user.id

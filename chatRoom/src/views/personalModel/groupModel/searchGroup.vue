@@ -113,8 +113,8 @@
                 this.loadingSearch = true;
                 let params = {
                     key: this.huntKey,
-                    offset: 1,
-                    limit: 8,
+                    /*offset: 1,
+                    limit: 8,*/
                     type: this.type
                 };
                 api.huntGroups(params).then(r => {

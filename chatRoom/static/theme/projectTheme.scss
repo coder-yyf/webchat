@@ -1,5 +1,3 @@
-//没有#｛｝不行，难道是因为这个变量只是单纯的字符串，所以才这样，为了不当成样式解析？
-//原来是属性这里才这样
 #theme-#{$theme} {
     // vchat-main-header
     .vchat-main-header { // 头部

@@ -60,7 +60,7 @@
       <div class="container-handel" v-if="currSation.type === 'group'">
         <!--通知-->
         <div class="handel-notice">
-          <h3>群通知</h3>
+          <h3>群公告</h3>
           <ul>
             <!--<li class="vchat-line1" title="求star❤❤❤，点击跳转源码">
               <a href="https://github.com/wuyawei/Vchat" target="_blank" style="color: #fff">
@@ -99,12 +99,8 @@
         </div>
       </div>
     </div>
-    <!--群公告-->
-    <div class="vchat-item-container" v-show="currNav === 1">
-      努力开发中...
-    </div>
     <!--聊天记录-->
-    <div class="vchat-item-container" v-show="currNav === 2">
+    <div class="vchat-item-container" v-show="currNav === 1">
       <!--chatloading也可以放到这里来吧-->
       <!--不行，会和外面这个冲突-->
       <message-log :currSation="currSation" :currNav="currNav" @lookPhoto="lookPhoto"></message-log>
@@ -135,11 +131,6 @@
             type: 'group,friend',
             id: 0
           },
-          /*{
-            name: '公告',
-            type: 'group',
-            id: 1
-          },*/
           {
             name: '聊天记录',
             type: 'group,friend',
@@ -236,9 +227,6 @@
       },
       OnlineUser: { // 在线成员
         handler(obj) {
-          //这个不就是获得currSation的群用户吗，不是currSation初始化的时候就弄了吗
-          //而且话说我它的话直接就弄出数量和状态了啊，还需要添加什么status，弄什么num？
-          //可以像unread那样弄一个getter，然后获得num，不香吗
           if (this.currSation.type && this.currSation.type === 'group') {
             this.getGroupUsers(this.currSation.id);
           }
@@ -390,7 +378,7 @@
         this.showEmoji.f = false;
       },
       chooseEmoji(url) {
-        console.log('jhhjj')
+        // console.log('jhhjj')
         this.send(url, 'emoji');
         this.showEmoji.f = false;
       },

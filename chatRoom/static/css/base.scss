@@ -1,10 +1,10 @@
 //所有的字体图标，不适合拆开来放到各个组件中
 @import "./iconfont.scss";
-//这个完全没用到，不知道干嘛的
+//vue的transition用的
 @import "./transition";
-//限制字数，弄省略号，禁止选中，按钮样式啥的
+//限制字数，弄省略号，禁止选中，按钮样式
 @import "./vChat-class";
-//这个是弄天气的动画的，不过动画都没用上，估计是想要让那些小图标动起来，不过不应该是叫做weatherAni吗
+//这个是弄天气的动画的，不过动画有兼容性问题，360浏览器可以成功显示
 @import "./animation";
 //可以用normalize。css代替
 body, ul, li, p, h1, h2, h3, h4, h5, h6, a {
@@ -19,12 +19,6 @@ body, html {
     height: 100%;
 }
 
-//body{
-//  background-image: url(./assets/img/1.jpg);
-//  background-repeat: no-repeat;
-//  background-size: cover;
-//  background-position-y: -140px;
-//}
 #app {
     font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
     //字体抗锯齿

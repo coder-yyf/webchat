@@ -1,25 +1,17 @@
-/**
- * Created by wyw on 2018/8/4.
- */
 export default {
     setUser(state, data) {
-        //这是用户下线了？
+        //这是用户下线了
         if (data === 'out') {
             state.user = {};
             return;
         }
-        //本来就要改变state.user，干嘛要弄一个{}
         state.user = Object.assign({}, state.user, data);
-    },
-    setIslogin(state, data) {
-        state.isLogin = data;
     },
     setConversationsList(state, data) { // 设置会话列表
         if (Array.isArray(data)) {
             state.conversationsList = data;
         } else {
-            //这是在干嘛，传入不是数组类型例如对象来删除或添加会话列表？
-          // 不是，这是看新产生的会话是已经在会话列表的还是不再，不在就是新的会话，添加进去
+          //看新产生的会话是已经在会话列表的还是不再，不在就是新的会话，添加进去
             let arr = state.conversationsList.filter(v => v.id === data.id);
             if (!arr.length) { // 添加
                 state.conversationsList.push(data);

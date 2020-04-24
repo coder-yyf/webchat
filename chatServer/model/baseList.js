@@ -17,7 +17,7 @@ let users = db.model("users", { // Schema
     photo: {type: String, default: '/img/picture.png'}, // 默认头像
     signature: { type: String, default: '这个人很懒，暂时没有签名哦！' },
     nickname: { type: String, default: ''},
-    email: { type: String, default: '' },
+    email: { type: String, default: '2532xxxxx5@qq.com' },
     /*province: { type: Object, default: {name: "北京市", value: "110000"} }, // 省
     city: { type: Object, default: {name: "市辖区", value: "110100"} }, // 市
     town: { type: Object, default: {name: "海淀区", value: "110108"} }, // 县*/
@@ -37,7 +37,7 @@ let users = db.model("users", { // Schema
     cover: { type: Array, default: ['/img/0072.jpg', '/img/0073.jpg'] }, // 封面展示
     // cover: { type: Array, default: ['/img/cover.jpg', '/img/cover1.jpg'] }, // 封面展示
     emoji: Array, // 表情包
-    phone:{type:String,default:'1234567891011'}
+    phone:{type:String,default:'156xxxxx338'}
 });
 module.exports = {
     accountBase,

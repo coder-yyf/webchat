@@ -22,6 +22,8 @@ let storage = multer.diskStorage({
     },
     //给上传文件重命名，获取添加后缀名
     filename: function (req, file, cb) {
+        //file.fieldname就是‘f’
+        //这里的file其实相当于req.file
         cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname);
     }
 });

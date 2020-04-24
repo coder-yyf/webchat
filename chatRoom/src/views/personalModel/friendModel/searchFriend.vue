@@ -65,6 +65,7 @@
                         // label: 'Vchat号'
                     }
                 ],
+                //2是根据昵称来
                 type: '2'
             }
         },
@@ -80,7 +81,8 @@
             goFriendDetail(id) {
                 this.$router.push({name: 'friendDetail', params: {id: id}});
             },
-            huntFriends(t) { // 搜索群聊
+            huntFriends(t) { // 搜索朋友
+                //防止搜索图众搜索
                 if (this.loadingSearch) {
                     return;
                 }
@@ -107,11 +109,10 @@
                 }
 
                 this.loadingSearch = true;
-                //为啥只显示这么少
                 let params = {
                     key: this.huntKey,
-                    offset: 1,
-                    limit: 8,
+                    /*offset: 1,
+                    limit: 8,*/
                     type: this.type
                 };
                 api.huntFriends(params).then(r => {

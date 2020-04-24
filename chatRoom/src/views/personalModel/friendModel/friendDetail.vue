@@ -75,26 +75,17 @@
       ...mapState(['user'])
     },
     sockets:{
+      //对方删除好友时，把这里的会话去掉，不过有bug，时有效时无效
       removeFriendValidate(r){
-        console.log(r,'这里是removeValidate')
+        // console.log(r,'这里是removeValidate')
         let params = {
           id: r
         };
         api.removeConversitionList(params).then(r => {
           if (r.code === 0) {
-            /*this.$message({
-              type: 'success',
-              message: '删除成功'
-            });*/
             this.$socket.emit('leave',{roomid:params.id})
             this.$store.commit('setConversationsList', Object.assign({}, params, {d: true}));
-          } /*else {
-            this.$message({
-              type: 'success',
-              message: '删除失败'
-            });
-          }*/
-          /*this.visible = false;*/
+          }
         });
       }
     },
@@ -119,25 +110,10 @@
               myId:this.user.id,
               friendId:this.friendInfo.id
             };
-            console.log('这里发起请求')
             api.removeFriend(params).then(r=>{
               if(r.code === 0){
-                console.log('这里是回来了')
                 this.$socket.emit('removeFriendValidate', params)
                 api.removeConversitionList({id: this.$route.params.roomid}).then(r => {
-                  /*if (r.code === 0) {
-                    this.$message({
-                      type: 'success',
-                      message: '删除成功'
-                    });
-                    this.$store.commit('setConversationsList', Object.assign({}, {id: this.$route.params.roomid}, {d: true}));
-                    this.$router.replace('/main/personalMain')
-                  } else {
-                    this.$message({
-                      type: 'success',
-                      message: '删除失败'
-                    });
-                  }*/
                   this.$message({
                     type: 'success',
                     message: '删除成功'
@@ -158,7 +134,6 @@
                 });
               }
             })
-
             // console.log(this.$route.params.roomid)
           })
       },

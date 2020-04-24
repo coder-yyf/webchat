@@ -6,23 +6,24 @@ const path = require('path');
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+    // 前端代理
     proxyTable: {
-        '/v': {
-            target: 'http://localhost:9988',
-            changeOrigin: true // 是否在本机创建target地址的虚拟服务，避免跨域问题
-        },
-        '/api': {
-            target: 'http://api.budejie.com',
-            changeOrigin: true // 是否在本机创建target地址的虚拟服务，避免跨域问题
-        },
-        '/touch': {
-            target: 'https://3g.163.com',
-            changeOrigin: true // 是否在本机创建target地址的虚拟服务，避免跨域问题
-        }
+      '/v': {
+        target: 'http://localhost:9988',
+        // 是否在本机创建target地址的虚拟服务，避免跨域问题
+        changeOrigin: true
+      },
+      '/api': {
+        target: 'http://api.budejie.com',
+        changeOrigin: true
+      },
+      '/touch': {
+        target: 'https://3g.163.com',
+        changeOrigin: true
+      }
     },
 
     // Various Dev Server settings
@@ -33,7 +34,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */

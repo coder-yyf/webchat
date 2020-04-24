@@ -177,8 +177,8 @@ const huntGroups = (params, callback) => { // 搜索聊天群（名称/code）
                     '_id': {$nin: ids}
                   }
               )
-                  .skip((params.offset - 1) * params.limit)
-                  .limit(params.limit)
+                 /* .skip((params.offset - 1) * params.limit)
+                  .limit(params.limit)*/
                   .sort({'title': 1})
                   .then(r => {
                     callback({code: 0, data: r, count: count});

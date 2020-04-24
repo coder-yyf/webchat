@@ -22,6 +22,7 @@
           <!--对文件名进行截取-->
           <p :title="v.mes">{{v.mes.lastIndexOf('.') > 12 ? v.mes.slice(0, 12) + '...' +
             v.mes.slice(v.mes.lastIndexOf('.')) : v.mes}}</p>
+          <!--利用a的download属性，emoji既是表情，又是文件地址-->
           <a :href="v.emoji" download v-if="type === 'other'">下载</a>
           <p v-if="type === 'mine'">
             发送成功

@@ -117,20 +117,11 @@ export default new Router({
               component: _import('applicationModel/appSpace'),
             },
             {
-              path: 'jokes',
-              name: 'Jokes',
-              component: _import('applicationModel/Jokes'),
-              meta: {
-                title: '侃段子',
-                name: 'Jokes'
-              }
-            },
-            {
               path: 'videoGallery',
               name: 'videoGallery',
               component: _import('applicationModel/videoGallery'),
               meta: {
-                title: '看视频',
+                title: '看电视',
                 name: 'videoGallery'
               }
             },
@@ -148,7 +139,7 @@ export default new Router({
               name: 'news',
               component: _import('applicationModel/news'),
               meta: {
-                title: '看头条',
+                title: '看新闻',
                 name: 'news'
               }
             },
@@ -159,15 +150,6 @@ export default new Router({
               meta: {
                 title: '新闻详情',
                 name: 'newsDetail'
-              }
-            },
-            {
-              path: '2048Sub',
-              name: 'h2048',
-              component: _import('applicationModel/games/HTML5_2048/2048'),
-              meta: {
-                title: '2048',
-                name: 'h2048'
               }
             },
             {
@@ -183,11 +165,6 @@ export default new Router({
         }
       ]
     },
-    /*{
-      path: '/mine',
-      name: 'mine',
-      component: _import('mine')
-    },*/
     {
       path: '/todo',
       name: 'todo',
@@ -203,12 +180,7 @@ export default new Router({
           path: 'means',
           name: 'means',
           component: _import('settingModel/means')
-        }/*,
-        {
-          path: 'theme',
-          name: 'theme',
-          component: _import('settingModel/theme')
-        }*/
+        }
       ]
     },
     {

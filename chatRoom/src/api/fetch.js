@@ -44,7 +44,7 @@ instance.interceptors.response.use(
 export default {
     get(url, params) {
         return new Promise((resolve, reject) => {
-            //r是结果的意思，其实也可以return掉instance。get，让外面用。then
+            //r是结果，其实也可以return掉instance。get，让外面用。then
             // 这里弄成r.data那callback就可以直接处理返回的数据了
             instance.get(url, {params}).then(r => {
                 resolve(r.data);

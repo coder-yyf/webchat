@@ -5,7 +5,7 @@
         <div class="vchat-logo">WebChat</div>
         <!--右边用户相关一栏-->
         <div class="vchat-mine">
-          <!--消息，话说为什么叫noUser,因为这个使得不能选中-->
+          <!--noUser使得不能选中-->
           <nav class="vchat-noUser">
             <!--class="animated" :class="{bounceIn: hover}" @mouseover="mouseover" ref="showChat"-->
             <div>
@@ -22,7 +22,6 @@
           </nav>
           <!--头像-->
           <div>
-            <!--为了利用它是行内才这么干？-->
             <a href="javascript:;">
               <img :src="avatar" alt="">
             </a>
@@ -58,7 +57,7 @@
       <!-- :parent="true"-->
       <transition name="chat">
         <!--handle时可以拖拽的部分，cancel则是不可以，没有写的好像也不可以-->
-        <!--handles到底用来干嘛-->
+        <!--handles用来决定显示拉动的点-->
         <vue-draggable-resizable v-if="showChat"
                                  :w="w" :h="h"
                                  @resizestop = "onResizestop "
@@ -75,19 +74,17 @@
         </vue-draggable-resizable>
       </transition>
     </div>
-    <!--这个是进入设置啥的那些的时候的顶部-->
+    <!--这个是进入设置还有的顶部-->
     <div class="vchat-little-header" v-else>
       <div>
         <router-link to="/main/personalMain">WebChat</router-link>
-        <!--这个根本不是logout好吧-->
-        <!--之前的router里面的每一个路由不是有名字吗，就是通过这个进行跳转-->
+        <!--通过router里面的每一个路由名字进行跳转-->
         <span class="logout" @click="$router.push({name: 'personalMain'})">[返回]</span>
       </div>
       <div class="avatar">
         <a href="javascipt:;">
           <img :src="avatar" alt="">
         </a>
-        <!--logout就logout，loginOut是什么鬼-->
         <span @click="loginOut" class="logout">[退出]</span>
       </div>
     </div>

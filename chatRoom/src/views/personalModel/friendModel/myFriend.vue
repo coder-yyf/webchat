@@ -163,7 +163,7 @@
             this.$store.commit('setConversationsList', Object.assign({}, params, {d: true}));
           } else {
             this.$message({
-              type: 'success',
+              type: 'warning',
               message: '移除失败'
             });
           }

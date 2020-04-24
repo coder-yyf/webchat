@@ -213,8 +213,8 @@ const huntFriends = (params, callback) => { // 获取登录用户详细信息
                         signature: 1
                     }
                 )
-                    .skip((params.offset - 1) * params.limit)
-                    .limit(params.limit)
+                    /*.skip((params.offset - 1) * params.limit)
+                    .limit(params.limit)*/
                     .sort({'name': 1})
                     .then(r => {
                         callback({code: 0, data: r, count: count});

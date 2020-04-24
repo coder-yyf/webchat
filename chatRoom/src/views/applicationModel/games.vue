@@ -15,17 +15,11 @@
 </template>
 
 <script>
-    import h2048 from '../../assets/img/2048.png';
     import txz from '../../assets/img/txz.png';
     export default{
         data() {
             return {
                 gamesList: [
-                    /*{
-                        title: '2048',
-                        url: h2048,
-                        name: 'h2048'
-                    },*/
                     {
                         title: '推箱子',
                         url: txz,

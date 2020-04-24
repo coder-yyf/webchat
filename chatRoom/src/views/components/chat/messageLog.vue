@@ -43,7 +43,7 @@
                     if (!v.id) {
                         this.messageLog = [];
                     }
-                    if (this.currNav === 2 && (v.type === 'group' || v.type === 'friend')) {
+                    if (this.currNav === 1 && (v.type === 'group' || v.type === 'friend')) {
                         this.getMessageLog();
                     }
                 },
@@ -51,7 +51,7 @@
                 immediate: true
             },
             currNav(i) {
-                if (i === 2 && this.currSation.id) {
+                if (i === 1 && this.currSation.id) {
                     this.total = 0;
                     this.getMessageLog();
                 }

@@ -4,7 +4,6 @@
 //还可以直接引入文件夹，默认就是里面的index.js?
 import api from '../api';
 export default {
-    //that到底是什么
     getUserInfo({commit, state, dispatch}, that) { // 获取用户登录信息
         //这个用context代替不行吗
         api.getUserInfo().then(r => {
@@ -14,23 +13,18 @@ export default {
                 commit('setConversationsList', r.data.conversationsList);
                 document.body.id = 'theme-' + r.data.projectTheme;
                 dispatch('getVchatInfo');
-                //？？？？？，传入that的是登录界面那里，判断有that的话就进入主页
+                //传入that的是登录界面那里，判断有that的话就进入主页
                 //没有that就不是进入主页，是单纯获得用户信息？
                 //有that时登录那里，用这个进入主页
                 if (that) {
                     that.loading = false;
                     that.$router.replace('/main/personalMain');
                 }
-            //有点奇怪，用户不存在你是怎么进入这个查询用户信息的地方的，你不是连登录都没登录吗
-            //  可能是别的地方要用到
-            //  是App.vue那里用到啦，url进入时，如果没登陆，没有session，就是空的信息
+            //  是App.vue那里用到,url进入时，如果没登陆，没有session，就是空的信息
             } else {
                 commit('setUser', '');
             }
         });
-    },
-    setTheme({state}) { // 设置主题
-        document.body.id = 'theme-' + state.user.projectTheme;
     },
     setTransitionName({state}) { // 设置页面过渡动画类型
         state.transitionName = 'moveOut';

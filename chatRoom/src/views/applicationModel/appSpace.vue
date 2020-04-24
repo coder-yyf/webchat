@@ -34,16 +34,10 @@
         appList: [
           {
             name: 'one',
-            title: '看视频',
+            title: '看电视',
             src: require('../../assets/img/film-icon.png'),
             link: 'videoGallery'
           },
-          /*{
-            name: 'two',
-            title: '听音乐',
-            src: require('../../assets/img/music-icon.png'),
-            link: ''
-          },*/
           {
             name: 'two',
             title: '玩游戏',
@@ -55,13 +49,7 @@
             title: '看新闻',
             src: require('../../assets/img/news-icon.png'),
             link: 'news'
-          }/*,
-          {
-            name: 'fif',
-            title: '侃段子',
-            src: require('../../assets/img/duanzi-icon.png'),
-            link: 'jokes'
-          }*/
+          }
         ]
       }
     },

@@ -1,7 +1,6 @@
 <template>
   <div class="vchat-chatSetting">
     <h3>聊天设置</h3>
-    <!--<v-icon class="el-icon-circle-close-outline deClose" @clickIcon="$emit('clickIcon')" color="#323232" :size="24" cursor="pointer"></v-icon>-->
     <!--这个没有outline-->
     <v-icon class="el-icon-circle-close deClose" @clickIcon="$emit('clickIcon')" color="#323232" :size="24"
             cursor="pointer"></v-icon>
@@ -23,7 +22,6 @@
 
     <h5>背景透明度</h5>
     <div class="aphSlider-container">
-      <!--aphTooltip似乎没写这个样式啊-->
       <el-slider v-model="aphSlider" :format-tooltip="formatTooltip" tooltip-class="aphTooltip"
                  @change="Sliderchange"></el-slider>
       <span class="vchat-button-mini minor" @click="saveBgopa">保存</span>
@@ -88,14 +86,11 @@
           {
             name: '远方',
             url: '/img/wallpaper1.jpg',
-            // url: '/img/wallpaper.jpg',
             id: 1
           },
           {
-            // name: '昨日青空',
             name: '余晖灿然',
             url: '/img/0052.jpg',
-            // url: '/img/0055.jpg',
             id: 2
           },
           {
