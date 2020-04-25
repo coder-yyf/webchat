@@ -1,6 +1,3 @@
-/**
- * Created by wyw on 2018/9/25.
- */
 const db = require('../utils/database');
 const baseList = require('./baseList');
 const crypto = require('crypto'); // 加密
@@ -10,11 +7,6 @@ const path = require('path');
 const md5 = pass => { // 避免多次调用MD5报错
     let md5 = crypto.createHash('md5');
     return md5.update(pass).digest("hex");
-};
-const getUser = (callback) => { // 测试
-    baseList.users.find().then(r => {
-        callback(r);
-    })
 };
 
 const login = (params, callback) => { // 登录
@@ -228,7 +220,6 @@ const huntFriends = (params, callback) => { // 获取登录用户详细信息
         });
 };
 module.exports = {
-    getUser,
     login,
     upUserInfo,
     signUp,

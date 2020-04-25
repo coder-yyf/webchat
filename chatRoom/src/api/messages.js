@@ -1,6 +1,3 @@
-/**
- * Created by wyw on 2018/12/6.
- */
 import fetch from './fetch';
 
 export default {

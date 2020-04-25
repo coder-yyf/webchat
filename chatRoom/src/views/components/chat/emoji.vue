@@ -114,7 +114,6 @@
         });
       },
       chooseEmoji(url) {
-        console.log('hhhhh')
         console.log(this.myEmojiList)
         console.log(this.user.emoji)
         this.$emit('chooseEmoji', url);

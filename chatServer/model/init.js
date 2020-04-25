@@ -1,8 +1,8 @@
 const db = require('../utils/database.js'); // 初始化数据库表
 const fs = require('fs');
 const path = require('path');
-
-let users = db.model("users",{ // 用户
+//创建vchat模板
+let users = db.model("users",{
     name: {type: String, unique: true},
     pass: String,
     code: {type: String, unique: true}, // 唯一的code
@@ -12,6 +12,7 @@ let users = db.model("users",{ // 用户
     email: { type: String, default: '' },
     phone: { type: String, default: '' },
     sex: { type: String, default: '3' }, // 0 男 1 女 3 保密
+    //没有用到
     bubble: { type: String, default: 'vchat' }, // 气泡
     chatTheme: { type: String, default: 'vchat' }, // 聊天主题
     projectTheme: { type: String, default: 'vchat' }, // 项目主题
@@ -21,6 +22,7 @@ let users = db.model("users",{ // 用户
     conversationsList: Array // 会话列表
 });
 //还不如在对应的model中导出呢，这样也太乱了吧
+//不对，这是特殊的模型
 const expression = db.model("expression", {
     name: String, // 表情包名称
     info: String, // 描述
@@ -41,6 +43,7 @@ const initEmoji = (filePath, objs) => {
         let isFile = states.isFile();//是文件
         let isDir = states.isDirectory();//是文件夹
         if(isFile){
+            //这个判断好像没有必要
             if (filePath.slice(filePath.lastIndexOf('\\') + 1) === objs.name) {
                 objs.list.push('/expression/' + objs.name + '/' + filename);
             }
@@ -74,12 +77,9 @@ const initUser = (callback) => {
     let user = new users({
         name: 'Vchat',
         // name: '系统消息',
-        pass: '111111',
+        pass: '666666',
         //这样子弄,向服务器中获取
-        // photo: '/img/WebChat.png',
         photo: '/img/vchat.png',
-        /*signature: 'Vchat团队',
-        nickname: 'Vchat官方推送',*/
         signature: '',
         nickname: '系统消息',
         code: 666666

@@ -62,12 +62,6 @@
         <div class="handel-notice">
           <h3>群公告</h3>
           <ul>
-            <!--<li class="vchat-line1" title="求star❤❤❤，点击跳转源码">
-              <a href="https://github.com/wuyawei/Vchat" target="_blank" style="color: #fff">
-                期待你的star
-                <i :style="{color: 'red', fontStyle: 'normal'}">❤❤❤</i>
-              </a>
-            </li>-->
             <li class="vchat-line1" title="快点交作业啦" style="color: #fff">
                 快点交作业啦
             </li>
@@ -156,7 +150,7 @@
         loadmoreLoading: false,
         groupUserList: [], // 长列表渲染
         offset: 1, // 群成员页码
-        limit: 50
+        limit: 50  //显示群成员的数目
       };
     },
     components: {
@@ -171,6 +165,7 @@
           this.chatList.push(Object.assign({}, r, {type: 'org'}));
         }
       },
+      //更新对面的消息
       mes(r) {
         if (r.roomid === this.currSation.id) {
           //添加进刚刚收到的新消息
@@ -251,9 +246,11 @@
       uploadFileSuccess(res, file) { // 上传成功
         if (file.raw.type.indexOf('image') > -1) {
           //data直接就是后端存储地址
+          //这个直接就是url
           this.send(res.data, 'img');
         } else {
           //为了获取文件的名字，所以我们就用file，而不是res.data
+          //这里用到上传的文件对象
           this.send(file, 'file');
         }
         this.uplaodVisible.f = false;
@@ -333,6 +330,7 @@
         })
       },
       send(params, type = 'mess') { // 发送消息
+        //params是为了当发送非文字的时候发挥作用的，单单一个‘’判断不可以的，所以弄个false
         if (!this.message && !params) {
           return;
         }

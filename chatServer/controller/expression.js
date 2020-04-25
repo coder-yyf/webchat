@@ -1,4 +1,3 @@
-
 const apiModel = require("../model/apiModel");
 
 const getExpression = (req, res) => {

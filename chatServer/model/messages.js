@@ -1,17 +1,17 @@
 const db = require('../utils/database');
 
 let messages = db.model("messages", {
-  roomid: String, // 房间id
+  roomid: String, // 房间id，这个是系统的那个公告的房间
   name: String, // 用户登录名
   nickname: String, // 用户昵称
   time: String, // 时间
   avatar: String, // 用户头像
   mes: String, // 消息
-  read: Array, // 是否已读 0/1，应该是每条信息用这个来存已经读了这条信息的用户名吧
-  //这个似乎没用
+  read: Array, // 是每条信息用这个来存已经读了这条信息的用户名吧
+  //这个似乎没用，有用，是系统消息那里可以看到
   signature: String, // 个性签名
   emoji: String, // 表情地址或者其他图片和文件的地址
-  //可以混杂的例如emoji和普通的消息
+  //可以混杂的例如emoji和普通的消息，它用来决定气泡到底显示的是什么
   style: String, // 消息类型 emoji/mess/img/file
   groupId: String, // 加入群聊id
   groupName: String, // 加入群聊名称
@@ -20,13 +20,14 @@ let messages = db.model("messages", {
     type: db.Schema.ObjectId,
     ref: 'users'
   }, // 申请人id、消息发送人
+  //这些都很有用，在系统消息里显示还有加入会话列表都会用到
   userY: String, // 好友id
   userYname: String, // 好友昵称
   userYphoto: String, // 好友头像
   userYloginName: String, // 好友登录名
   friendRoom: String, // 好友房间
   state: String, // group/ friend
-  type: String, // validate，info，org
+  type: String, // validate，info，org,mine,other,info,validate
   status: String // 0 未操作 1 同意 2 拒绝 这个是给官方的消息那里弄的
 });
 
@@ -68,7 +69,7 @@ let getMessage = (params, callback, count = 0) => {
           }
         });
         r.reverse();
-        //count是用来干嘛的，用来给聊天历史那些弄分页什么的
+        //count是用来给聊天历史那些弄分页的
         callback({code: 0, data: r, count: count});
       }).catch(err => {
     console.log(err);
@@ -76,7 +77,8 @@ let getMessage = (params, callback, count = 0) => {
   });
 };
 const getHistoryMessages = (params, reverse, callback) => { // 保存消息
-  if (reverse === 2) { // 聊天记录
+  //查询的聊天记录
+  if (reverse === 2) {
     messages.count({roomid: params.roomid}, (err, count) => {
       if (count > 0) {
         getMessage(params, callback, count);
@@ -85,6 +87,7 @@ const getHistoryMessages = (params, reverse, callback) => { // 保存消息
       }
     });
   } else if (reverse === 1) {
+    //当前聊天界面记录
     getMessage(params, callback);
   //  获得系统消息
   } else if (reverse === -1) {
@@ -101,7 +104,7 @@ const getHistoryMessages = (params, reverse, callback) => { // 保存消息
     });
   }
 };
-// updateMany 一次更新多条
+// updateMany 一次更新多条，这是聊天界面的
 const setReadStatus = (params) => { // 消息设置为已读
   messages.find({'roomid': params.roomid})
       .then(raw => {
@@ -118,6 +121,7 @@ const setReadStatus = (params) => { // 消息设置为已读
       .catch(err => console.log('setReadStatus失败', err));
 };
 
+//通知里一次多条
 const setMessageStatus = (params) => { // 验证消息设置为已通过
   messages.find({'userM': params.userM})
       .then(raw => {

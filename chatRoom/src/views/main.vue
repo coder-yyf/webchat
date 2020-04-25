@@ -75,9 +75,6 @@
         console.log(this.$socket.id);
         console.log('连接成功');
       },
-      customEmit: function (val) {
-        console.log('连接失败');
-      },
       joined(OnlineUser) {
         // console.log('这里是joined')
         // console.log('加入了', OnlineUser);

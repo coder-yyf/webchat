@@ -1,6 +1,3 @@
-/**
- * Created by wyw on 2019/1/9.
- */
 const apiModel = require("../model/apiModel");
 
 const getTodoList = (req, res) => {

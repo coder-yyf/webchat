@@ -39,6 +39,7 @@
       submitUpload() {
         this.$refs.upload.submit();
       },
+      //file是上传的文件，res是后端返回的数据
       handleSuccess(res, file) {
         this.$emit('handleSuccess', res, file);
         this.$refs.upload.clearFiles();

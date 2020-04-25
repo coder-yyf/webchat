@@ -125,8 +125,8 @@ const removeFriend = (params, callback) => {
           )
         }
       }
-  ).catch(err=>{
-    callback({code:-1})
+  ).catch(err => {
+    callback({code: -1})
   })
 }
 

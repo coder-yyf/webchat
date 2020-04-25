@@ -65,14 +65,8 @@ app.use(session({
 });*/
 
 //nodejs代理，解决开发跨域
-//命名有三个模块用到了别的网站，为什么这里就只有两个
-//百思不得姐
-/*app.use('^/api*', proxy({ // 配置代理转发
-    target: "http://api.budejie.com",
-    changeOrigin: true
-}));
 // 网易新闻
-app.use('^/touch*', proxy({ // 配置代理转发
+/*app.use('^/touch*', proxy({ // 配置代理转发
     target: "https://3g.163.com",
     changeOrigin: true
 }));*/
@@ -95,8 +89,7 @@ app.use('/v*', (req, res, next) => {
   }
 });
 
-//应该是以这些开头的跑到这里来找
-//这些中间件都没有用到next
+//主要是文件上传的
 app.use('/v/api', api);
 app.use('/v/user', user);
 app.use('/v/group', group);
@@ -109,79 +102,55 @@ app.get('/', (req, res) => {
   res.sendfile(__dirname + '/index.html');
 });
 
-// io.in(pramas.roomid).emit('getHistoryMessages', res.data); // 包括发送者
-// socket.to(val.roomid).emit('joined', OnlineUser); // 不包括发送者
 //在线用户
 const OnlineUser = {};
 const apiList = require('./controller/apiList');
 const onconnection = (socket) => {
-  //一连接服务器就出发
-  console.log('启动了Socket.io');
+  //一连接服务器就出发，无论有没有登录
+  console.log('连接了Socket.io');
   socket.emit('connect');
-  //怎么那么多地方发这个给它相应啊
   //conversationlist中都会发过来
-  socket.on('login', (val) => {
+  /*socket.on('login', (val) => {
     OnlineUser[val.name] = socket.id;
     socket.broadcast.emit('login', OnlineUser);
-  })
+  })*/
   socket.on('join', (val) => {
-    // console.log(val)
     if (!OnlineUser[val.name]) {
       OnlineUser[val.name] = socket.id;
       // socket.broadcast.emit('joined', OnlineUser);
     }
     socket.join(val.roomid, () => {
-      console.log('加入房间')
-      //这里有点古怪，删除一个会话后
-      // console.log(val.roomid + '加入了', val.name);
-      //每连接一个应该会产生一个socket，然后有对应的id，这里就添加了上线用户
-      //这个放到connection那里不就好了，这里重复赋值了啊
-      // OnlineUser[val.name] = socket.id;
-      // console.log(OnlineUser)
-      //这些数据结构是怎么安排的呢
-      //给对应的房间号发送聊天者上线了
-      //这个发了我只在控制台看到啊，大兄弟
-      //前端那里似乎没有什么监听的函数啊，例如弄个弹出小消息，修改头像颜色什么的
-      //对哦，加入不是这里弄得，这里只是弄加入和离开房间而已
-      //加入是一开始的connection那里
-      // io.in(val.roomid).emit('joined', OnlineUser); // 包括发送者
+      // 包括发送者，更新前端的上线用户
+      io.in(val.roomid).emit('joined', OnlineUser);
       //这个发给自己
       socket.emit('joined', OnlineUser);
-      // console.log(typeof val.roomid,val.roomid)
       //这个根本不能发给自己
       // socket.in(val.roomid).emit('joined', OnlineUser);
-      //这个他妈也不能发给自己
-      socket.broadcast.emit('joined', OnlineUser);
-      // console.log('join', val.roomid, OnlineUser);
     });
   });
   //这里是主动下线，例如退出那里
   socket.on('leave', (val) => {
     console.log('删除会话退出房间')
-    //删除属性，这里只是退出房间而已干嘛直接删了它的上线状态
-    // delete OnlineUser[val.name];
-    //也是只有这里提示，不过下线前端没必要提示吧
-    // console.log('leave', val.name);
     socket.leave(val.roomid, () => {
-      //发给前端，不包括发送者，这是什么意思，为什么前面的是io，这里确实socket
-      //很迷，去掉一个roomid不代表就下线了啊
-      // socket.to(val.roomid).emit('leaved', OnlineUser);
-      // console.log('leave', val.roomid, OnlineUser);
     });
   });
+  //用户下线了
   socket.on('logout', (val) => {
     delete OnlineUser[val.name];
     // socket.to(val.roomid).emit('logout', OnlineUser);
+    //更新前端在线用户
     socket.broadcast.emit('logout', OnlineUser);
   })
   socket.on('mes', (val) => { // 聊天消息
     apiList.saveMessage(val);
-    //这个什么意思
-    // console.log('OnlineUser', val.roomid);
+    //更新对面聊天界面视图
+    //原来main里面也有个mes
     socket.to(val.roomid).emit('mes', val);
   });
-  socket.on('getHistoryMessages', (pramas) => { // 获取历史消息
-    apiList.getHistoryMessages(pramas, 1, (res) => { // 1 正序
+  //其实下面这两个不用socket。io也行的
+  socket.on('getHistoryMessages', (pramas) => {
+    //1是获取聊天界面的聊天记录
+    apiList.getHistoryMessages(pramas, 1, (res) => {
       if (res.code === 0) {
         socket.emit('getHistoryMessages', res.data); // 发送给发送者（当前客户端）
       } else {
@@ -190,10 +159,12 @@ const onconnection = (socket) => {
     });
   });
 
-  socket.on('getSystemMessages', (pramas) => { // 获取历史消息
-    apiList.getHistoryMessages(pramas, -1, (res) => { // -1 倒序
+  socket.on('getSystemMessages', (pramas) => {
+    // -1是聊天历史记录
+    apiList.getHistoryMessages(pramas, -1, (res) => {
       if (res.code === 0) {
-        socket.emit('getSystemMessages', res.data); // 发送给发送者（当前客户端）
+        // 发送给发送者（当前客户端）
+        socket.emit('getSystemMessages', res.data);
       } else {
         console.log('查询vchat历史记录失败');
       }
@@ -215,8 +186,7 @@ const onconnection = (socket) => {
             status: '1',
             userM: val['userM']
           };
-          //将消息操作状态设置为已同意，为啥不是up更新啊，refuse那里明明是更新
-          //原来这个是更新多条，将之前的都弄为同意，而up只是弄一个
+          //这个是更新多条，将之前的都弄为同意，而up只是弄一个
           apiList.setMessageStatus(pr);
           // 通知申请人验证已同意
           let value = {
@@ -262,6 +232,7 @@ const onconnection = (socket) => {
         }
       });
     } else if (val.state === 'friend') { // 写入好友表
+      //忽略掉没用的signature那些
       apiList.addFriend(val, r => {
         if (r.code === 0) {
           let pr = {
@@ -272,6 +243,7 @@ const onconnection = (socket) => {
           // 通知申请人验证已同意
           let value = {
             name: '',
+            // 注意是Y，也就是被请求的
             mes: val.userYname + '同意了你的好友请求！',
             time: utils.formatTime(new Date()),
             avatar: val.userYphoto,
@@ -315,6 +287,7 @@ const onconnection = (socket) => {
 
   socket.on('refuseValidate', (val) => {
     //2是拒绝
+    //_id究竟哪来的，哦，原来是takeValidate用了getUserInfo
     let pr = {
       status: '2',
       _id: val['_id']
@@ -348,6 +321,8 @@ const onconnection = (socket) => {
         nickname: val.userYname,
         read: [],
         state: 'friend',
+        //注意这里的-1和前面的1同意，2拒绝不一样，那个是validate类型的，而这个是info类型的
+        //不过info的1也是同意，嘿嘿
         status: '-1', // 拒绝
         //信息类
         type: 'info',
@@ -374,6 +349,7 @@ const onconnection = (socket) => {
   socket.on('destroyGroupValidate',params=>{
     socket.to(params.groupId).emit('destroyGroupValidate', params.groupId)
   })
+  //这个其实也没必要用socket
   socket.on('setReadStatus', (params) => { // 已读状态
     apiList.setReadStatus(params);
   });
@@ -384,7 +360,6 @@ const onconnection = (socket) => {
   //这里可以弄一个下线的信息啊，不过也得登录啊，这可怎么搞
   //这里是被动掉线
   socket.on('disconnect', (val) => {
-    console.log(val)
     let k;
     for (k in OnlineUser) {
       //删掉下线的那个

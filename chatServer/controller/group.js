@@ -1,6 +1,3 @@
-/**
- * Created by wyw on 2018/9/25.
- */
 const apiModel = require("../model/apiModel");
 
 const createGroup = (req, res) => { // 新建群
@@ -92,6 +89,7 @@ const getGroupInfo = (req, res) => { // 查找群详细信息
     })
 };
 
+//添加群成员
 const InsertGroupUsers = (params, callback) => {
     apiModel.InsertGroupUsers(params, callback);
 };

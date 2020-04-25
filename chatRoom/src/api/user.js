@@ -1,9 +1,6 @@
 import fetch from './fetch';
 
 export default {
-    getUser(params) { // 获取所有用户
-        return fetch.get('v/user/getUser', params);
-    },
     login(params) { // 登录
       // return fetch.post('http://localhost:9988/yyf');
         return fetch.post('v/user/login', params);

@@ -184,6 +184,7 @@
         v.visible = false
       },
       refuse(v) {
+        //这边作为被申请的对象，不是已经有了photo了吗，看apply那里
         v.userYphoto = this.user.photo;
         v.userYname = this.user.nickname;
         this.$socket.emit('refuseValidate', v);

@@ -1,6 +1,3 @@
-/**
- * Created by wyw on 2018/9/25.
- */
 const db = require('../utils/database');
 //这个实际上是mongoose
 const baseList = require('./baseList');
@@ -10,7 +7,7 @@ let groups = db.model("groups", {
   desc: String,
   img: String,
   code: String,
-  //这个是一个很关键的地方
+  //这个是一个很关键的地方，避免重复查询
   userNum: Number, // 群成员数量，避免某些情况需要多次联表查找，如搜索；所以每次加入一人，数量加一
   createDate: {type: Date, default: Date.now()}, // 建群时间
   grades: {type: String, default: 'V1'}, // 群等级，备用
@@ -47,7 +44,6 @@ groupUserSchema.statics = {
     return this
         .find({groupId: groupId})
         //通过uerId关联对应的user的collection，然后获取
-        //这个个性签名好像没什么用啊
         //返回内容包含了找到的group内容外，还有对应的select里挑的内容
         .populate({path: 'userId', select: 'signature photo nickname'})  // 关联查询
         .exec(callback)

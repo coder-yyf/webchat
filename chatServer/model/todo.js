@@ -1,6 +1,3 @@
-/**
- * Created by wyw on 2019/1/9.
- */
 const db = require('../utils/database');
 let todo = db.model("todo", {
     title: String, // 活动名称

@@ -1,15 +1,4 @@
-/*** Created by wyw on 2018/9/25.*/
 const apiModel = require("../model/apiModel");
-
-// 0成功 -1失败
-const getUser = (req,res) => {
-    apiModel.getUser((r) => { // 获取用户
-        res.json({
-            code : 0,
-            data : r
-        })
-    })
-};
 
 const login = (req, res) => {
     let params = req.body;
@@ -30,7 +19,7 @@ const login = (req, res) => {
     })
 };
 
-const upUserInfo = (req, res) => { // 修改个人信息、主题等
+const upUserInfo = (req, res) => { // 修改个人信息
     let params = req.body;
     let userName = req.session.login;
     apiModel.upUserInfo(userName, params, r => {
@@ -83,8 +72,7 @@ const getUserInfo = (req, res) => {
     let key = {};
     //这个应该是哪里要根据id查找用的
     if (params.id) {
-        //这里干嘛要这么弄，这样key中也有了id属性了，但是这个不是和。key属性的值一摸一样吗，
-        // 哦，我知道了，这是为了后面用params.id判断用的，如果用params。key都是true
+        // 这是为了后面用params.id判断用的，如果用params。key都是true，所以这里个给key保留了和key属性一样的id属性
         key = Object.assign({key: params.id}, params);
     } else {
         //应该是登录后session就保存了登录状态，即login，应该是用户的name
