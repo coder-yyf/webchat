@@ -17,7 +17,7 @@
     </div>
 </template>
 <script>
-    import api from '../network';
+    import api from '@/network';
     import vHeader from '@/components/content/header/vHeader';
     export default{
         name: 'mySetting',

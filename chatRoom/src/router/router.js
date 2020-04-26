@@ -168,18 +168,18 @@ export default new Router({
     {
       path: '/todo',
       name: 'todo',
-      component: _import('todo')
+      component: _import('todoModel/todo')
     },
     {
       path: '/mySetting',
       name: 'mySetting',
-      component: _import('mySetting'),
+      component: _import('mySettingModel/mySetting'),
       redirect: 'mySetting/means',
       children: [
         {
           path: 'means',
           name: 'means',
-          component: _import('settingModel/means')
+          component: _import('mySettingModel/settingModel/means')
         }
       ]
     },
