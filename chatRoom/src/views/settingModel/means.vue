@@ -64,7 +64,7 @@
   </div>
 </template>
 <script>
-  import api from '@/api';
+  import api from '@/network';
   import cropper from '@/views/components/cropper/cropper';
   import {pca, pcaa} from 'area-data'; // 省市区数据
   export default {

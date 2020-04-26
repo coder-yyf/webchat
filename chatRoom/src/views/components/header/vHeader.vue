@@ -92,10 +92,10 @@
 </template>
 
 <script>
-  import api from '@/api';
+  import api from '@/network';
   import chat from '@/views/components/chat/vChat';
   import VueDraggableResizable from 'vue-draggable-resizable';
-  import utils from '@/utils/utils';
+  import utils from '@/common/utils';
   //从store里面获得state和Getters
   import {mapState, mapGetters} from 'vuex';
 

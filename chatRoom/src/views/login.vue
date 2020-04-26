@@ -59,7 +59,7 @@
 </template>
 
 <script>
-  import api from '../api';
+  import api from '../network';
   import Canvas from 'vchat-regcode';
   import bg from '../assets/img/login-bg.jpg';
 
@@ -252,12 +252,12 @@
       }
     },
     mounted() {
-      /*fetch('/api/getUser').then(res=>res.json()).then(r=>{
+      /*fetch('/network/getUser').then(res=>res.json()).then(r=>{
           if(r.code === 0){
               console.log(r);
           }
       });*/
-      /*api.getUser().then(r => {console.log(r)});*/
+      /*network.getUser().then(r => {console.log(r)});*/
     }
   }
 </script>

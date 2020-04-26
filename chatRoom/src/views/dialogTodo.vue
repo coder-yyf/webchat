@@ -36,7 +36,7 @@
 </template>
 
 <script>
-    import api from '@/api';
+    import api from '@/network';
     export default{
         name: 'dialogTodo',
         props: {

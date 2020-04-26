@@ -73,7 +73,7 @@
 </template>
 
 <script>
-    import api from '@/api';
+    import api from '@/network';
     import vApheader from '@/views/components/header/vApheader';
     import { mapState } from 'vuex';
     export default{

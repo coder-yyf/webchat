@@ -5,7 +5,7 @@ import App from './App';
 import router from './router';
 import 'babel-polyfill';
 import store from './store';
-import './api/fetch';
+import './network/fetch';
 //图片懒加载
 import VueLazyload from 'vue-lazyload'
 //引入element-ui

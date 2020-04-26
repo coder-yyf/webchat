@@ -106,8 +106,8 @@
 
 <script>
   import {mapState} from 'vuex';
-  import api from '@/api';
-  import utils from '@/utils/utils';
+  import api from '@/network';
+  import utils from '@/common/utils';
   import emoji from './emoji.vue';
   import vMessage from './message.vue';
   import messageLog from './messageLog.vue';

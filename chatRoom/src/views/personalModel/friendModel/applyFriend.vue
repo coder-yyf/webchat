@@ -15,10 +15,10 @@
 </template>
 
 <script>
-    import api from '@/api';
+    import api from '@/network';
     import vApheader from '@/views/components/header/vApheader';
     import { mapState } from 'vuex';
-    import utils from '@/utils/utils';
+    import utils from '@/common/utils';
     export default{
         name: 'applyFriend',
         data() {

@@ -66,7 +66,7 @@
 <script>
   import vApheader from '@/views/components/header/vApheader';
   import {mapState} from 'vuex';
-  import api from '@/api';
+  import api from '@/network';
 
   export default {
     data() {

@@ -35,10 +35,10 @@
 </template>
 
 <script>
-  import api from '@/api';
+  import api from '@/network';
   import vHeader from '@/views/components/header/vHeader';
   import dialogTodo from './dialogTodo.vue';
-  import utils from '@/utils/utils';
+  import utils from '@/common/utils';
 
   export default {
     data() {

@@ -29,7 +29,7 @@
     </div>
 </template>
 <script>
-    import api from '@/api';
+    import api from '@/network';
     import cropper from '@/views/components/cropper/cropper';
     import vApheader from '@/views/components/header/vApheader';
     export  default {

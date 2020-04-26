@@ -82,7 +82,7 @@
 
 <script>
   import {mapState} from 'vuex';
-  import api from '@/api';
+  import api from '@/network';
 
   export default {
     props: ['currSation'],

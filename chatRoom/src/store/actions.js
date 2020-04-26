@@ -1,8 +1,5 @@
-/**
- * Created by wyw on 2018/8/4.
- */
 //还可以直接引入文件夹，默认就是里面的index.js?
-import api from '../api';
+import api from '../network';
 export default {
     getUserInfo({commit, state, dispatch}, that) { // 获取用户登录信息
         //这个用context代替不行吗

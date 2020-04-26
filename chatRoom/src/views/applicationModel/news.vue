@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import api from '@/api';
+  import api from '@/network';
   import newsItem from './sub/newsItem.vue';
 
   export default {

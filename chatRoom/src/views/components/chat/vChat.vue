@@ -72,7 +72,7 @@
   import vchatMessage from './vchatSystemMessage.vue';
   import chatSetting from './chatSetting.vue';
   import {mapState} from 'vuex';
-  import api from '@/api';
+  import api from '@/network';
 
   export default {
     name: 'vChat',

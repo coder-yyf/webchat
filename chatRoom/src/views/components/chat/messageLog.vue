@@ -24,7 +24,7 @@
 
 <script>
     import messageItem from './messageItem.vue';
-    import api from '@/api';
+    import api from '@/network';
     export default{
         name: 'messageLog',
         props: ['currSation', 'currNav'],

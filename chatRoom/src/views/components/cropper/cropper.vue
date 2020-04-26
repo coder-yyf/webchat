@@ -25,7 +25,7 @@
 </template>
 <script>
     import Cropper from "cropperjs";
-    import api from '@/api';
+    import api from '@/network';
     export default{
         props: ['url'],
         data() {

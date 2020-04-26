@@ -49,7 +49,7 @@
 </template>
 
 <script>
-    import api from '@/api';
+    import api from '@/network';
     import vApheader from '@/views/components/header/vApheader';
     export default{
         name: 'searchGroup',

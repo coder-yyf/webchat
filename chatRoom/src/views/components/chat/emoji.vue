@@ -63,8 +63,8 @@
 </template>
 
 <script>
-  import api from '@/api';
-  import emojiJson from '@/utils/emoji';
+  import api from '@/network';
+  import emojiJson from '@/common/emoji';
   import {mapState, mapGetters} from 'vuex';
 
   export default {

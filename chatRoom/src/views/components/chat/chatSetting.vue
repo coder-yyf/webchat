@@ -43,7 +43,7 @@
 </template>
 
 <script>
-  import api from '@/api';
+  import api from '@/network';
   import {mapState} from 'vuex';
 
   export default {

@@ -31,8 +31,8 @@
 
 <script>
     import bg from '../../../assets/img/zwsj4.png';
-    import api from '@/api';
-    import utils from '@/utils/utils';
+    import api from '@/network';
+    import utils from '@/common/utils';
     export default{
         name: 'backLog',
         data() {
