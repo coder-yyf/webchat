@@ -2,7 +2,10 @@
   <div class="vchat-todo">
     <vHeader :isMainHeader="false"></vHeader>
     <full-calendar :events="fcEvents" locale="zh-cn" lang="zh" @dayClick="dayClick">
-      <template slot="fc-event-card" slot-scope="p">
+      <!--<template slot="fc-body-card" slot-scope="p">
+      <template slot="fc-header-left" slot-scope="p">-->
+      <template slot="fc-header-right" slot-scope="p">
+        <!--明明是bottom为什么是在上面-->
         <el-popover
           placement="bottom"
           :title="p.event.title"
@@ -33,7 +36,6 @@
                  @up="up"></dialog-todo>
   </div>
 </template>
-
 <script>
   import api from '@/network';
   import vHeader from '@/components/content/header/vHeader';
@@ -45,6 +47,7 @@
       return {
         fcEvents: [],
         dialogVisible: false,
+        //传进dialog中
         chooseDate: '',
         upInfo: {}
       }
@@ -61,6 +64,7 @@
         this.chooseDate = date;
         this.dialogVisible = true;
       },
+      //更新
       up(o) {
         this.fcEvents.forEach(v => {
           if (v['_id'] === o['_id']) {

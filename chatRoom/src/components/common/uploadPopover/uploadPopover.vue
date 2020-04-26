@@ -19,6 +19,7 @@
         <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">传输</el-button>
         <div slot="tip" class="el-upload__tip">文件大小不超过2M</div>
       </el-upload>
+      <!--reference是触发的元素-->
       <span slot="reference">
         <slot></slot>
       </span>

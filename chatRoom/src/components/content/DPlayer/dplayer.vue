@@ -26,6 +26,8 @@
             this.dp.switchVideo({
               url: src,
               type: 'customHls',
+              //没有用，不会自动播放，只有new时候其效果
+              // autoplay: this.videoInfo.autoplay || false,
               customType: {
                 'customHls': (video, player) => {
                   this.hls = new Hls();
@@ -34,20 +36,9 @@
                 }
               }
             });
+            //换源后播放
+            this.dp.play()
 
-            this.dp.on('canplaythrough', () => {
-              this.dp.play();
-            });
-            //一个都没触发，只能近距离拖动，太远会出问题
-            this.db.on('progress',()=>{
-              console.log('进度1')
-            })
-            this.db.on('seeked',()=>{
-              console.log('进度2')
-            })
-            this.db.on('seeking',()=>{
-              console.log('进度3')
-            })
           }
         }
       }
@@ -59,8 +50,9 @@
       this.dp.destroy();
     },
     computed: {
-      playerName() { // 随机id
-        return 'dplayer-' + Math.random();
+      playerName() { // 随机id,没啥意义吧
+        // return 'dplayer-' + Math.random();
+        return 'dplayer-' + 'yyf';
       }
     },
     methods: {
@@ -68,7 +60,7 @@
         this.dp = new DPlayer({
           container: document.getElementById(this.playerName),
           autoplay: this.videoInfo.autoplay || false,
-          screenshot:false,
+          screenshot: false,
           video: {
             url: this.videoInfo.src,
             type: 'customHls',
@@ -100,6 +92,9 @@
       this.$nextTick(_ => {
         if (this.videoInfo.type === 'hls') {
           this.initHlsPlayer();
+          this.dp.on('canplaythrough', () => {
+            this.dp.play();
+          });
         } else if (this.videoInfo.type === 'mp4') {
           this.initMp4Player();
         }

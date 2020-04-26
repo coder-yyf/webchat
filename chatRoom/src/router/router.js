@@ -14,88 +14,88 @@ export default new Router({
     {
       path: '/main',
       name: 'main',
-      component: _import('main'),
+      component: _import('mainModel/main'),
       redirect: 'main/personalMain',
       children: [
         {
           path: 'personalMain',
           name: 'personalMain',
-          component: _import('personalModel/personalMain'),
+          component: _import('mainModel/personalModel/personalMain'),
           redirect: 'personalMain/friendly',
           children: [
             {
               path: 'group',
               name: 'group',
-              component: _import('personalModel/group'),
+              component: _import('mainModel/personalModel/group'),
               redirect: 'group/own',
               children: [
                 {
                   path: 'set',
                   name: 'setGroup',
-                  component: _import('personalModel/groupModel/setGroup')
+                  component: _import('mainModel/personalModel/groupModel/setGroup')
                 },
                 {
                   path: 'own',
                   name: 'ownGroup',
-                  component: _import('personalModel/groupModel/ownGroup')
+                  component: _import('mainModel/personalModel/groupModel/ownGroup')
                 },
                 {
                   path: 'search',
                   name: 'searchGroup',
-                  component: _import('personalModel/groupModel/searchGroup')
+                  component: _import('mainModel/personalModel/groupModel/searchGroup')
                 },
                 {
                   path: 'detail/:id',
                   name: 'groupDetail',
-                  component: _import('personalModel/groupModel/groupDetail')
+                  component: _import('mainModel/personalModel/groupModel/groupDetail')
                 },
                 {
                   path: 'apply/:id',
                   name: 'applyGroup',
-                  component: _import('personalModel/groupModel/applyGroup')
+                  component: _import('mainModel/personalModel/groupModel/applyGroup')
                 },
                 {
                   path: 'send',
                   name: 'sendGroupValidate',
-                  component: _import('personalModel/sendValidateSuccess')
+                  component: _import('mainModel/personalModel/sendValidateSuccess')
                 }
               ]
             },
             {
               path: 'friendly',
               name: 'friendly',
-              component: _import('personalModel/friendly'),
+              component: _import('mainModel/personalModel/friendly'),
               redirect: 'friendly/own',
               children: [
                 {
                   path: 'own',
                   name: 'ownFriend',
-                  component: _import('personalModel/friendModel/myFriend')
+                  component: _import('mainModel/personalModel/friendModel/myFriend')
                 },
                 {
                   path: 'detail/:id',
                   name: 'friendDetail',
-                  component: _import('personalModel/friendModel/friendDetail')
+                  component: _import('mainModel/personalModel/friendModel/friendDetail')
                 },
                 {
                   path: 'apply',
                   name: 'applyFriend',
-                  component: _import('personalModel/friendModel/applyFriend')
+                  component: _import('mainModel/personalModel/friendModel/applyFriend')
                 },
                 {
                   path: 'search',
                   name: 'searchFriend',
-                  component: _import('personalModel/friendModel/searchFriend')
+                  component: _import('mainModel/personalModel/friendModel/searchFriend')
                 },
                 {
                   path: 'send',
                   name: 'sendFriendValidate',
-                  component: _import('personalModel/sendValidateSuccess')
+                  component: _import('mainModel/personalModel/sendValidateSuccess')
                 },
                 {
                   path: 'wall/:id',
                   name: 'photoWall',
-                  component: _import('personalModel/friendModel/photoWall')
+                  component: _import('mainModel/personalModel/friendModel/photoWall')
                 }
               ]
             }

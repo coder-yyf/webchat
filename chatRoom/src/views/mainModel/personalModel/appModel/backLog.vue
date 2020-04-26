@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import bg from '../../../assets/img/zwsj4.png';
+    import bg from '../../../../assets/img/zwsj4.png';
     import api from '@/network';
     import utils from '@/common/utils';
     export default{

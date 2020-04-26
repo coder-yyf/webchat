@@ -141,7 +141,7 @@
   .vchat-weather {
     width: 100%;
     height: 250px;
-    background-image: url("../../../assets/img/weather_b1.jpg");
+    background-image: url("../../../../assets/img/weather_b1.jpg");
     position: relative;
     border-radius: 5px 5px 0 0;
     overflow: hidden;

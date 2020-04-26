@@ -183,7 +183,6 @@ const huntFriends = (req, res) => { // 搜索好友（名称/code）
 };
 
 module.exports = {
-    getUser,
     login,
     upUserInfo,
     signUp,
