@@ -50,7 +50,7 @@
 
 <script>
     import api from '@/network';
-    import vApheader from '@/views/components/header/vApheader';
+    import vApheader from '@/components/content/header/vApheader';
     export default{
         name: 'searchGroup',
         data() {

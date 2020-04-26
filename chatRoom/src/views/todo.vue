@@ -36,7 +36,7 @@
 
 <script>
   import api from '@/network';
-  import vHeader from '@/views/components/header/vHeader';
+  import vHeader from '@/components/content/header/vHeader';
   import dialogTodo from './dialogTodo.vue';
   import utils from '@/common/utils';
 

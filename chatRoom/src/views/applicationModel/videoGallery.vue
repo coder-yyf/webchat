@@ -32,7 +32,7 @@
 </template>
 
 <script>
-  import dplayer from '@/views/components/DPlayer/dplayer';
+  import dplayer from '@/components/content/DPlayer/dplayer';
 
   export default {
     name: 'videoGallery',

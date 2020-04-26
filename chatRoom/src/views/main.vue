@@ -24,7 +24,7 @@
 <script>
   import utils from '@/common/utils';
   import {mapState} from 'vuex';
-  import vHeader from '@/views/components/header/vHeader';
+  import vHeader from '@/components/content/header/vHeader';
   import api from '@/network';
 
   export default {

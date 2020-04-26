@@ -93,7 +93,7 @@
 
 <script>
   import api from '@/network';
-  import chat from '@/views/components/chat/vChat';
+  import chat from '@/components/content/chat/vChat';
   import VueDraggableResizable from 'vue-draggable-resizable';
   import utils from '@/common/utils';
   //从store里面获得state和Getters

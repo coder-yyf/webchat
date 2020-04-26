@@ -30,8 +30,8 @@
 </template>
 <script>
     import api from '@/network';
-    import cropper from '@/views/components/cropper/cropper';
-    import vApheader from '@/views/components/header/vApheader';
+    import cropper from '@/components/content/cropper/cropper';
+    import vApheader from '@/components/content/header/vApheader';
     export  default {
         name: 'setGroup',
         data() {

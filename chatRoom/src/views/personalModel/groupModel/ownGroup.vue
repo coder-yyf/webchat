@@ -74,7 +74,7 @@
 
 <script>
     import api from '@/network';
-    import vApheader from '@/views/components/header/vApheader';
+    import vApheader from '@/components/content/header/vApheader';
     import { mapState } from 'vuex';
     export default{
         name: 'ownGroup',

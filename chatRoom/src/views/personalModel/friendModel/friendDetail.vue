@@ -54,7 +54,7 @@
 </template>
 
 <script>
-  import vApheader from '@/views/components/header/vApheader';
+  import vApheader from '@/components/content/header/vApheader';
   import api from '@/network';
   import utils from '@/common/utils';
   import {mapState} from 'vuex';

@@ -4,7 +4,7 @@
 
 <script>
   import 'dplayer/dist/DPlayer.min.css';
-  import Hls from 'hls.js';
+  import Hls from '../../../../node_modules/hls.js/dist/hls';
   import DPlayer from 'dplayer';
 
   export default {

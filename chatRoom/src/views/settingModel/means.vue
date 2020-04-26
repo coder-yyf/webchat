@@ -65,7 +65,7 @@
 </template>
 <script>
   import api from '@/network';
-  import cropper from '@/views/components/cropper/cropper';
+  import cropper from '@/components/content/cropper/cropper';
   import {pca, pcaa} from 'area-data'; // 省市区数据
   export default {
     name: 'means',
