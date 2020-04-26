@@ -15,7 +15,7 @@
 </template>
 
 <script>
-    import txz from '../../assets/img/txz.png';
+    import txz from '../../../../assets/img/txz.png';
     export default{
         data() {
             return {

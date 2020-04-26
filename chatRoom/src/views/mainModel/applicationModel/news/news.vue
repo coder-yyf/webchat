@@ -19,7 +19,7 @@
 
 <script>
   import api from '@/network';
-  import newsItem from './sub/newsItem.vue';
+  import newsItem from './newsItem.vue';
 
   export default {
     name: 'news',

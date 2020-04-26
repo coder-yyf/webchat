@@ -20,7 +20,7 @@ export default new Router({
         {
           path: 'personalMain',
           name: 'personalMain',
-          component: _import('personalMain'),
+          component: _import('personalModel/personalMain'),
           redirect: 'personalMain/friendly',
           children: [
             {
@@ -104,7 +104,7 @@ export default new Router({
         {
           path: 'application',
           name: 'application',
-          component: _import('application'),
+          component: _import('mainModel/applicationModel/application'),
           redirect: 'application/space',
           meta: {
             title: '应用空间',
@@ -114,12 +114,12 @@ export default new Router({
             {
               path: 'space',
               name: 'appSpace',
-              component: _import('applicationModel/appSpace'),
+              component: _import('mainModel/applicationModel/appSpace'),
             },
             {
               path: 'videoGallery',
               name: 'videoGallery',
-              component: _import('applicationModel/videoGallery'),
+              component: _import('mainModel/applicationModel/videoGallery'),
               meta: {
                 title: '看电视',
                 name: 'videoGallery'
@@ -128,7 +128,7 @@ export default new Router({
             {
               path: 'games',
               name: 'games',
-              component: _import('applicationModel/games'),
+              component: _import('mainModel/applicationModel/games/games'),
               meta: {
                 title: '玩游戏',
                 name: 'games'
@@ -137,7 +137,7 @@ export default new Router({
             {
               path: 'news',
               name: 'news',
-              component: _import('applicationModel/news'),
+              component: _import('mainModel/applicationModel/news/news'),
               meta: {
                 title: '看新闻',
                 name: 'news'
@@ -146,7 +146,7 @@ export default new Router({
             {
               path: 'newsDetailSub',
               name: 'newsDetail',
-              component: _import('applicationModel/newsDetail'),
+              component: _import('mainModel/applicationModel/news/newsDetail'),
               meta: {
                 title: '新闻详情',
                 name: 'newsDetail'
@@ -155,7 +155,7 @@ export default new Router({
             {
               path: 'txzSub',
               name: 'txz',
-              component: _import('applicationModel/games/txz/txz'),
+              component: _import('mainModel/applicationModel/games/txz/txz'),
               meta: {
                 title: '推箱子',
                 name: 'txz'

@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-  import appCenter from './personalModel/appCenter.vue';
+  import appCenter from './appCenter.vue';
 
   export default {
     name: '',

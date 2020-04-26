@@ -25,29 +25,29 @@
         IMG_URL: process.env.IMG_URL,
         //整体背景
         List: [
-          require('../../assets/img/app9.jpg'),
-          require('../../assets/img/app3.jpg'),
-          require('../../assets/img/app4.jpg'),
-          require('../../assets/img/app5.jpg'),
-          require('../../assets/img/app6.jpg'),
-          require('../../assets/img/app8.jpg')],
+          require('../../../assets/img/app9.jpg'),
+          require('../../../assets/img/app3.jpg'),
+          require('../../../assets/img/app4.jpg'),
+          require('../../../assets/img/app5.jpg'),
+          require('../../../assets/img/app6.jpg'),
+          require('../../../assets/img/app8.jpg')],
         appList: [
           {
             name: 'one',
             title: '看电视',
-            src: require('../../assets/img/film-icon.png'),
+            src: require('../../../assets/img/film-icon.png'),
             link: 'videoGallery'
           },
           {
             name: 'two',
             title: '玩游戏',
-            src: require('../../assets/img/game-icon.png'),
+            src: require('../../../assets/img/game-icon.png'),
             link: 'games'
           },
           {
             name: 'three',
             title: '看新闻',
-            src: require('../../assets/img/news-icon.png'),
+            src: require('../../../assets/img/news-icon.png'),
             link: 'news'
           }
         ]
@@ -158,7 +158,7 @@
         height: 300px;
 
         .bg {
-          background-image: url("../../assets/img/film.jpg");
+          background-image: url("../../../assets/img/film.jpg");
         }
       }
 
@@ -176,7 +176,7 @@
         height: 250px;
 
         .bg {
-          background-image: url("../../assets/img/game.jpg");
+          background-image: url("../../../assets/img/game.jpg");
         }
       }
 
@@ -185,7 +185,7 @@
         height: 300px;
 
         .bg {
-          background-image: url("../../assets/img/news.jpg");
+          background-image: url("../../../assets/img/news.jpg");
         }
       }
 
