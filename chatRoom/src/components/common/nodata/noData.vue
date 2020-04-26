@@ -6,7 +6,7 @@
 </template>
 <script>
     // import bg from '../../assets/img/zwsj1.png';
-    import bg from '../../assets/img/blank.jpg';
+    import bg from '../../../assets/img/blank.jpg';
     export default{
         props: ['url'],
         name: 'vchatNodata',

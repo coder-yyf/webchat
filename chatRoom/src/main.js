@@ -15,7 +15,7 @@ import '../static/css/element_ui.scss';
 import VueSocketio from 'vue-socket.io';
 import socketio from 'socket.io-client';
 // 引入全局插件
-import libs from '@/libs';
+import libs from '@/components/common';
 //全局指令
 import directives from './directives';
 //定义自定义指令
