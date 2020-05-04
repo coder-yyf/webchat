@@ -5,27 +5,30 @@
       <div class="position">
         <v-icon name="coordinates_fill" color="#fff" :size="28"></v-icon>
         <p>{{cityName}}</p>
+        <!--0是今天-->
         <span>{{getWeek(WeatherInfo[0].week)}}</span>
         <span>{{WeatherInfo[0].nightTemp}}℃ ~ {{WeatherInfo[0].dayTemp}}℃</span>
       </div>
       <ul class="weather-list">
-        <!--今日-->
+        <!--今日实时-->
         <li>
           <p>发布时间：{{LiveWeather.reportTime}}</p>
           <p class="temperature">
             <span>{{LiveWeather.temperature}}</span>℃
             {{LiveWeather.weather}}
           </p>
-          <weather-icon :type="type"></weather-icon>
+          <!--<weather-icon :type="type"></weather-icon>-->
           <p>空气湿度：{{LiveWeather.humidity}}%</p>
           <p>风向：{{LiveWeather.windDirection}}； 风力：{{LiveWeather.windPower || '暂无'}}</p>
         </li>
         <!--明天，后天，大后天-->
         <template v-for="(v, i) in WeatherInfo">
+          <!--除去第一天-->
           <li v-if="i > 0">
             <p>{{getWeek(v.week)}}</p>
             <p>{{v.date}}</p>
             <p>
+              <!--2是拼音用于iconfont-->
               <v-icon :name="getWeatherType(v.dayWeather, '2')" color="#fff" :size="36"></v-icon>
             </p>
             <p>{{v.nightTemp}}℃ ~ {{v.dayTemp}}℃</p>
@@ -39,7 +42,7 @@
 </template>
 
 <script>
-   //高德api
+  //高德api
   import AMap from 'AMap';
   import weatherIcon from './weather-icon.vue';
   import {mapState} from 'vuex';
@@ -47,7 +50,9 @@
   export default {
     data() {
       return {
+        //预报
         WeatherInfo: [{}],
+        //实时天气
         LiveWeather: {},
         type: 'sunny', // 天气类型
         cityName: ''
@@ -80,13 +85,12 @@
           let weather = new AMap.Weather();
           //执行实时天气信息查询
           weather.getLive(city, function (err, data) {
-//                        console.log(err, data);
             that.LiveWeather = data;
+            //修改type变量，切换动画
             that.getWeatherType(data.weather);
           });
-          // 查询三天天气
+          // 查询4天天气
           weather.getForecast(city, function (err, data) {
-//                        console.log(err, data);
             that.WeatherInfo = data.forecasts;
           });
         });

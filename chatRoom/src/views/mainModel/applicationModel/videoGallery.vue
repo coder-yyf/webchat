@@ -41,7 +41,7 @@
         activeName: '1',
         activeMenu: 0,
         loading: false,
-        //cctv1
+        //cctv1,没用
         currVideo: 'http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8',
         videoList: [
           {

@@ -1,7 +1,3 @@
-/**
- * Created by wyw on 2018/9/25.
- */
-
 const api = require('../controller/apiList');
 let express = require('express');
 let router = express.Router();

@@ -22,7 +22,6 @@
             </el-badge>
             <!--会话名（昵称或群昵称），最新消息缩略-->
             <div class="chat-conversation-li-center">
-              <!--这种事官方推送，为什么用template？-->
               <!--template不会渲染成元素-->
               <template v-if="v.type === 'vchat'">
                 <p class="vchat-line1">{{v.nickname}}</p>

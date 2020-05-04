@@ -27,7 +27,7 @@ let users = db.model("users", { // Schema
     lastLoginTime: { type: Date, default: Date.now() }, // 最后一次登录
     conversationsList: Array, // 会话列表 * name 会话名称 * photo 会话头像 * id 会话id * type 会话类型 group/ friend
     cover: { type: Array, default: ['/img/0072.jpg', '/img/0073.jpg'] }, // 照片墙展示
-    emoji: Array, // 表情包
+    emoji: Array, // 表情包，存的时表情包的code
     phone:{type:String,default:'156xxxxx338'}
 });
 module.exports = {

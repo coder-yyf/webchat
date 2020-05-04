@@ -7,6 +7,7 @@ const getTodoList = (req, res) => {
 };
 const addTodo = (req, res) => {
     let params = req.body;
+    //因为用的是json对象，所以要拆开来
     apiModel.addTodo({userName: req.session.login, ...params}, (r) => { // 添加日程
         res.json(r);
     })

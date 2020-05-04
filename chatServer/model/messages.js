@@ -7,7 +7,7 @@ let messages = db.model("messages", {
   time: String, // 时间
   avatar: String, // 用户头像
   mes: String, // 消息
-  read: Array, // 是每条信息用这个来存已经读了这条信息的用户名吧
+  read: Array, // 是每条信息用这个来存已经读了这条信息的用户名
   //这个似乎没用，有用，是系统消息那里可以看到
   signature: String, // 个性签名
   emoji: String, // 表情地址或者其他图片和文件的地址
@@ -16,6 +16,7 @@ let messages = db.model("messages", {
   groupId: String, // 加入群聊id
   groupName: String, // 加入群聊名称
   groupPhoto: String, //加入群聊头像
+  //用户这边加会话以及防止用户信息修改用
   userM: {
     type: db.Schema.ObjectId,
     ref: 'users'
@@ -27,7 +28,7 @@ let messages = db.model("messages", {
   userYloginName: String, // 好友登录名
   friendRoom: String, // 好友房间
   state: String, // group/ friend
-  type: String, // validate，info，org,mine,other,info,validate
+  type: String, // validate，info，org,mine,other
   status: String // 0 未操作 1 同意 2 拒绝 这个是给官方的消息那里弄的
 });
 
@@ -54,7 +55,8 @@ const removeMessage = (params, callback) => { // 删除消息
 
 let getMessage = (params, callback, count = 0) => {
   messages.find({roomid: params.roomid})
-      //userM是user里面的ObjectId
+  //userM是user里面的ObjectId,我的mes不是已经又下面这些了吗，不用再找一遍吧
+  //    噢用来防止修改了
       .populate({path: 'userM', select: 'signature photo nickname'}) // 关联用户基本信息
       //按照时间从最新开始，这里的time是messages的
       .sort({'time': -1})
@@ -111,8 +113,7 @@ const setReadStatus = (params) => { // 消息设置为已读
         raw.forEach(v => {
           //没有读到的添加到读到的
           if (v.read.indexOf(params.name) === -1) {
-            //name是用户名，这个和定义的不一样啊，定义的时数组，0或者1，这里是什么鬼
-            //应该是每条信息用这个来存已经读了这条信息的用户名吧
+            //每条信息用这个来存已经读了这条信息的用户名吧
             v.read.push(params.name);
             v.save();
           }

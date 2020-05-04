@@ -114,7 +114,7 @@
                                 case 1://绘制墙壁
                                     pic = wall;
                                     break;
-                                case 2://绘制陷进
+                                case 2://绘制球
                                     pic = ball;
                                     break;
                                 case 3://绘制箱子
@@ -126,7 +126,7 @@
                                     perPosition.x = i;
                                     perPosition.y = j;
                                     break;
-                                case 5://绘制箱子及陷进位置
+                                case 5://绘制箱子及球位置，两者重合
                                     pic = box;
                                     break;
                             }
@@ -213,7 +213,7 @@
                     {
                         for (var j=0;j<curMap[i].length ;j++ )
                         {
-                            //当前移动过的地图和初始地图进行比较，若果初始地图上的陷进参数在移动之后不是箱子的话就指代没推成功
+                            //当前移动过的地图和初始地图进行比较，若果初始地图上的球参数在移动之后不是箱子的话就指代没推成功
                             if (curLevel[i][j] == 2 && curMap[i][j] != 3 || curLevel[i][j] == 5 && curMap[i][j] != 3)
                             {
                                 return false;
@@ -243,7 +243,7 @@
                     curMap[p1.x][p1.y] = 4;//更改地图对应坐标点的值
                     //若果小人前进了一步，小人原来的位置如何显示
                     var v = curLevel[perPosition.x][perPosition.y];
-                    if (v!=2)//若果刚开始小人位置不是陷进的话
+                    if (v!=2)//若果刚开始小人位置不是球的话
                     {
                         if (v==5)//可能是5 既有箱子又陷进
                         {

@@ -72,6 +72,7 @@
         loading: false // 保存中
       }
     },
+    //应该是info没有销毁，所以这里的info还保留着值
     watch: {
       visible(f) {
         this.dialogVisible = f;
@@ -87,6 +88,7 @@
           Object.keys(this.todoForm).forEach(k => {
             this.todoForm[k] = info[k];
           });
+          //这个是关键问题
           this.todoForm['_id'] = info['_id'];
         } else {
           this.logTitle = '新建活动';
@@ -95,12 +97,18 @@
     },
     methods: {
       close() {
+        //我日，原来是resetFields没有将form的id那个清空
         this.$refs['todoForm'].resetFields();
+        delete this.todoForm['_id']
+        // this.info = {}
         this.$emit('close');
       },
       cancel() {
         // console.log(this.info)
-        // this.$refs['todoForm'].resetFields();
+        this.$refs['todoForm'].resetFields();
+        delete this.todoForm['_id']
+        // console.log(this.todoForm)
+        // this.info = {}
         this.$emit('close');
       },
       sure() {
@@ -111,8 +119,10 @@
             if (this.info.title) {
               //转化为json对象
               this.upTodo(JSON.parse(JSON.stringify(this.todoForm)));
-            //  添加
+              //  添加
             } else {
+              //哇，我误打误撞弄了
+              // delete this.todoForm['_id']
               this.addTodo(JSON.parse(JSON.stringify(this.todoForm)));
             }
           } else {
@@ -121,11 +131,16 @@
         });
       },
       addTodo(o) {
+        /*console.log(this.info)
+        console.log('add',o)
+        console.log(this.info)*/
         api.addTodo(o).then(r => {
           this.loading = false;
           if (r.code === 0) {
             this.$refs['todoForm'].resetFields();
-            this.$emit('sure', o);
+            // this.info = {}
+            delete this.todoForm['_id']
+            this.$emit('sure', r.data);
             this.$message({
               message: '新建成功',
               type: 'success'
@@ -139,10 +154,14 @@
         });
       },
       upTodo(o) {
+        /*console.log(this.info)
+        console.log('up',o)*/
         api.upTodo(o).then(r => {
           this.loading = false;
           if (r.code === 0) {
             this.$refs['todoForm'].resetFields();
+            delete this.todoForm['_id']
+            // this.info = {}
             //返回去更新界面的显示
             this.$emit('up', o);
             this.$message({

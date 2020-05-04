@@ -24,9 +24,9 @@ let groupUserSchema = new db.Schema({
     //关联到users的model那里
     ref: 'users'
   },
+  //防止又要去找用户的名字用的
   userName: {type: String},
-  //这个是啥，管理员和群主？为啥是Number类型
-  //他应该是想弄成一眼就可以看谁是群主，1表示是群主，man应该是管理员
+  //1表示是群主，man是管理员，1表示是管理员
   manager: {type: Number, default: 0},
   holder: {type: Number, default: 0},
   card: String // 群名片
@@ -34,12 +34,14 @@ let groupUserSchema = new db.Schema({
 
 //通过约束添加静态方法
 groupUserSchema.statics = {
+  //其实用uerid也行吧
   findGroupByUserName: function (userName, callback) { // 通过用户名查找所在群聊列表
     return this
         .find({userName: userName})
         .populate('groupId')  // 关联查询
         .exec(callback)
   },
+  //不过没用到，因为群点击里面成员详情没做
   findGroupUsersByGroupId: function (groupId, callback) { // 通过群id查找用户信息
     return this
         .find({groupId: groupId})

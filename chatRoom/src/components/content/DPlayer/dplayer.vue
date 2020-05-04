@@ -38,7 +38,6 @@
             });
             //换源后播放
             this.dp.play()
-
           }
         }
       }
@@ -50,7 +49,7 @@
       this.dp.destroy();
     },
     computed: {
-      playerName() { // 随机id,没啥意义吧
+      playerName() { // 随机id
         // return 'dplayer-' + Math.random();
         return 'dplayer-' + 'yyf';
       }

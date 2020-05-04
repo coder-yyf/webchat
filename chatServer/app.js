@@ -15,7 +15,7 @@ let app = express();
 let server = require('http').Server(app);
 //创建http服务的sockt，即websocket
 let io = require('socket.io')(server);
-// let cors = require('cors')
+let cors = require('cors')
 
 const api = require('./routes/api');
 const user = require('./routes/user');
@@ -36,14 +36,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 //没有了竟然也可以，我觉得是前端解决了跨域就没问题了，根本不用这个
-//
-/*let options = { // 解决静态资源跨域问题（或者使用cors模块）
+let options = { // 解决静态资源跨域问题（或者使用cors模块）
     setHeaders: function (res, path, stat) {
         res.set('Access-Control-Allow-Origin', '*')
     }
-};*/
-// app.use(express.static(path.join(__dirname, 'public'), options)); // 静态资源中间件
-app.use(express.static(path.join(__dirname, 'public')));
+};
+app.use(express.static(path.join(__dirname, 'public'), options)); // 静态资源中间件
+// app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
@@ -55,14 +54,14 @@ app.use(session({
 // 明明运行前端的时候端口都不一样
 // 后端解决跨域的方式 , 现选择前端代理
 
-// app.use(cors())
-/*app.all('*', function (req, res, next) {
+app.use(cors())
+app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', "PUT,POST,GET,DELETE,OPTIONS");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
-});*/
+});
 
 //nodejs代理，解决开发跨域
 // 网易新闻

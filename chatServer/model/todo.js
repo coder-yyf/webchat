@@ -19,8 +19,8 @@ const getTodoList = (params, callback) => { // 查找我的日程
 
 const addTodo = (params, callback) => { // 新增日程
     todo.create(params).then(r => {
-        if (r['_id']) {
-            callback({code: 0, data: r['_id']});
+        if (r) {
+            callback({code: 0, data: r});
         } else {
             callback({code: -1, data: '添加失败'});
         }

@@ -70,7 +70,7 @@ const loginOut = (req, res) => { // 登出
 const getUserInfo = (req, res) => {
     let params = req.body;
     let key = {};
-    //这个应该是哪里要根据id查找用的
+    //根据id查找用的
     if (params.id) {
         // 这是为了后面用params.id判断用的，如果用params。key都是true，所以这里个给key保留了和key属性一样的id属性
         key = Object.assign({key: params.id}, params);

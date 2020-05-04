@@ -112,12 +112,6 @@
 //                hover: false,
         draggable: true, // 允许拖拽
         handleList: [
-          /*{
-            name: '个人空间',
-            icon: 'icon-zhanghaoguanli1',
-            link: '/mine',
-            id:1
-          },*/
           {
             name: '日程管理',
             icon: 'icon-huihuajilu',

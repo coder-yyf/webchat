@@ -2,9 +2,8 @@
   <div class="vchat-todo">
     <vHeader :isMainHeader="false"></vHeader>
     <full-calendar :events="fcEvents" locale="zh-cn" lang="zh" @dayClick="dayClick">
-      <!--<template slot="fc-body-card" slot-scope="p">
-      <template slot="fc-header-left" slot-scope="p">-->
-      <template slot="fc-header-right" slot-scope="p">
+      <!--这是修改过的，原版没有edit-->
+      <template slot="fc-event-card" slot-scope="p">
         <!--明明是bottom为什么是在上面-->
         <el-popover
           placement="bottom"
@@ -61,6 +60,7 @@
         return utils.formatTime(new Date(t));
       },
       dayClick(date) {
+        this.upInfo = {}
         this.chooseDate = date;
         this.dialogVisible = true;
       },
@@ -68,19 +68,25 @@
       up(o) {
         this.fcEvents.forEach(v => {
           if (v['_id'] === o['_id']) {
-            v = o;
+            //这种o没了就失效了
+            // v = o;
+            Object.assign(v,o)
           }
         });
+        //这里清了也没用，dialog那里的变量保存着，不对，是form没清空
+        this.upInfo = {}
         this.dialogVisible = false;
       },
       sure(o) {
         this.fcEvents.push(o);
+        this.upInfo = {}
         this.dialogVisible = false;
       },
       getTodoList() {
         api.getTodoList().then(r => {
           if (r.code === 0) {
             this.fcEvents = r.data;
+            console.log(this.fcEvents)
           }
         });
       },

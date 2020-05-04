@@ -245,11 +245,6 @@
           this.loading = false;
         });
       },
-      //这个没有用到啊
-      handleClose(done) {
-        this.islogin = true;
-        done();
-      }
     },
     mounted() {
       /*fetch('/network/getUser').then(res=>res.json()).then(r=>{
@@ -269,22 +264,6 @@
     overflow: hidden;
     position: relative;
   }
-
-  /*.fork-me-on-github {
-    width: 150px;
-    height: 150px;
-    background-image: url("../assets/img/github.png");
-    position: absolute;
-    right: 0;
-    top: 0;
-    background-size: contain;
-
-    a {
-      display: block;
-      width: 150px;
-      height: 150px;
-    }
-  }*/
 
   .logo {
     margin-top: 15%;

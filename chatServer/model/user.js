@@ -31,7 +31,6 @@ const login = (params, callback) => { // 登录
         } else {
             callback({code: -1});
         }
-
     })
 };
 
