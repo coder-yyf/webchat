@@ -40,10 +40,12 @@
               <!--这样子没有用-->
               <!--<p class="delete" @click="remove(v,i)">-->
               <p class="delete">
-                <el-tooltip class="item" effect="dark" :content="v.type === 'vchat' ? '从会话列表移除' : '从列表移除后，需要再次添加才能收到消息！'"
+                <el-tooltip class="item" effect="dark"
+                            :content="v.type === 'vchat' ? '从会话列表移除' : '从列表移除后，需要再次添加才能收到消息！'"
                             placement="top-start">
                   <!--这样就行了-->
-                  <v-icon class="el-icon-circle-close" :color="user.chatColor" cursor="pointer" :size="18" @clickIcon="remove(v,i)"></v-icon>
+                  <v-icon class="el-icon-circle-close" :color="user.chatColor" cursor="pointer" :size="18"
+                          @clickIcon="remove(v,i)"></v-icon>
                 </el-tooltip>
               </p>
             </div>
@@ -54,6 +56,7 @@
         <div class="chat-content-box">
           <!--父传子，然后子传父-->
           <!--这是聊天信息-->
+          <!--getNewMes是为了更新最新的newmes-->
           <chat-item :currSation="currSation" @NewMes="getNewMes" v-show="currSation.type !== 'vchat'"></chat-item>
           <!--官方-->
           <vchat-message v-show="currSation.type === 'vchat'" :currSation="currSation"></vchat-message>
@@ -104,7 +107,8 @@
           //用这个会抽风的
           // this.contactsList = list;
           //初始
-          if (!this.currSation.id && list.length) {
+          // if (!this.currSation.id && list.length) {
+          if (list.length) {
             this.currSation = this.contactsList[0];
           }
           if (!list.length) {
@@ -112,12 +116,12 @@
           }
           //也就是index是数字
           //删除了一个会话
-          if (!isNaN(this.removeSation.index)) {
+          /*if (!isNaN(this.removeSation.index)) {
             if (this.currSation.id === this.removeSation.item.id && this.contactsList.length !== 0) {
               //为什么要是删除了的index？因为删了后下面不久上来了
               this.currSation = this.contactsList[this.removeSation.index] || this.contactsList[this.removeSation.index - 1] || this.contactsList[this.removeSation.index + 1];
             }
-          }
+          }*/
         },
         deep: true,
         immediate: true
@@ -131,7 +135,7 @@
         },
         deep: true,
         //不是也应该添加吗
-        immediate:true
+        immediate: true
       },
       //main中初始化
       unRead: {
@@ -164,7 +168,7 @@
       }*/
     },
     computed: {
-      ...mapState(['user', 'conversationsList', 'unRead','removeSationId']),
+      ...mapState(['user', 'conversationsList', 'unRead', 'removeSationId']),
       bgOpa() { // 兼容老用户
         return this.user.bgOpa || 0.2;
       }
@@ -190,17 +194,17 @@
       remove(v, i) {
         // console.log('闪出')
         //退出房间
-        this.$socket.emit('leave',{roomid:v.id})
+        this.$socket.emit('leave', {roomid: v.id})
         //去掉vchat官方
         if (v.type === 'vchat') { // 只做显示列表移除，也就是下次重新进来它还会加入？不过每次getUserInfo都会加进来吧
           // 从contactlist中去掉
           this.contactsList = this.contactsList.filter(m => m.id !== v.id);
           //这个不是和conversationlist哪里修改当前会话一样吗，不过那里是conversationlist改变才弄的，这里没改conversationlist
           //而且这里没有修改本地state的conversationlist，当这个list修改时，vchat官方又回来了
-          if (this.currSation.id === v.id && this.contactsList.length !== 0) {
+          /*if (this.currSation.id === v.id && this.contactsList.length !== 0) {
             //轮下去
             this.currSation = this.contactsList[i] || this.contactsList[i - 1] || this.contactsList[i + 1];
-          }
+          }*/
         } else {
           api.removeConversitionList(v).then(r => {
             if (r.code === 0) {
@@ -209,7 +213,7 @@
                 message: '移除成功'
               });
               this.$store.commit('setConversationsList', Object.assign({d: true}, v));
-//                            this.contactsList = this.contactsList.filter(m => m.id !== v.id);
+              //his.contactsList = this.contactsList.filter(m => m.id !== v.id);
               this.removeSation = {
                 item: v,
                 index: i
@@ -225,9 +229,15 @@
       }
     },
     mounted() {
-      this.$bus.$on('a',()=>{
-        console.log('hhhh')
-      })
+      /*this.$bus.$on('a', () => {
+        console.log('hhh')
+        if (!this.currSation.id && this.conversationsList.length) {
+          this.currSation = this.contactsList[0];
+        }
+        if (!this.conversationsList.length) {
+          this.currSation = {};
+        }
+      })*/
     }
   }
 </script>
@@ -322,7 +332,7 @@
         text-align: left;
         position: relative;
 
-        a{
+        a {
           width: 40px;
           /*min-width: 42px;*/
           height: 40px;
@@ -358,7 +368,7 @@
         /*min-width: 100px;*/
         width: 90px;
         font-size: 12px;
-        margin-right:5px;
+        margin-right: 5px;
 
         p {
           margin-bottom: 5px;
@@ -374,6 +384,7 @@
         width: 45px;
         font-size: 10px;
         text-align: right;
+
         p {
           margin-bottom: 5px;
         }

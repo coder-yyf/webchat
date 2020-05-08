@@ -6,7 +6,7 @@
         <li v-if="v.type === 'validate'" :key="v['_id']">
           <span class="vchat-line1 info">{{v.state === 'friend' ? '验证消息：' + v.nickname + '申请加您为好友' : '验证消息：' + v.nickname + '申请加入' + v.groupName}}</span>
           <span class="time">{{v.time}}</span>
-          <!--弹出框-->
+          <!--弹出框,拒绝还是同意-->
           <el-popover
             placement="left"
             width="400"
@@ -43,6 +43,7 @@
             <span slot="reference" class="look" v-if="v.status === '0' ">查看</span>
             <span slot="reference" v-else>{{v.status === '1' ? '已同意' : '已拒绝'}}</span>
           </el-popover>
+          <!--弹出框,删除-->
           <el-popover
             placement="top"
             width="160"
@@ -56,7 +57,7 @@
             <span slot="reference" class="del">删除</span>
           </el-popover>
         </li>
-        <!--这个应该是别人同意或拒绝你之后产生的信息-->
+        <!--这个是别人同意或拒绝你之后产生的信息-->
         <li v-if="v.type === 'info'" :key="v['_id']">
           <p>
             <span class="vchat-line1 info">{{v.mes}}</span>
@@ -111,9 +112,12 @@
         this.InfoList = r;
       },
       takeValidate(r) {
-        // 更新最新消息
-        this.$emit('NewMes', r);
-        r.visible = false;
+        if (r.roomid === this.currSation.id) {
+          this.$socket.emit('setReadStatus', {roomid: r.roomid, name: this.user.name});
+          this.$store.commit('setUnRead', {roomid: r.roomid, clear: true});
+        } else {
+          this.$store.commit('setUnRead', {roomid: r.roomid, add: true, count: 1});
+        }
         //这里应该也要添加吧
         r.delVisible = false
         // 添加进这条消息到infolist

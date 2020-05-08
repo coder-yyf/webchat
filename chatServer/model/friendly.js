@@ -9,7 +9,7 @@ let friendlySchema = new db.Schema({
     type: db.Schema.ObjectId,
     ref: 'users'
   },
-  createDate: {type: Date, default: Date.now()}, // 加好友时间
+  createDate: {type: Date, default: Date.now()}// 加好友时间
 });
 
 friendlySchema.statics = {

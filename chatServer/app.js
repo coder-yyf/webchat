@@ -15,7 +15,7 @@ let app = express();
 let server = require('http').Server(app);
 //创建http服务的sockt，即websocket
 let io = require('socket.io')(server);
-let cors = require('cors')
+// let cors = require('cors')
 
 const api = require('./routes/api');
 const user = require('./routes/user');
@@ -54,14 +54,14 @@ app.use(session({
 // 明明运行前端的时候端口都不一样
 // 后端解决跨域的方式 , 现选择前端代理
 
-app.use(cors())
+/*app.use(cors())
 app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', "PUT,POST,GET,DELETE,OPTIONS");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
-});
+});*/
 
 //nodejs代理，解决开发跨域
 // 网易新闻
@@ -81,9 +81,12 @@ app.use('/v*', (req, res, next) => {
       next();
       //    既没登录又不是请求登陆或注册，丢一个空的东西给他
     } else {
-      res.json({
+      /*res.json({
         status: 0
-      });
+      });*/
+      let err = new Error('You don\'t have permission');
+      err.status = 401;
+      next(err);
     }
   }
 });
@@ -122,7 +125,7 @@ const onconnection = (socket) => {
       // 包括发送者，更新前端的上线用户
       io.in(val.roomid).emit('joined', OnlineUser);
       //这个发给自己
-      socket.emit('joined', OnlineUser);
+      // socket.emit('joined', OnlineUser);
       //这个根本不能发给自己
       // socket.in(val.roomid).emit('joined', OnlineUser);
     });
@@ -305,7 +308,8 @@ const onconnection = (socket) => {
         read: [],
         state: 'group',
         type: 'info',
-        status: '-1', // 拒绝
+        // status: '-1', // 拒绝
+        status: '2',
         //1其实就是vchat的id
         roomid: val.userM + '-' + val.roomid.split('-')[1]
       };
@@ -322,13 +326,15 @@ const onconnection = (socket) => {
         state: 'friend',
         //注意这里的-1和前面的1同意，2拒绝不一样，那个是validate类型的，而这个是info类型的
         //不过info的1也是同意，嘿嘿
-        status: '-1', // 拒绝
+        // status: '-1', // 拒绝
+        status: '2',
         //信息类
         type: 'info',
         roomid: val.userM + '-' + val.roomid.split('-')[1]
       };
       // console.log('saveMessage', value);
       apiList.saveMessage(value); // 保存通知消息
+      //main和system中
       socket.to(value.roomid).emit('takeValidate', value);
     }
     // 通知申请人验证已拒绝
@@ -339,7 +345,7 @@ const onconnection = (socket) => {
     //这两个反过来其实是一样的，所以roomid是同一个
     console.log(params)
     // setTimeout(()=>{
-    socket.to(params.roomid).emit('removeFriendValidate', params.roomid)
+    io.in(params.roomid).emit('removeFriendValidate', params.roomid)
     // io.to(params.roomid).emit('removeValidate', params.roomid)
     // },1000)
     // socket.in(params.roomid).emit('removeValidate', params.roomid+'2222')

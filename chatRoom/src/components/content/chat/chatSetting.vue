@@ -84,8 +84,8 @@
       bgList() {
         return [
           {
-            name: '远方',
-            url: '/img/wallpaper1.jpg',
+            name: '片翼天使',
+            url: '/img/5.jpg',
             id: 1
           },
           {
@@ -94,15 +94,20 @@
             id: 2
           },
           {
-            name: '希望',
-            url: '/img/xiang.jpg',
+            name: '烟花',
+            url: '/img/2.jpg',
             id: 3
+          },
+          {
+            name: '静夜',
+            url: '/img/1.jpg',
+            id: 4
           },
           {
             name: '自定义',
             //0是正在用的，1是用来存自定义的
             url: this.user.wallpaper && this.user.wallpaper.split(',')[1] || false,
-            id: 4
+            id: 5
           }
           ];
       }

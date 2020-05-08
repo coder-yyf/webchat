@@ -1,4 +1,5 @@
 const initModel = require("../model/init.js"); // 初始化数据库表
+//这个其实也可以放到model中的
 const account = require("../utils/accountBase"); // 初始化数据库表
 let db = {
     initUser() {

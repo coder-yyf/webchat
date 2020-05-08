@@ -162,18 +162,9 @@
         }
       }
 
-      /*.two {
-        width: 350px;
-        height: 250px;
-
-        .bg {
-          background-image: url("../../assets/img/music1.jpg");
-        }
-      }*/
-
       .two {
-        width: 350px;
-        height: 250px;
+        width: 450px;
+        height: 300px;
 
         .bg {
           background-image: url("../../../assets/img/game.jpg");
@@ -181,22 +172,13 @@
       }
 
       .three {
-        width: 550px;
+        width: 450px;
         height: 300px;
-
         .bg {
           background-image: url("../../../assets/img/news.jpg");
         }
       }
 
-      /*.fif {
-        width: 450px;
-        height: 300px;
-
-        .bg {
-          background-image: url("../../assets/img/duanzi.jpg");
-        }
-      }*/
     }
   }
 </style>

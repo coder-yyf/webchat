@@ -17,7 +17,6 @@
             <span>{{LiveWeather.temperature}}</span>℃
             {{LiveWeather.weather}}
           </p>
-          <!--<weather-icon :type="type"></weather-icon>-->
           <p>空气湿度：{{LiveWeather.humidity}}%</p>
           <p>风向：{{LiveWeather.windDirection}}； 风力：{{LiveWeather.windPower || '暂无'}}</p>
         </li>
@@ -44,7 +43,6 @@
 <script>
   //高德api
   import AMap from 'AMap';
-  import weatherIcon from './weather-icon.vue';
   import {mapState} from 'vuex';
 
   export default {
@@ -59,7 +57,6 @@
       }
     },
     components: {
-      weatherIcon
     },
     computed: {
       ...mapState(['user'])

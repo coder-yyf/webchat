@@ -176,6 +176,7 @@
         };
         api.findMyfriends(params).then(r => {
           if (r.code === 0) {
+            //包含了id和roomid
             this.friendList = r.data;
             // console.log(this.friendList)
           }

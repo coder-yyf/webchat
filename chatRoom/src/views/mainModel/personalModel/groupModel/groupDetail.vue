@@ -5,7 +5,7 @@
     </v-apheader>
     <el-carousel trigger="click" height="200px" arrow="never" indicator-position="none">
       <el-carousel-item v-for="item in 1" :key="item">
-        <a class="DetailImage-a" :style="{backgroundImage: 'url(' + groupInfo.img +')'}">
+        <a class="DetailImage-a" :style="{backgroundImage: 'url('+IMG_URL+ groupInfo.img +')'}">
         </a>
       </el-carousel-item>
       <div class="DetailImage-bg">
@@ -38,20 +38,6 @@
             <span class="vchat-line1">{{v.userId.nickname}}</span>
           </li>
         </ul>
-      </div>
-      <div class="group-card detail-item" v-if="applyFlag">
-        <span>我的群名片</span>
-        <p class="many">
-          <span>别跟我比可爱</span>
-          <v-icon name="enter" color="#d5d5d5"></v-icon>
-        </p>
-      </div>
-      <div class="group-tag detail-item" v-if="groupInfo.holderName === user.name">
-        <span>群标签</span>
-        <p>
-          <el-tag v-for="(v, i) in groupTag" :key="i" v-if="i < 3">{{v}}</el-tag>
-          <v-icon name="enter" color="#d5d5d5"></v-icon>
-        </p>
       </div>
       <div class="group-managers detail-item" v-if="!applyFlag">
         <div>
@@ -94,7 +80,6 @@
         IMG_URL: process.env.IMG_URL,
         showGroupQr: false, // 二维码开关
         managers: [],
-        groupTag: [], // 群标签
         applyFlag: false, // 是否已加群
         holderId: '', // 群主id
         type: 0
@@ -201,11 +186,13 @@
             if (r.code === 0) {
               this.$socket.emit('leave',{roomid:params.id})
               this.$store.commit('setConversationsList', Object.assign({}, params, {d: true}));
+              this.$store.dispatch('getUserInfo');
             }
       });
       }
     },
     mounted() {
+      //0是普通群成员，1是群主
       this.type = this.$route.params.type
       this.getGroupInfo();
     }

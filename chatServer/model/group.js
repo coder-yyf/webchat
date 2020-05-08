@@ -10,7 +10,6 @@ let groups = db.model("groups", {
   //这个是一个很关键的地方，避免重复查询
   userNum: Number, // 群成员数量，避免某些情况需要多次联表查找，如搜索；所以每次加入一人，数量加一
   createDate: {type: Date, default: Date.now()}, // 建群时间
-  grades: {type: String, default: 'V1'}, // 群等级，备用
   holderName: String // 群主账号
 });
 
@@ -28,8 +27,7 @@ let groupUserSchema = new db.Schema({
   userName: {type: String},
   //1表示是群主，man是管理员，1表示是管理员
   manager: {type: Number, default: 0},
-  holder: {type: Number, default: 0},
-  card: String // 群名片
+  holder: {type: Number, default: 0}
 });
 
 //通过约束添加静态方法
@@ -41,7 +39,6 @@ groupUserSchema.statics = {
         .populate('groupId')  // 关联查询
         .exec(callback)
   },
-  //不过没用到，因为群点击里面成员详情没做
   findGroupUsersByGroupId: function (groupId, callback) { // 通过群id查找用户信息
     return this
         .find({groupId: groupId})
@@ -65,23 +62,28 @@ const createGroup = (params, callback) => { // 新建群
       holderName: params.userName
     }).then(r => {
       if (r['_id']) {
-        baseList.users.find({name: params.userName}).then(rs => { // 查询userId  loginname 无法关联查询
+        // 查询userId  loginname 无法关联查询，有该用户，但是感觉没必要啊，用login其实也行了，也可以得到rs
+        baseList.users.find({name: params.userName}).then(rs => {
           if (rs.length) {
+            //加入到groupuser中
             groupUser.create({
               userName: params.userName,
               userId: rs[0]._id,
               manager: 0,
               holder: 1,
               groupId: r['_id']
-            }).then(res => { // 建群后创建群主
+              // 建群后创建群主
+            }).then(res => {
               if (res['_id']) {
                 callback({code: 0, data: r});
               } else {
+                //失败后删除群
                 groups.remove({'_id': r['_id']}, 1);
                 callback({code: -1});
               }
             });
           } else {
+            //没有该用户后删除
             groups.remove({'_id': r['_id']}, 1);
             callback({code: -1});
           }
@@ -145,7 +147,9 @@ const getGroupUsers = (params, callback) => { // 查找指定群聊成员
 };
 
 // $equals 等于 ／ $gt 大于 ／ $gte 大于等于 ／ $lt 小余 ／ $lte 小余等于 ／ $ne 不等于 ／ $in 在数组中 ／ $nin 不在数组中 // $option的$i表示忽略大小写
-const huntGroups = (params, callback) => { // 搜索聊天群（名称/code）
+// 搜索聊天群（名称/code）
+const huntGroups = (params, callback) => {
+  //存储已加入的群
   let ids = [];
   //先搜出用户加入的群，然后去掉加入过的
   groupUser.findGroupByUserName(params.userName, (err, res) => {
@@ -157,6 +161,7 @@ const huntGroups = (params, callback) => { // 搜索聊天群（名称/code）
       });
       let key = new RegExp(params.key);
       let arr = [];
+      //type2是根据群名
       params.type === '2' ? arr = [{'title': {'$regex': key, $options: '$i'}}] : arr = [{
         'code': {
           '$regex': key,

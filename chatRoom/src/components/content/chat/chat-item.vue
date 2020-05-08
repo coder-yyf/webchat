@@ -173,6 +173,9 @@
           this.$socket.emit('setReadStatus', {roomid: r.roomid, name: this.user.name});
           this.$store.commit('setUnRead', {roomid: r.roomid, clear: true});
         }
+        else{
+          this.$store.commit('setUnRead', {roomid: r.roomid, add: true, count: 1});
+        }
       },
       getHistoryMessages(r) { // 获取历史消息
         if (r.length) {
@@ -228,12 +231,6 @@
         },
         immediate: true,
         deep: true
-      },
-      //没有用到
-      currTool(v, old) {
-        if (!v) {
-          document.documentElement.removeEventListener('click', this.watchMouse);
-        }
       }
     },
     mounted() {

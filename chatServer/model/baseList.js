@@ -3,7 +3,6 @@ const db = require('../utils/database');
 let accountBase = db.model("accountBase", {
     code: String,
     status: String, // 1 已使用 0 未使用
-    special: String,
     type: String, // 1 用户 2 群聊
     random: Number
 });

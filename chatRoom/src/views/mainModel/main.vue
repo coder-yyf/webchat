@@ -99,11 +99,14 @@
           this.$store.commit('setUnRead', {roomid: data[0].roomid, count: data.length});
         }
       },
+      //这是为了聊天框未出现时弄得
       mes(r) { //更改未读消息数量
         this.$store.commit('setUnRead', {roomid: r.roomid, add: true, count: 1});
       },
+      //给新添加的会话添加unread或者是系统消息添加新消息
       takeValidate(r) {
         this.$store.commit('setUnRead', {roomid: r.roomid, add: true, count: 1});
+        //同意了的话要更新
         if (r.type === 'info') {
           this.$store.dispatch('getUserInfo');
         }

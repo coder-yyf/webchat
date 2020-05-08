@@ -5,10 +5,9 @@
     </v-apheader>
     <!--走马灯-->
     <el-carousel trigger="click" height="200px" arrow="never"
-                 :indicator-position="friendInfo.cover.length > 1 ? '' : 'none'" :autoplay="false">
+                 :indicator-position="friendInfo.cover.length > 1 ? '' : 'none'" :interval="3000">
       <el-carousel-item v-for="item in friendInfo.cover" :key="item">
         <a class="DetailImage-a" :style="{backgroundImage: 'url('+ IMG_URL + item +')'}">
-          <!--<a class="DetailImage-a" :style="{backgroundImage: 'url(' + item +')'}">-->
         </a>
       </el-carousel-item>
       <div class="DetailImage-bg">
@@ -24,7 +23,7 @@
       </a>
       <div class="firend-info">
         <p>
-          Vchat：{{friendInfo.code}}
+          webchat：{{friendInfo.code}}
         </p>
         <p>
           性别：{{friendInfo.sex === '1' ? '男' : friendInfo.sex === '2' ? '女' : '保密'}}
@@ -85,6 +84,7 @@
           if (r.code === 0) {
             this.$socket.emit('leave',{roomid:params.id})
             this.$store.commit('setConversationsList', Object.assign({}, params, {d: true}));
+            this.$store.dispatch('getUserInfo');
           }
         });
       }
@@ -121,6 +121,7 @@
                   if (r.code === 0) {
                     this.$socket.emit('leave',params)
                     this.$store.commit('setConversationsList', Object.assign({}, {id: this.$route.params.roomid}, {d: true}));
+                    this.$store.dispatch('getUserInfo');
                   }
                   this.$router.replace('/main/personalMain')
                   this.visible = false;

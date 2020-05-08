@@ -4,8 +4,6 @@
 @import "./transition";
 //限制字数，弄省略号，禁止选中，按钮样式
 @import "./vChat-class";
-//这个是弄天气的动画的，不过动画有兼容性问题，360浏览器可以成功显示
-@import "./animation";
 //可以用normalize。css代替
 body, ul, li, p, h1, h2, h3, h4, h5, h6, a {
     margin: 0;

@@ -5,8 +5,7 @@ let todo = db.model("todo", {
     content: String, // 内容
     start: { type: Date, default: Date.now() }, // 开始时间
     end: { type: Date, default: Date.now() }, // 结束时间
-    userName: String, // 用户名
-    way: String // 活动提醒方式
+    userName: String // 用户名
 });
 
 const getTodoList = (params, callback) => { // 查找我的日程
