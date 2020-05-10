@@ -6,7 +6,7 @@
         <el-breadcrumb-item :to="{ name: v.meta.name }" v-for="(v, i) in breadcrumb" :key="i">{{v.meta.title}}
         </el-breadcrumb-item>
       </el-breadcrumb>
-      <!--进入详情页才显示-->
+      <!--进入有Sub的路径才显示-->
       <span @click="$router.go(-1)" v-if="$route.path.indexOf('Sub') > -1">[返回上一页]</span>
     </div>
     <router-view></router-view>
@@ -20,7 +20,7 @@
     },
     computed: {
       breadcrumb() {
-        //得到的是meta那里得东西
+        //得到的是meta那里得东西，排除第0个，即main
         return this.$route.matched.slice(1);
       }
     },

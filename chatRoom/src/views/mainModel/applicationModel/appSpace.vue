@@ -1,6 +1,6 @@
 <template>
   <div class="vchat-appSpace">
-    <!--背景-->
+    <!--走马灯背景-->
     <el-carousel trigger="click" height="100%" arrow="never" indicator-position="none" :interval="10000">
       <el-carousel-item v-for="(item, i) in bgList" :key="i">
         <a class="DetailImage-a" :style="{backgroundImage: 'url('+ item +')'}">
@@ -99,12 +99,15 @@
       box-sizing: border-box;
 
       .space-item {
+        /*黑色透明的北京*/
         background-color: rgba(0, 0, 0, 0.3);
         text-align: center;
         color: #fff;
         font-size: 26px;
         display: flex;
+        /*纵向*/
         flex-flow: column;
+        /*flex居中*/
         justify-content: center;
         align-items: center;
         position: relative;
@@ -114,7 +117,9 @@
 
         p {
           line-height: 26px;
+          /*幼圆*/
           font-family: 'YouYuan', 'KaiTi';
+          /*hover放大*/
           transition: transform 0.5s;
           transform: scale(1);
         }
@@ -122,6 +127,7 @@
         img {
           width: 140px;
           margin-bottom: 20px;
+          /*翻转*/
           transition: transform 0.5s;
           transform: rotateY(0);
         }
@@ -132,6 +138,7 @@
           position: absolute;
           left: 0;
           top: 0;
+          /*用于隐藏*/
           z-index: -1;
           transition: transform 0.3s;
           transform: translateY(100%);
@@ -156,7 +163,6 @@
       .one {
         width: 450px;
         height: 300px;
-
         .bg {
           background-image: url("../../../assets/img/film.jpg");
         }
@@ -165,7 +171,6 @@
       .two {
         width: 450px;
         height: 300px;
-
         .bg {
           background-image: url("../../../assets/img/game.jpg");
         }

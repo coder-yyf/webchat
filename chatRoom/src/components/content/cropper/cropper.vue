@@ -18,6 +18,7 @@
       <div>
         <el-button type="primary" @click="reset">重置</el-button>
         <el-button type="primary" @click="uploadImage">
+<!--          加载效果-->
           <v-icon class="el-icon-loading" color="#fff" :size="14" v-if="loading"></v-icon>
           上传
         </el-button>
@@ -59,6 +60,7 @@
       initCropper() {
         this.cropper = new Cropper(this.$refs['avatar-image'], {
           viewMode: 1,
+          //放大倍率
           aspectRatio: 1,
           crop: () => {
             //获取裁剪后的图片url，其实是base64，生成png格式
@@ -80,7 +82,7 @@
       },
       uploadImage() {
         let bytes = window.atob(this.cropedUrl.split(',')[1]); // 这里对base64串进行操作，去掉url头，并转换为byte
-        let ab = new ArrayBuffer(bytes.length); // 处理异常，将ASCII码小于0的转换为大于0，这里有两种写法
+        let ab = new ArrayBuffer(bytes.length); // 处理异常，将ASCII码小于0的转换为大于0
         let ia = new Uint8Array(ab);
         for (let i = 0; i < bytes.length; i++) {
           ia[i] = bytes.charCodeAt(i);
@@ -92,6 +94,7 @@
         formdata.append('f', blob, 'f' + Date.now() + '.png');
         api.uploadFile(formdata).then(r => {
           if (r.code === 0) {
+            //传给设置表单
             this.$emit('avatar', r.data);
           } else {
             this.$message({

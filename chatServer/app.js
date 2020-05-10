@@ -196,11 +196,6 @@ const onconnection = (socket) => {
             //groupName是group那里弄过来的消息才有的
             mes: val.userYname + '同意你加入' + val.groupName + '!',
             time: utils.formatTime(new Date()),
-            avatar: val.userYphoto,
-            nickname: val.userYname,
-            groupName: val.groupName,
-            groupId: val.groupId,
-            groupPhoto: val.groupPhoto,
             read: [],
             status: '1', // 同意
             state: 'group',
@@ -219,7 +214,7 @@ const onconnection = (socket) => {
           //用户登录名
           //给申请成功的用户的会话列表添加会话
           apiList.ServeraddConversitionList(val.name, params, () => {
-            //发给除了自己之外
+            //发给除了自己之外，getUserInfo
             socket.to(value.roomid).emit('takeValidate', value);
             // 通知群聊，对应的群会出现xxx加入了群聊
             let org = {
@@ -241,6 +236,7 @@ const onconnection = (socket) => {
             status: '1',
             userM: val['userM']
           };
+          //将之前不同意的都同意了
           apiList.setMessageStatus(pr);
           // 通知申请人验证已同意
           let value = {
@@ -248,8 +244,6 @@ const onconnection = (socket) => {
             // 注意是Y，也就是被请求的
             mes: val.userYname + '同意了你的好友请求！',
             time: utils.formatTime(new Date()),
-            avatar: val.userYphoto,
-            nickname: val.userYname,
             read: [],
             state: 'friend',
             type: 'info',
@@ -274,9 +268,9 @@ const onconnection = (socket) => {
           //给双方都添加对应的conversationlist
           apiList.ServeraddConversitionList(val.name, userYparams, () => {
             apiList.ServeraddConversitionList(val.userYloginName, userMparams, () => {
-              //给申请人发的
+              //给申请人发的,getUserInfo
               socket.to(value.roomid).emit('takeValidate', value);
-              //回到被申请人那里
+              //回到被申请人那里，getUserInfo
               socket.emit('ValidateSuccess', 'ok');
             }); // 添加到自己会话列表
           }); // 添加到申请人会话列表
@@ -302,9 +296,6 @@ const onconnection = (socket) => {
         name: '',
         mes: val.userYname + '拒绝了你加入 ' + val.groupName + ' 的申请!',
         time: utils.formatTime(new Date()),
-        avatar: val.userYphoto,
-        nickname: val.userYname,
-        groupName: val.groupName,
         read: [],
         state: 'group',
         type: 'info',
@@ -320,8 +311,6 @@ const onconnection = (socket) => {
         name: '',
         mes: val.userYname + '拒绝了你的好友请求！',
         time: utils.formatTime(new Date()),
-        avatar: val.userYphoto,
-        nickname: val.userYname,
         read: [],
         state: 'friend',
         //注意这里的-1和前面的1同意，2拒绝不一样，那个是validate类型的，而这个是info类型的

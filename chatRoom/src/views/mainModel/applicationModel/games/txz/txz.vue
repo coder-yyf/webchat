@@ -28,6 +28,7 @@
                 //小方块的长宽
                 var w = 35,h = 35;
                 var curMap;//当前的地图
+                //不会随移动而改变
                 var curLevel;//当前等级的地图
                 var curMan;//初始化小人
                 var iCurlevel = 0;//关卡数
@@ -139,6 +140,7 @@
                 }
                 //初始化游戏等级
                 function initLevel(){
+                    //copy防止curMap改了后影响curLevel
                     curMap = copyArray(levels[iCurlevel]);//当前移动过的游戏地图
                     curLevel = levels[iCurlevel];//当前等级的初始地图
                     curMan = down;//初始化小人
@@ -245,10 +247,11 @@
                     var v = curLevel[perPosition.x][perPosition.y];
                     if (v!=2)//若果刚开始小人位置不是球的话
                     {
-                        if (v==5)//可能是5 既有箱子又陷进
+                        if (v==5)//可能是5 既有箱子是球
                         {
-                            v=2;//若果小人本身就在陷进里面的话移开之后还是显示陷进
-                        }else{
+                            v=2;//若果小人本身就在球里面的话移开之后还是显示球
+                        }
+                        else{
                             v=0;//小人移开之后之前小人的位置改为地板
                         }
                     }
@@ -259,7 +262,6 @@
                     //若果小动了 返回true 指代能够移动小人
                     return true;
                 }
-                //判断是否推成功
 
                 //完善关卡数据及游戏说明
                 function showMoveInfo(){
@@ -271,6 +273,7 @@
                     var b=[];//每次移动更新地图数据都先清空再添加新的地图
                     for (var i=0;i<arr.length ;i++ )
                     {
+                        //没有即是arr[i]本身
                         b[i] = arr[i].concat();//链接两个数组
                     }
                     return b;

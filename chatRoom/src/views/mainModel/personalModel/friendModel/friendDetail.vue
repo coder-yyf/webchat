@@ -1,7 +1,6 @@
 <template>
   <div class="vchat-Detail">
     <v-apheader back="-1" bgColor="transparent" class="vchat-Detail-header">
-      <v-icon name="erweima" color="#f5f5f5" cursor="pointer" @clickIcon="showFriendQr = true"></v-icon>
     </v-apheader>
     <!--走马灯-->
     <el-carousel trigger="click" height="200px" arrow="never"
@@ -45,10 +44,6 @@
         <button @click="remove" class="vchat-full-button error" v-else>删除好友</button>
       </div>
     </div>
-    <div class="Qr-dialog" :class="{active: showFriendQr}">
-      <v-icon class="el-icon-circle-close QrClose" @clickIcon="showFriendQr = false" color="#f5f5f5" :size="28"
-              cursor="pointer"></v-icon>
-    </div>
   </div>
 </template>
 
@@ -63,7 +58,6 @@
       return {
         IMG_URL: process.env.IMG_URL,
         friendInfo: {cover: [], province: {}, city: {}, town: {}}, // user详情
-        showFriendQr: false, // 二维码开关
         myFriendFlag: false // 是否为我的好友
       }
     },

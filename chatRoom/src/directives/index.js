@@ -5,6 +5,7 @@ export default {
             let watchMouse = (e) => {
                 //点击非设置画面，或者f为false时，点击了溢出那里的设置画面
                 if (!el.contains(e.target) || (el.contains(e.target) && !binding.value.f)) {
+                    //去掉click事件监听
                     document.documentElement.removeEventListener('click', watchMouse);
                     binding.value.f = false;
                 }

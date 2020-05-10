@@ -63,7 +63,6 @@ const upUserInfo = (userName, params, callback) => { //修改个人信息、主�
         }
     })
 };
-//奇奇怪怪的写法，要么就都用err判断失败，别用什么id有没有的奇怪写法
 //不对，then返回来的都是正确的结果，但是返回来了为什么还要判断有没有id什么的
 const signUp = (params, callback) => { // 注册
     baseList.users.find({name: params.name}).then(r => {
@@ -73,7 +72,6 @@ const signUp = (params, callback) => { // 注册
             function createfun(code) { // 写入数据
                 let pass = md5(params.pass);
                 baseList.users.create({name: params.name, pass: pass, code: code, nickname: '波奇' + (Date.now(6)+'').slice(6)}).then(r => {
-                // baseList.users.create({name: params.name, pass: pass, code: code, nickname: 'vChat' + (Date.now()+'').slice(6)}).then(r => {
                     //创建成功
                     if (r['_id']) {
                         callback({code: 0, data: code});
@@ -88,10 +86,10 @@ const signUp = (params, callback) => { // 注册
                 let rand = Math.random();
                 //用户，还没用过，random是accountBase里面的属性
                 baseList.accountBase.findOneAndUpdate({type: '1', status: '0', random : { $gte : rand }}, {status: '1'}, (err, doc) => {
-                    //没用then才这么写，直接用then不好吗，
                     if (err) {
                         console.log(err);
                     } else {
+                        /*//账号用过了
                         if (!doc) {
                             baseList.accountBase.findOneAndUpdate({type: '1', status: '0', random : { $lt : rand }}, {status: '1'}, (err, doc) => {
                                 if (err) {
@@ -102,7 +100,8 @@ const signUp = (params, callback) => { // 注册
                                     }
                                 }
                             });
-                        } else {
+                        } else {*/
+                        if(doc){
                             createfun(doc.code);
                         }
                     }

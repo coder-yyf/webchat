@@ -1,7 +1,6 @@
 <template>
   <div class="vchat-Detail">
     <v-apheader back="-1" bgColor="transparent" class="vchat-Detail-header">
-      <v-icon name="erweima" color="#f5f5f5" cursor="pointer" @clickIcon="showGroupQr = true"></v-icon>
     </v-apheader>
     <el-carousel trigger="click" height="200px" arrow="never" indicator-position="none">
       <el-carousel-item v-for="item in 1" :key="item">
@@ -13,7 +12,7 @@
           {{groupInfo.title}}
         </p>
         <p>
-          {{groupInfo.code}}
+          webchat:{{groupInfo.code}}
         </p>
         <p>本群创建于{{createDate}}</p>
         <p>
@@ -58,10 +57,6 @@
         <button @click="quit" class="vchat-full-button error" v-else-if="type===1">退出群聊</button>
       </div>
     </div>
-    <div class="Qr-dialog" :class="{active: showGroupQr}">
-      <v-icon class="el-icon-circle-close QrClose" @clickIcon="showGroupQr = false" color="#f5f5f5" :size="28"
-              cursor="pointer"></v-icon>
-    </div>
   </div>
 </template>
 
@@ -78,7 +73,6 @@
         groupUsers: [],
         //在config的dev.env那里可以看到
         IMG_URL: process.env.IMG_URL,
-        showGroupQr: false, // 二维码开关
         managers: [],
         applyFlag: false, // 是否已加群
         holderId: '', // 群主id

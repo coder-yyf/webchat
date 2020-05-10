@@ -63,7 +63,7 @@
         </div>
       </div>
       <div class="chat-setting" :class="{active: settingFlag.f}" v-watchMouse="settingFlag">
-        <!--点击空白处？不是，点击空白处时上面v-watch干的-->
+        <!--点击空白处，点击空白处时上面v-watch干的-->
         <chat-setting @clickIcon="settingFlag.f = false"></chat-setting>
       </div>
     </div>

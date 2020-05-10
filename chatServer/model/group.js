@@ -32,13 +32,14 @@ let groupUserSchema = new db.Schema({
 
 //通过约束添加静态方法
 groupUserSchema.statics = {
-  //其实用uerid也行吧
+  //其实用uerid也行吧，联系列表
   findGroupByUserName: function (userName, callback) { // 通过用户名查找所在群聊列表
     return this
         .find({userName: userName})
         .populate('groupId')  // 关联查询
         .exec(callback)
   },
+  //群成员用
   findGroupUsersByGroupId: function (groupId, callback) { // 通过群id查找用户信息
     return this
         .find({groupId: groupId})
@@ -124,6 +125,7 @@ const createGroup = (params, callback) => { // 新建群
   fineOneAccountBase(createfun);
 };
 
+//联系列表查找
 const getMyGroup = (params, callback) => { // 查找我的群
   groupUser.findGroupByUserName(params.userName, (err, groups) => {
     if (err) {
@@ -135,6 +137,7 @@ const getMyGroup = (params, callback) => { // 查找我的群
   })
 };
 
+//进入群聊查找
 const getGroupUsers = (params, callback) => { // 查找指定群聊成员
   groupUser.findGroupUsersByGroupId(params.groupId, (err, users) => {
     if (err) {

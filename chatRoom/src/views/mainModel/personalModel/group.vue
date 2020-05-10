@@ -24,9 +24,6 @@
                     this.transitonName = 'moveIn';
                 }
             }
-        },
-        beforeDestroy() { // 适应leave动画
-            this.isShow = false;
         }
     }
 </script>

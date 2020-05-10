@@ -6,9 +6,9 @@
         {{v.name}}
       </span>
     </div>
+    <!--聊天界面-->
     <div class="vchat-item-container" v-show="currNav === 0">
       <div class="container-chat">
-        <!--聊天界面-->
         <!--其实这个loading可以像log那个样放到里面-->
         <div class="chat-room"
              v-loading="chatLoading"
@@ -40,6 +40,7 @@
                      accept="image/png, image/jpeg, image/gif, image/jpg">
             </span>
             <span class="tool-item">
+             <!-- v-watchmouse设置空白点击-->
               <v-upload-popover :visible="uplaodVisible.f" @handleSuccess="uploadFileSuccess"
                                 v-watchMouse="uplaodVisible">
                 <v-icon name="wenjian2" :color="user.chatColor"
@@ -63,7 +64,7 @@
           <h3>群公告</h3>
           <ul>
             <li class="vchat-line1" title="快点交作业啦" style="color: #fff">
-                快点交作业啦
+              快点交作业啦
             </li>
           </ul>
         </div>
@@ -76,19 +77,14 @@
           <input type="text" v-show="spread" ref="searchMember">
           <ul>
             <li v-for="v in groupUserList" :key="v.userId['_id']">
-            <!--<li v-for="v in groupUserList" :key="v.userId">-->
+              <!--<li v-for="v in groupUserList" :key="v.userId">-->
               <a class="vchat-photo" :class="{lineOf: !v.status}">
                 <!--通过连表查询获得的内容，要这样获取得到的属性-->
                 <img :src="IMG_URL + v.userId.photo" alt="">
               </a>
               <span class="vchat-line1">{{v.userId.nickname}}</span>
             </li>
-            <li>
-              <p class="loadmore" v-if="groupUsers.length > groupUserList.length" @click="loadmore">
-                <v-icon class="el-icon-loading" color="#fff" :size="14" v-if="loadmoreLoading"></v-icon>
-                加载更多
-              </p>
-            </li>
+
           </ul>
         </div>
       </div>
@@ -147,7 +143,6 @@
         photoSwipeUrl: '',
         onlineNum: 0, // 在线人数
         chatLoading: false,
-        loadmoreLoading: false,
         groupUserList: [], // 长列表渲染
         offset: 1, // 群成员页码
         limit: 50  //显示群成员的数目
@@ -173,7 +168,8 @@
           this.$socket.emit('setReadStatus', {roomid: r.roomid, name: this.user.name});
           this.$store.commit('setUnRead', {roomid: r.roomid, clear: true});
         }
-        else{
+        //不是当前房间则unread+1
+        else {
           this.$store.commit('setUnRead', {roomid: r.roomid, add: true, count: 1});
         }
       },
@@ -249,6 +245,8 @@
           //为了获取文件的名字，所以我们就用file，而不是res.data
           //这里用到上传的文件对象
           this.send(file, 'file');
+          //file包含文件名和路径（response中）
+          console.log(file)
         }
         this.uplaodVisible.f = false;
       },
@@ -277,7 +275,8 @@
         });
         this.$refs['chooseInmage'].value = '';
       },
-      getGroupUserStatus(obj) { // 群成员在线状态
+      // 群成员在线状态
+      getGroupUserStatus(obj) {
         this.groupUsers.forEach((v, i) => {
           let flag = false;
           Object.keys(obj).forEach(k => {
@@ -303,15 +302,6 @@
           this.$refs['searchMember'].focus();
         });
       },
-      loadmore() {
-        this.loadmoreLoading = true;
-        this.offset += 1;
-        setTimeout(v => {
-          let page = (this.offset - 1) * this.limit;
-          this.groupUserList = this.groupUserList.concat(this.groupUsers.slice(page, page + this.limit));
-          this.loadmoreLoading = false;
-        }, 1000);
-      },
       getGroupUsers(id) { // 获取群成员
         let params = {
           groupId: id
@@ -326,7 +316,8 @@
           }
         })
       },
-      send(params, type = 'mess') { // 发送消息
+      // 发送消息
+      send(params, type = 'mess') {
         //params是为了当发送非文字的时候发挥作用的，单单一个‘’判断不可以的，所以弄个false
         if (!this.message && !params) {
           return;
@@ -342,7 +333,8 @@
           style: 'mess',
           userM: this.user.id
         };
-        if (type === 'emoji') { // 发送表情
+        // 发送表情
+        if (type === 'emoji') {
           val.style = 'emoji';
           val.mes = '表情';
           val.emoji = params;
@@ -354,6 +346,7 @@
         } else if (type === 'file') {
           val.style = 'file';
           val.mes = params.name;
+          //response即res，被集合了
           val.emoji = params.response.data;
           console.log(val.emoji)
         }
@@ -364,7 +357,7 @@
         // 更新最新消息
         this.$emit('NewMes', val);
         //清空文字
-        if (type === 'mess') { // 发送文字
+        if (type === 'mess') {
           this.message = '';
         }
       },
@@ -456,6 +449,7 @@
           border-bottom: 1px solid rgba(255, 255, 255, 0.3);
           overflow: hidden;
         }
+
         /*没什么用*/
         .message-content {
           width: 100%;
@@ -497,6 +491,7 @@
                 /*transform: scaleX(0);*/
                 /*opacity: 0;*/
               }
+
               input {
                 position: absolute;
                 left: 0;
@@ -510,10 +505,12 @@
             .tool-item:hover {
               background-color: rgba(255, 255, 255, 0.3);
             }
+
             /*没有用到*/
             .tool-item.active {
               background-color: rgba(255, 255, 255, 0.3);
             }
+
             /*右移一下子，没有用到，给表情图标用的*/
             .tool-item.active .emoji-container {
               transform: scaleX(1);
@@ -549,6 +546,7 @@
           }
         }
       }
+
       .container-handel {
         width: 22%;
         /*min-width: 164.864px;*/
@@ -603,6 +601,7 @@
             overflow-y: auto;
             height: 100%;
           }
+
           input {
             box-sizing: border-box;
             width: 100%;

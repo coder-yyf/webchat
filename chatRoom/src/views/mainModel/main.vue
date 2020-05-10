@@ -47,6 +47,7 @@
       };
     },
     watch: {
+      //遍历进入房间
       conversationsList: {
         handler(list) {
           // setTimeout(()=>{
@@ -73,6 +74,7 @@
         console.log(this.$socket.id);
         console.log('连接成功');
       },
+      //获取登陆情况
       joined(OnlineUser) {
         // console.log('这里是joined')
         // console.log('加入了', OnlineUser);
@@ -87,6 +89,7 @@
         // console.log('加入了', OnlineUser);
         this.$store.commit('setOnlineUser', OnlineUser)
       },*/
+      //别人logout时更新用户登陆情况
       logout(OnlineUser) {
         console.log('这里是logout')
         this.$store.commit('setOnlineUser', OnlineUser)

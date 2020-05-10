@@ -3,8 +3,8 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane :label="v.label" :name="v.name" v-for="(v, i) in newsType" :key="i"></el-tab-pane>
     </el-tabs>
+    <!--vue自带的load-->
     <div class="news-content" v-loading="loading">
-      <b-scroll :data="newsList">
         <div class="content">
           <news-item v-for="(v, i) in newsList" :key="i" :item="v"></news-item>
           <el-button type="info" size="medium" :loading="loadMoreFlag" @click="loadMore" class="loadmore"
@@ -12,7 +12,6 @@
           </el-button>
           <p v-else>没有更多数据了</p>
         </div>
-      </b-scroll>
     </div>
   </div>
 </template>
@@ -75,21 +74,25 @@
     },
     methods: {
       handleClick() {
+        //重置页码
         this.page = 0;
         this.getHotNews();
       },
       loadMore() {
         this.page++;
         this.loadMoreFlag = true;
+        //true表示加载更多
         this.getHotNews(true);
       },
       getHotNews(More) {
+        //不是点击加载更多时
         if (!More) {
           this.loading = true
         }
         //类型以及获取范围
         api.getHotNews(this.activeName, this.limit).then(r => {
-          let data = JSON.parse(r.slice(r.indexOf('(') + 1, r.lastIndexOf(')'))); // 截取回调数据
+          // 截取回调数据
+          let data = JSON.parse(r.slice(r.indexOf('(') + 1, r.lastIndexOf(')')));
           if (!More) {
             this.newsList = data[this.activeName];
           } else {

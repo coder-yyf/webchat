@@ -1,6 +1,3 @@
-/**
- * Created by wyw on 2019/1/10.
- */
 /*!
  * vue-fullcalendar v1.0.9
  * (c) 2017 Sunny Wang <sunnywang0104@163.com>

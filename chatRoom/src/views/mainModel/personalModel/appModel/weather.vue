@@ -52,7 +52,7 @@
         WeatherInfo: [{}],
         //实时天气
         LiveWeather: {},
-        type: 'sunny', // 天气类型
+        type: 'sunny', // 实时天气类型
         cityName: ''
       }
     },

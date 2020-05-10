@@ -1,5 +1,6 @@
 <template>
   <div class="vchat-personalMain">
+    <!--    聊天联系人部分-->
     <div class="vchat-content-left-view">
       <div class="vchat-content-left-box">
         <div class="vchat-content-left-content">
@@ -17,6 +18,7 @@
         </div>
       </div>
     </div>
+    <!--    天气日程部分-->
     <div class="vchat-content-right-view">
       <!--日程管理和天气-->
       <app-center></app-center>

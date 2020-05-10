@@ -20,9 +20,11 @@
       'videoInfo.src': { // 切换视频
         handler(src) {
           if (this.videoInfo.type === 'hls') {
+            //如果存在先销毁
             if (this.hls) {
               this.hls.destroy();
             }
+            //切换视频源
             this.dp.switchVideo({
               url: src,
               type: 'customHls',
@@ -57,6 +59,7 @@
     methods: {
       initHlsPlayer() {
         this.dp = new DPlayer({
+          // 绑定元素
           container: document.getElementById(this.playerName),
           autoplay: this.videoInfo.autoplay || false,
           screenshot: false,
@@ -72,19 +75,6 @@
             }
           }
         });
-      },
-      initMp4Player() {
-        this.dp = new DPlayer({
-          container: document.getElementById(this.playerName),
-          autoplay: this.videoInfo.autoplay || false,
-          preload: 'none',
-          video: {
-            url: this.videoInfo.src,
-            type: 'auto',
-            pic: this.videoInfo.pic
-          },
-          mutex: true
-        });
       }
     },
     mounted() {
@@ -94,8 +84,6 @@
           this.dp.on('canplaythrough', () => {
             this.dp.play();
           });
-        } else if (this.videoInfo.type === 'mp4') {
-          this.initMp4Player();
         }
       })
     }

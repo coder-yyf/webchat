@@ -5,6 +5,7 @@
       <el-dropdown trigger="click" @command="handleCommand">
         <v-icon cursor="pointer" name="hanbaobao" color="#fff"></v-icon>
         <el-dropdown-menu slot="dropdown">
+          <!--          command点击后传给handleCommand-->
           <el-dropdown-item command="/main/personalMain/friendly/search">添加好友</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -28,9 +29,7 @@
           <span>{{friendList.length}}</span>
         </h3>
         <ul class="vchat-linkman-list">
-          <!--右键点击-->
-          <!--v._id是什么鬼-->
-          <!--<li v-for="v in friendList" :key="v._id" @click="goFriendDetail(v.id,v.roomid)"-->
+          <!--右键点击,设置x,y-->
           <li v-for="v in friendList" :key="v.id" @click="goFriendDetail(v.id,v.roomid)"
               @contextmenu="contextmenuClick($event, v)">
             <a href="javascript:;">
@@ -51,11 +50,12 @@
         <p class="vchat-no-have">
           还没有添加好友哦，去
           <router-link to="/main/personalMain/friendly/search">添加</router-link>
-          。
+          吧。
         </p>
       </v-nodata>
     </div>
     <v-dropdown :command="currFriend" :x="x" :y="y" :visible="visible" @upVisible="upVisible">
+      <!--      slot-scope插槽，这样才能将参数传给handleConverList，因为无法用：绑定数据-->
       <v-dropdown-item slot-scope="{command}" @dropdownClick="handleConversitionList(command)" slot="dropdown">
         {{addOrDel ? '从会话列表移除' : '添加到会话列表'}}
       </v-dropdown-item>
@@ -93,8 +93,8 @@
       handleCommand(command) {
         this.$router.push(command);
       },
-      goFriendDetail(id,roomid) {
-        this.$router.push({name: 'friendDetail', params: {id: id,roomid:roomid}});
+      goFriendDetail(id, roomid) {
+        this.$router.push({name: 'friendDetail', params: {id: id, roomid: roomid}});
       },
       setShowList(v) {
         if (this.showList.indexOf(v) > -1) {
@@ -149,7 +149,7 @@
         let params = {
           id: v.roomid
         };
-        this.$socket.emit('leave',{roomid:v.roomid})
+        this.$socket.emit('leave', {roomid: v.roomid})
         api.removeConversitionList(params).then(r => {
           if (r.code === 0) {
             this.$message({

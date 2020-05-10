@@ -4,6 +4,7 @@
       <img :src="IMG_URL + v.avatar" alt="">
     </p>
     <div v-if="type === 'other' || type === 'mine'" class="messageInfo">
+      <!--      4种消息类型-->
       <p class="info">
         <span>{{v.nickname}}</span>
         <i>{{v.time}}</i>
@@ -71,7 +72,7 @@
     }
 
     .messageInfo {
-      max-width: 298px;
+      max-width: 300px;
 
       p.info {
         font-size: 14px;
@@ -93,6 +94,7 @@
         box-sizing: border-box;
         position: relative;
         text-align: left;
+        /*允许单词换行*/
         word-wrap: break-word;
         font-size: 14px;
         word-break: break-all;
@@ -111,6 +113,7 @@
       }
 
       p.image {
+        /*限制大小*/
         max-width: 300px;
         overflow: hidden;
         border-radius: 5px;

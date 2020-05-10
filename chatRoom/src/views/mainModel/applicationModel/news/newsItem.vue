@@ -1,6 +1,6 @@
 <template>
   <div class="vchat-news-item">
-    <!--两种类型，一种只有一张图，一种多图-->
+    <!--两种类型，一种只有一张图，一种多图（存在imgextra中）-->
     <div class="news-detail-1" v-if="!item.imgextra" @click="clickNews">
       <a>
         <img v-lazy="item.imgsrc" alt="">
@@ -17,6 +17,7 @@
       <p class="title vchat-line2">{{item.title}}</p>
       <div class="imgtra">
         <a v-for="(v, i) in item.imgextra" :key="i">
+          <!--使用图片懒加载-->
           <img v-lazy="v.imgsrc" alt="">
         </a>
       </div>

@@ -137,7 +137,9 @@
       currSation: { // 当前会话
         handler(v) {
           if (v.id) {
+            //清空后台用户对这个房间的未读
             this.$socket.emit('setReadStatus', {roomid: v.id, name: this.user.name});
+            //清空对应会话未读
             this.$store.commit('setUnRead', {roomid: v.id, clear: true});
             // 获取前10的系统消息，这个不同于org类型
             this.$socket.emit('getSystemMessages', {roomid: v.id, offset: this.offset, limit: this.limit});
@@ -172,8 +174,6 @@
       },
       agree(v) {
         //添加好友主头像和昵称
-        v.userYphoto = this.user.photo;
-        v.userYname = this.user.nickname;
         this.$socket.emit('agreeValidate', v);
         //更新本地的
         //把之前拒绝的也弄同意了
@@ -188,9 +188,6 @@
         v.visible = false
       },
       refuse(v) {
-        //这边作为被申请的对象，不是已经有了photo了吗，看apply那里
-        v.userYphoto = this.user.photo;
-        v.userYname = this.user.nickname;
         this.$socket.emit('refuseValidate', v);
         // v.visible = !v.visible;
         v.visible = false

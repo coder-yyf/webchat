@@ -55,6 +55,7 @@
         </div>
       </div>
       <!-- :parent="true"-->
+<!--      出现和消失时的过度效果-->
       <transition name="chat">
         <!--handle时可以拖拽的部分，cancel则是不可以，没有写的好像也不可以-->
         <!--handles用来决定显示拉动的点-->
@@ -109,7 +110,6 @@
     },
     data() {
       return {
-//                hover: false,
         draggable: true, // 允许拖拽
         handleList: [
           {
@@ -201,14 +201,14 @@
         this.$socket.emit('disconnect','我来到disconnect了')
         this.$socket.emit('logout',{name:this.user.name})
       },
-//            mouseover() {
-//                this.hover = true;
-//                this.$refs['showChat'].addEventListener('animationend', this.set, false);
-//            },
-//            set() {
-//                this.hover = false;
-//                this.$refs['showChat'].removeEventListener('animationend', this.set, false);
-//            }
+      /*mouseover() {
+        this.hover = true;
+        this.$refs['showChat'].addEventListener('animationend', this.set, false);
+      },
+      set() {
+        this.hover = false;
+        this.$refs['showChat'].removeEventListener('animationend', this.set, false);
+      }*/
       onResizestop(x, y, w, h) {
         window.localStorage.w = w;
         window.localStorage.h = h;
@@ -291,6 +291,7 @@
           position: absolute;
           left: 0;
           top: 85px;
+          /*隐藏*/
           display: none;
           z-index: 100;
           border-radius: 2px;
@@ -434,7 +435,7 @@
         }
       }
 
-      /*这个到底用来干嘛的，删了也没变化*/
+      /*删了也没变化*/
       .vdr {
         position: fixed;
         background-color: #fff;

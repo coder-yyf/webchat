@@ -32,13 +32,13 @@
           </el-input>
         </el-form-item>
         <el-form-item prop="regcode" class="regcode-box">
+          <!--原生点击-->
           <el-input v-model="signForm.regcode" placeholder="验证码" @keyup.enter.native="enter(islogin)">
             <i class="iconfont icon-mima3" slot="prepend"></i>
           </el-input>
           <!--给canvas留一个位置，ref可以通过js简单获取标签-->
           <canvas ref="regcode" width="90" height="38"></canvas>
         </el-form-item>
-
       </el-form>
       <button @click="enter(islogin)">
         <!--登录旁边的小加载符号-->
@@ -49,11 +49,6 @@
         <!--<i class="el-icon-loading" color="#fff" :size="14" v-if="loading"></i>-->
         {{islogin ? '登录' : '注册'}}
       </button>
-      <div class="login-foot" v-if="islogin">
-        <span></span>
-        第三方登录
-        <span></span>
-      </div>
     </div>
   </div>
 </template>
@@ -107,6 +102,7 @@
         if (value === '') {
           callback(new Error('请输入验证码'));
         } else {
+          //全都转化为小写
           if (value.toLowerCase() !== this.regcode.toLowerCase()) {
             this.regCodeClass.drawAgain();
             callback(new Error('验证码错误'));
@@ -150,6 +146,7 @@
     //检测变量的变化
     watch: {
       islogin() {
+        //重绘验证码
         this.regCodeClass.drawAgain();
       },
       showSign() {
@@ -159,8 +156,9 @@
       }
     },
     methods: {
+      //初始化验证码
       initRegcode() {
-        //Vue中dom的更新是异步的，应该是为了this.regcode用时候有regCodeClass
+        //Vue中dom的更新是异步的，为了this.regcode用时候有regCodeClass
         //如果没有netxtTick的话，regCodeClass还是null
         this.$nextTick(() => {
           //其实querySelector也可以吧，弄个class
