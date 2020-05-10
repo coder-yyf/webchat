@@ -128,7 +128,7 @@
           this.$store.dispatch('getUserInfo');
         }
       },
-      ValidateSuccess() {
+      validateSuccess() {
         //刷新用户信息，使得会话列表添加
         this.$store.dispatch('getUserInfo');
       }
@@ -173,7 +173,8 @@
         })
       },
       agree(v) {
-        //添加好友主头像和昵称
+        //添加好友主头像和昵称（补充群主昵称）
+        v.userYname = this.user.nickname;
         this.$socket.emit('agreeValidate', v);
         //更新本地的
         //把之前拒绝的也弄同意了

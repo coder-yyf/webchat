@@ -85,6 +85,7 @@
     },
     watch: {
       // 监测对象特定属性的变化
+      //更新用户添加的表情包
       'user.emoji'() {
         this.myEmojiList = [];
         this.expressionList.forEach(v => {

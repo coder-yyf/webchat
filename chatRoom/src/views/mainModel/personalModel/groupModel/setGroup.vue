@@ -84,15 +84,18 @@
       vApheader
     },
     methods: {
-      setShowCrop() { // 打开裁剪框
+      // 打开裁剪框
+      setShowCrop() {
         this.showCrop = true;
         this.cropUrl = process.env.IMG_URL + this.groupImage;
       },
-      handleClose(done) { // 关闭裁剪框清空地址
+      // 关闭裁剪框清空地址
+      handleClose(done) {
         this.cropUrl = '';
         done();
       },
-      getAvatar(url) { // 裁剪后的地址
+      // 裁剪后的地址
+      getAvatar(url) {
         this.groupImage = url;
         this.showCrop = false;
       },

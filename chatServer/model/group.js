@@ -71,9 +71,9 @@ const createGroup = (params, callback) => { // 新建群
               userName: params.userName,
               userId: rs[0]._id,
               manager: 0,
+              // 建群后创建群主
               holder: 1,
               groupId: r['_id']
-              // 建群后创建群主
             }).then(res => {
               if (res['_id']) {
                 callback({code: 0, data: r});
@@ -101,21 +101,7 @@ const createGroup = (params, callback) => { // 新建群
       if (err) {
         console.log(err);
       } else {
-        if (!doc) {
-          baseList.accountBase.findOneAndUpdate({
-            type: '1',
-            status: '0',
-            random: {$lt: rand}
-          }, {status: '1'}, (err, doc) => {
-            if (err) {
-              console.log(err);
-            } else {
-              if (doc) {
-                createfun(doc.code);
-              }
-            }
-          });
-        } else {
+        if(doc){
           createfun(doc.code);
         }
       }

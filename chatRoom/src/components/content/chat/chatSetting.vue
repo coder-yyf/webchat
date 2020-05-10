@@ -22,6 +22,8 @@
 
     <h5>背景透明度</h5>
     <div class="aphSlider-container">
+      <!--      绑定给slider-->
+      <!--      格式化-->
       <el-slider v-model="aphSlider" :format-tooltip="formatTooltip" tooltip-class="aphTooltip"
                  @change="Sliderchange"></el-slider>
       <span class="vchat-button-mini minor" @click="saveBgopa">保存</span>
@@ -109,7 +111,7 @@
             url: this.user.wallpaper && this.user.wallpaper.split(',')[1] || false,
             id: 5
           }
-          ];
+        ];
       }
     },
     methods: {

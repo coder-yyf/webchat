@@ -34,6 +34,7 @@
         },
         methods: {
             send() {
+                //通过localStorage来传递参数
                 let friend = JSON.parse(localStorage.friend);
                 let val = {
                     name: this.user.name,

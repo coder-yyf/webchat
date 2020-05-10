@@ -1,6 +1,6 @@
 <template>
   <div class="vchat-chatRoom" v-bgInmage="IMGURL + user.wallpaper.split(',')[0]" v-fontColor="user.chatColor">
-    <!--用ab和index在下面面，然后控制opa来进行调控背景透明度-->
+    <!--用ab和index在下面面，然后控制opa来进行调控背景透明度，如果没有它，文字在背景上会很不清-->
     <div class="chatRoom-before" v-opacity="bgOpa"></div>
     <div class="vchat-chatRoom-bg">
       <div class="chat-header">

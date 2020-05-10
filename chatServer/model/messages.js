@@ -22,7 +22,10 @@ let messages = db.model("messages", {
     ref: 'users'
   }, // 申请人id、消息发送人
   //这些都很有用，在系统消息里显示还有加入会话列表都会用到
-  userY: String, // 好友id
+  userY: {
+    type: db.Schema.ObjectId,
+    ref: 'users'
+  }, // 好友id
   userYname: String, // 好友昵称
   userYphoto: String, // 好友头像
   userYloginName: String, // 好友登录名

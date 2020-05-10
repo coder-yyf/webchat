@@ -271,7 +271,7 @@ const onconnection = (socket) => {
               //给申请人发的,getUserInfo
               socket.to(value.roomid).emit('takeValidate', value);
               //回到被申请人那里，getUserInfo
-              socket.emit('ValidateSuccess', 'ok');
+              socket.emit('validateSuccess');
             }); // 添加到自己会话列表
           }); // 添加到申请人会话列表
         } else {
